@@ -17,12 +17,12 @@ const Cart_Product = require('./models/cart_product');
 //associations could go here!
 User.hasMany(Order);
 Order.belongsTo(User);
-Order.hasMany(Product, { through: Order_Product });
+Order.belongsToMany(Product, { through: Order_Product });
 Product.belongsToMany(Order, { through: Order_Product });
 User.hasOne(Cart);
 Cart.belongsTo(User);
 Product.belongsToMany(Cart, { through: Cart_Product })
-Cart.hasMany(Product, { through: Cart_Product })
+Cart.belongsToMany(Product, { through: Cart_Product })
 
 module.exports = {
   db,
