@@ -1,6 +1,6 @@
 'use strict'
 
-const {db, models: {User} } = require('../server/db')
+const {db, models: {User, Product} } = require('../server/db')
 
 /**
  * seed - this function clears the database, updates tables to
@@ -10,19 +10,27 @@ async function seed() {
   await db.sync({ force: true }) // clears db and matches models to tables
   console.log('db synced!')
 
-  // Creating Users
-  const users = await Promise.all([
-    User.create({ username: 'cody', password: '123' }),
-    User.create({ username: 'murphy', password: '123' }),
+  const products = await Promise.all([
+    Product.create({name: 'portabella', price: 1.99, description: '', quantity: 5}),
+    Product.create({name: 'cremini', price: 4.99, description: '', quantity: 1}),
+    Product.create({name: 'maitake', price: 5.99, description: '', quantity: 5}),
+    Product.create({name: 'button', price: 1.99, description: '', quantity: 2}),
+    Product.create({name: 'porcini', price: 4.99, description: '', quantity: 10}),
+    Product.create({name: 'hedgehog', price: 2.99, description: '', quantity: 35}),
+    Product.create({name: 'morel', price: 9.99, description: '', quantity: 25}),
+    Product.create({name: 'lobster', price: 8.99, description: '', quantity: 15}),
+    Product.create({name: 'enoki', price: 2.99, description: '', quantity: 50}),
+    Product.create({name: 'chanterelle', price: 10.99, description: '', quantity: 1})
   ])
 
-  console.log(`seeded ${users.length} users`)
+await Promise.all(users.map(user => {
+  return User.create(user)
+}))
+
+  // console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
   return {
-    users: {
-      cody: users[0],
-      murphy: users[1]
-    }
+    users, products
   }
 }
 
@@ -56,3 +64,47 @@ if (module === require.main) {
 
 // we export the seed function for testing purposes (see `./seed.spec.js`)
 module.exports = seed
+
+
+const users = [{
+  username: "lauratest@gmail.com",
+  password: "x6!ngL",
+  address: "400 Park Avenue",
+  isAdmin: true,
+  city: "New York",
+  state: "NY",
+  zipCode: 10012,
+}, {
+  username: 'joey-smith@gmail.com',
+  password: 'kGs7f2b',
+  address: '5 Lawerence Lane',
+  isAdmin: false,
+  city: 'Hoboken',
+  state: 'NJ',
+  zipCode: 10012
+}, {
+  username: 'gigitest@gmail.com',
+  password: 'y7z.S!99',
+  address: '999 Highway Jackson',
+  isAdmin: false,
+  city: 'Jackson',
+  state: 'WY',
+  zipCode: 83002,
+}, {
+  username: 'helloAdmin@yahoo.com',
+  password: 'glJs73$.',
+  address: '12 5th Avnue',
+  isAdmin: false,
+  city: 'Miami',
+  state: 'FL',
+  zipCode: 40412,
+}, {
+  username: 'jojo_smith@hotmail.com',
+  password: '91n!jkL',
+  address: '101 Main Street',
+  isAdmin: false,
+  city: 'Los Angeles',
+  state: 'CA',
+  zipCode: 90212,
+}
+]
