@@ -3,11 +3,11 @@ const db = require('../db');
 
 const Order = db.define('order', {
   tax: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.DECIMAL,
     allowNull: false,
   },
   shipping: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.DECIMAL,
     allowNull: false,
   },
   shippingMethod: {
