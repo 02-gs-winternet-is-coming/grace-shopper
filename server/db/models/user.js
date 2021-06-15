@@ -19,60 +19,26 @@ const User = db.define("user", {
   password: {
     type: Sequelize.STRING,
   },
-  address: {
-    type: Sequelize.STRING,
-  },
   isAdmin: {
     type: Sequelize.BOOLEAN,
     defaultValue: false
+  },
+  address: {
+    type: Sequelize.STRING,
   },
   city: {
     type: Sequelize.STRING,
   },
   state: {
     type: Sequelize.STRING,
+    validate: {
+      len: [2]
+    }
   },
   zipCode: {
     type: Sequelize.STRING,
     validate: { //number constraints, min 5 character max 9 characters
       len:[5,9]
-    }
-  },
-  creditCardFirstName: {
-    type: Sequelize.STRING,
-  },
-  creditCardLastName: {
-    type: Sequelize.STRING,
-  },
-  creditCardInfo: {
-    type: Sequelize.INTEGER,
-    validate: {
-      isCreditCard: true
-    }
-  },
-  creditCardBillingAddress: {
-    type: Sequelize.STRING,
-
-  },
-  creditCardBillingState: {
-    type: Sequelize.STRING,
-    validate: { //number constraints, min 5 character max 9 characters
-      len:[2]
-    }
-  },
-  creditCardBillingCity: {
-    type: Sequelize.STRING,
-  },
-  creditCardBillingZip: {
-    type: Sequelize.STRING,
-    validate: { //number constraints, min 5 character max 9 characters
-      len:[5,9]
-    }
-  },
-  creditCardCVV: {
-    type: Sequelize.STRING,
-    validate: { //number constraints, min 5 character max 9 characters
-      len:[3,4]
     }
   },
 });
@@ -129,18 +95,6 @@ const hashPassword = async (user) => {
   };
 };
 
-const hashCreditCard = async (user) => {
-  user.creditCardInfo = await bcrypt.hash(user.creditCardInfo, SALT_ROUNDS);
-};
-
-const hashCVV = async (user) => {
-  user.creditCardCVV = await bcrypt.hash(user.creditCardCVV, SALT_ROUNDS);
-};
-
 User.beforeCreate(hashPassword);
 User.beforeUpdate(hashPassword);
-User.beforeCreate(hashCVV);
-User.beforeUpdate(hashCVV);
-User.beforeCreate(hashCreditCard);
-User.beforeUpdate(hashCreditCard);
 User.beforeBulkCreate((users) => Promise.all(users.map(hashPassword)));
