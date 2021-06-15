@@ -41,11 +41,14 @@ const User = db.define("user", {
   creditCardFirstName: {
     type: Sequelize.STRING,
   },
-  creditCardFirstName: {
+  creditCardLastName: {
     type: Sequelize.STRING,
   },
   creditCardInfo: {
     type: Sequelize.INTEGER,
+    validate: {
+      isCreditCard: true
+    }
   },
   creditCardBillingAddress: {
     type: Sequelize.STRING,
