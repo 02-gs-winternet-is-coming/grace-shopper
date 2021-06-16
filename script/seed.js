@@ -200,7 +200,7 @@ const users = [
     isAdmin: false,
     address: "4444 Celluloid Way",
     city: "Anchorage",
-    state: "Alaska",
+    state: "AK",
     zipCode: "99511",
   },
 ];

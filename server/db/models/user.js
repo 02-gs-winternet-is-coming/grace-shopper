@@ -32,7 +32,7 @@ const User = db.define("user", {
   state: {
     type: Sequelize.STRING,
     validate: {
-      len: [2]
+      len: [2,2]
     }
   },
   zipCode: {
