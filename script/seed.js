@@ -37,6 +37,7 @@ async function seed() {
   return {
     users,
     products,
+    orders
   };
 }
 
@@ -217,4 +218,4 @@ const products = [
   }
 ]
 const orderProducts = [{price: 2.99, quantity: 3, orderId: 1, productId: 1}]
-const orders = [{tax: 2.54, shipping: 5.00, shippingMethod: 'USPS', paymentMethod: 'Stripe', status: 'closed', userId: 1}, {status: 'open'}, {status: 'open'}, {status: 'open', userId: 5}]
+const orders = [{tax: 2.54, shipping: 5.00, shippingMethod: 'USPS', paymentMethod: 'Stripe', status: 'closed', userId: 1}, {status: 'open', userId: 3}, {status: 'open', userId: 2}]
