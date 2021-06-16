@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect }from 'react-redux'
 
 class AllProducts extends React.Component {
    constructor(){
@@ -18,4 +19,4 @@ render() {
 }
 }
 
-export default AllProducts
+export default connect(null)(AllProducts)

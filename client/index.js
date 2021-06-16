@@ -5,12 +5,13 @@ import {Router} from 'react-router-dom'
 import history from './history'
 import store from './store'
 import App from './App'
-import AllProducts from './AllProducts'
+import AllProducts from './components/AllProducts'
 
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <AllProducts />
+      <App />
     </Router>
   </Provider>,
   document.getElementById('app')
