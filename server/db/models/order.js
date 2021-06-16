@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
-const { v4: uuidv4 } = require('uuid');
 
 const Order = db.define('order', {
   tax: {
@@ -21,13 +20,6 @@ const Order = db.define('order', {
     values: ['open', 'closed'],
     defaultValue: 'open'
   },
-  guestId: {
-    type: Sequelize.STRING
-  }
 });
-
-Order.addHook('beforeCreate', (order, options) => {
-  if (!order.userId) order.guestId = uuidv4();
-})
 
 module.exports = Order;
