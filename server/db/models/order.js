@@ -19,7 +19,7 @@ const Order = db.define('order', {
     type: Sequelize.ENUM,
     values: ['open', 'closed'],
     defaultValue: 'open'
-  }
+  },
 });
 
 module.exports = Order;
