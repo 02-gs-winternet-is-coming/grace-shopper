@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User, Product },
+  models: { User, Product, Order, Order_Product },
 } = require("../server/db");
 
 /**
@@ -13,74 +13,24 @@ async function seed() {
   await db.sync({ force: true }); // clears db and matches models to tables
   console.log("db synced!");
 
-  const products = await Promise.all([
-    Product.create({
-      name: "portabella",
-      price: 1.99,
-      description: "",
-      quantity: 5,
-    }),
-    Product.create({
-      name: "cremini",
-      price: 4.99,
-      description: "",
-      quantity: 1,
-    }),
-    Product.create({
-      name: "maitake",
-      price: 5.99,
-      description: "",
-      quantity: 5,
-    }),
-    Product.create({
-      name: "button",
-      price: 1.99,
-      description: "",
-      quantity: 2,
-    }),
-    Product.create({
-      name: "porcini",
-      price: 4.99,
-      description: "",
-      quantity: 10,
-    }),
-    Product.create({
-      name: "hedgehog",
-      price: 2.99,
-      description: "",
-      quantity: 35,
-    }),
-    Product.create({
-      name: "morel",
-      price: 9.99,
-      description: "",
-      quantity: 25,
-    }),
-    Product.create({
-      name: "lobster",
-      price: 8.99,
-      description: "",
-      quantity: 15,
-    }),
-    Product.create({
-      name: "enoki",
-      price: 2.99,
-      description: "",
-      quantity: 50,
-    }),
-    Product.create({
-      name: "chanterelle",
-      price: 10.99,
-      description: "",
-      quantity: 1,
-    }),
-  ]);
-
+  await Promise.all(
+    products.map((product) => {
+      return Product.create(product)
+    })
+  )
   await Promise.all(
     users.map((user) => {
       return User.create(user);
     })
   );
+
+  await Promise.all(orders.map((order)=> {
+    return Order.create(order)
+  }))
+
+  await Promise.all(orderProducts.map((orderProduct)=> {
+    return Order_Product.create(orderProduct)
+  }))
 
   // console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`);
@@ -204,3 +154,67 @@ const users = [
     zipCode: "99511",
   },
 ];
+
+const products = [
+  {
+    name: "portabella",
+    price: 1.99,
+    description: "",
+    quantity: 5,
+  },
+  {
+    name: "cremini",
+    price: 4.99,
+    description: "",
+    quantity: 1,
+  },
+  {
+    name: "maitake",
+    price: 5.99,
+    description: "",
+    quantity: 5,
+  }, {
+    name: "button",
+    price: 1.99,
+    description: "",
+    quantity: 2,
+  },
+  {
+    name: "porcini",
+    price: 4.99,
+    description: "",
+    quantity: 10,
+  },
+  {
+    name: "hedgehog",
+    price: 2.99,
+    description: "",
+    quantity: 35,
+  },
+  {
+    name: "morel",
+    price: 9.99,
+    description: "",
+    quantity: 25,
+  },
+  {
+    name: "lobster",
+    price: 8.99,
+    description: "",
+    quantity: 15,
+  },
+  {
+    name: "enoki",
+    price: 2.99,
+    description: "",
+    quantity: 50,
+  },
+  {
+    name: "chanterelle",
+    price: 10.99,
+    description: "",
+    quantity: 1,
+  }
+]
+const orderProducts = [{price: 2.99, quantity: 3, orderId: 1, productId: 1}]
+const orders = [{tax: 2.54, shipping: 5.00, shippingMethod: 'USPS', paymentMethod: 'Stripe', status: 'closed', userId: 1}, {status: 'open'}, {status: 'open'}, {status: 'open', userId: 5}]

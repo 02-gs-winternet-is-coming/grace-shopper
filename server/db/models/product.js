@@ -34,7 +34,7 @@ const Product = db.define('product', {
         defaultValue: 'https://media.giphy.com/media/yZRoXvpZflasovKcmN/giphy.gif',
     },
     category: {
-        type: Sequelize.ARRAY
+        type: Sequelize.ARRAY(Sequelize.TEXT)
     }
 });
 
