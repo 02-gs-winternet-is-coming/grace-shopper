@@ -9,18 +9,45 @@ class SingleProduct extends Component {
     super(props);
   }
 
+  // We should be getting 'id' passed down from props
   componentDidMount () {
-    fetchSingleProduct(props.id)
+    this.props.fetch(this.props.id);
   }
 
+  // To do: addSingleProductToCart function
   render () {
+    const { name, price, description, imageUrl, category } = this.props.product;
     return (
-      <div />
+      <div className="singleProductView">
+        <h2>{name}</h2>
+        <img src={imageUrl} />
+        <div>
+          {
+            category.map((cat, idx) => {
+              return (
+                <span key={idx}>{cat}</span>
+               )
+            })
+          }
+        </div>
+        <div>{price}</div>
+        <button onClick={this.props.addSingleProductToCart}>Add to cart</button>
+        <p>{description}</p>
+      </div>
     )
   }
-
 }
 
-mapState(state) {}
+const mapState = (state) => {
+  return {
+    product: state.product
+  }
+}
 
-export default connect(mapState)(SingleProduct)
+const mapDispatch = (dispatch) => {
+  return {
+    fetch: (id) => dispatch(fetchSingleProduct(id))
+  }
+}
+
+export default connect(mapState, mapDispatch)(SingleProduct)
