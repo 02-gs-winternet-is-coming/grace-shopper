@@ -18,6 +18,11 @@ const Order = db.define('order', {
     type: Sequelize.ENUM,
     values: ['Stripe', 'Bitcoin', 'Credit Card', 'Venmo', 'Paypal'],
     defaultValue: 'Stripe'
+  },
+  status: {
+    type: Sequelize.ENUM,
+    values: ['open', 'closed'],
+    defaultValue: 'open'
   }
 });
 
