@@ -2,13 +2,13 @@
 
 const db = require('./db');
 
-const User = require('./models/user');
+const User = require('./models/User');
 
-const Product = require('./models/product');
+const Product = require('./models/Product');
 
-const Order_Product = require('./models/order_product');
+const Order_Product = require('./models/Order_Product');
 
-const Order = require('./models/order');
+const Order = require('./models/Order');
 
 //associations could go here!
 User.hasMany(Order);
