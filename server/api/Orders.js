@@ -1,6 +1,7 @@
 const router = require('express').Router();
-const Order = require('../db/models/order');
-const Product = require('../db/models/product')
+const Order = require('../db/models/Order');
+const Product = require('../db/models/Product')
+
 
 // GET route for users current order/cart
 router.get('/:orderId', async (req, res, next) => {
