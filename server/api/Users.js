@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const { models: { User, Order }} = require('../db')
-
 module.exports = router
 
 async function requireToken(req, res, next) {
