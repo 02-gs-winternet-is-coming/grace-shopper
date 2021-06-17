@@ -1,9 +1,18 @@
 import React from 'react'
 import { connect }from 'react-redux'
+import {fetchProducts} from '../store/allproducts'
 
 class AllProducts extends React.Component {
    constructor(){
     super()
+}
+componentDidMount() {
+try {
+this.props.getProds()
+} catch(err) {
+    console.log('inside component did mount')
+    console.log(err)
+}
 }
 render() {
     return (
@@ -19,4 +28,9 @@ render() {
 }
 }
 
-export default connect(null)(AllProducts)
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getProds: () => dispatch(fetchProducts())
+    }
+}
+export default connect(null, mapDispatchToProps)(AllProducts)
