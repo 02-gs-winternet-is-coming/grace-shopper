@@ -50,7 +50,7 @@ router.put('/:id', requireToken, async (req, res, next) => {
       const {data: user} = await User.findOne({
         where: {id: req.params.id}
       })
-      await user.update(req.params);
+      await user.update(req.body);
       res.json(user);
     }
   } catch (err) {next(err)}
