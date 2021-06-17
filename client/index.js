@@ -10,7 +10,6 @@ import AllProducts from './components/AllProducts'
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <AllProducts />
       <App />
     </Router>
   </Provider>,
