@@ -2,6 +2,7 @@ const router = require('express').Router();
 
 const Product = require('../db/models/product');
 
+// GET api/products
 router.get('/', async (req, res, next) => {
   try {
     const allProducts = await Product.findAll();
@@ -22,7 +23,7 @@ router.get('/:productId', async (req, res, next) => {
         res.json(product);
     } catch (error) {
         next(error);
-    };
+    }
 });
 
 module.exports = router;
