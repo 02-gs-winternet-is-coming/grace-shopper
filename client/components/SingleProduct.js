@@ -1,53 +1,44 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {fetchSingleProduct} from '../store/singleProduct'
-
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { fetchSingleProduct } from "../store/singleProduct";
 
 // SCAFFOLDING
 class SingleProduct extends Component {
   constructor(props) {
     super(props);
   }
-
-  // We should be getting 'id' passed down from props
-  componentDidMount () {
-    this.props.fetch(this.props.id);
+  async componentDidMount() {
+    await this.props.fetch(this.props.match.params.id);
   }
-
-  // To do: addSingleProductToCart function
-  render () {
-    const { name, price, description, imageUrl, category } = this.props.product;
+  render() {
+    const product = this.props.product || [];
     return (
-      <div className="singleProductView">
-        <h2>{name}</h2>
-        <img src={imageUrl} />
-        <div>
-          {
-            category.map((cat, idx) => {
-              return (
-                <span key={idx}>{cat}</span>
-               )
-            })
-          }
+      <div>
+        <h3 id="singleMushroomHeader">{product.name} mushrooms</h3>
+        <div className="singleProductView" key={product.id}>
+          <img src={product.imageUrl} id="singleProductViewImage" />
+          <div id="singleMushroomText">
+            <p id="singleMushroomName">{product.name}</p>
+            <p>{product.description}hi some placefiller, this mushroom is delicious. It is great to eat and will not poison you. I think, but I'm no expert</p>
+            <p>{product.price}/lb</p>
+          <button id="singleMushroomAddCartButton">add to cart</button>
+          </div>
         </div>
-        <div>{price}</div>
-        <button onClick={this.props.addSingleProductToCart}>Add to cart</button>
-        <p>{description}</p>
       </div>
-    )
+    );
   }
 }
 
 const mapState = (state) => {
   return {
-    product: state.product
-  }
-}
+    product: state.singleProduct,
+  };
+};
 
 const mapDispatch = (dispatch) => {
   return {
-    fetch: (id) => dispatch(fetchSingleProduct(id))
-  }
-}
+    fetch: (id) => dispatch(fetchSingleProduct(id)),
+  };
+};
 
-export default connect(mapState, mapDispatch)(SingleProduct)
+export default connect(mapState, mapDispatch)(SingleProduct);

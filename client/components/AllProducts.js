@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect }from 'react-redux'
 import {fetchProducts} from '../store/allproducts'
+import { Link, Route } from "react-router-dom"
+import SingleProduct from './SingleProduct'
 
 class AllProducts extends React.Component {
    constructor(){
@@ -22,11 +24,13 @@ render() {
         <div id="productParent">
             {products.map((product)=> {
                 return (<div key={product.id} className="allProducts">
+                    <Link to={`/products/${product.id}`}>
                     <img className="placeholderImage"src={product.imageUrl}/>
                     <p id="shroomNames">{product.name}</p>
                     <p>{product.description}</p>
                     <p>{product.price}</p>
                     <button>add to cart</button>
+                    </Link>
                     </div>)
             })}
             </div>
@@ -37,7 +41,7 @@ render() {
 
 const mapStateToProps = (state) => {
     return { 
-        products: state.allproducts
+        products: state.allProducts
     }
 }
 

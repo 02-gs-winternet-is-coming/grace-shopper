@@ -13,7 +13,8 @@ router.get('/', async (req, res, next) => {
 })
 
 //GET api/products/:id
-router.get('/:productId', async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
+  console.log(req)
     try {
         let product = await Product.findOne({
             where: {
