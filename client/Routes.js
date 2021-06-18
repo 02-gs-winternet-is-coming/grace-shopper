@@ -20,22 +20,19 @@ class Routes extends Component {
 
   render() {
     // const {isLoggedIn} = this.props
-
     return (
       <div>
         <Navbar />
             <Route path="/home" component={Home} />
             <Route exact path="/products/:id" component={SingleProduct} />
             <Route exact path="/products" component={AllProducts} />
-
             <Route exact path="/cart/:userId" component={Cart} />
-{/*  
-
             <Route exact path="/createaccount" component={CreateAccount} />
             <Route exact path="/login" component={Login} />
-{/*
-            <Redirect to="/home" /> */}
+            {/* <Redirect to="/home" /> */ 
+              
         {/* {isLoggedIn ? (
+
           <Switch>
             <Route path="/home" component={Home} />
             <Redirect to="/home" />

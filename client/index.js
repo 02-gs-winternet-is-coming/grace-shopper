@@ -12,7 +12,6 @@ import SingleProduct from './components/SingleProduct'
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-    {/* <AllProducts /> */}
     <Routes />
     </Router>
   </Provider>,
