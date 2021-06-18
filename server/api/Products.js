@@ -1,6 +1,6 @@
 const router = require('express').Router();
-
-const {models: User, Product} = require('../db/');
+const Product = require('../db/models/Product')
+const User = require('../db/models/User')
 
 async function requireToken(req, res, next) {
   try {
@@ -32,6 +32,12 @@ router.get('/:productId', async (req, res, next) => {
             where: {
                 id: req.params.productId,
             },
+          })
+          res.send(product)
+        } catch(error) {
+          console.log(error)
+        }
+      })
 
 router.post('/', requireToken, async (req, res, next) => {
   if (req.user.isAdmin) {
