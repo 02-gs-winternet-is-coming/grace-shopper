@@ -48,15 +48,11 @@ router.delete('/:userId/:orderId', async (req, res, next) => {
             }
         })
         let product = await Product.findByPk(req.params.orderId)
-        await 
+    }
+    catch (err) {
+        console.error(err)
     }
 })
-
-
-
-
-const Order = require('../db/models/Order');
-const Product = require('../db/models/Product')
 
 
 // GET route for users current order/cart

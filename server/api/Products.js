@@ -34,7 +34,13 @@ router.get('/:productId', async (req, res, next) => {
             where: {
                 id: req.params.id,
             },
+          })
+        } catch (err) {
+          console.error(err)
+        }
+      })
 // Admin only
+
 router.post('/', requireToken, async (req, res, next) => {
   if (req.user.isAdmin) {
     try {
@@ -54,10 +60,6 @@ router.get('/:productId', async (req, res, next) => {
         next(error);
 
     };
-});
-
-
-    }
 });
 
 // Admin only
