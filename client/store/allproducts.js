@@ -21,8 +21,7 @@ const addProduct = (product) => {
 export const addAProduct = (infoObj, history) => {
   return async(dispatch) => {
     try {
-      const {data} = await axios.post(`/api/orders/${infoObj.userId}`, infoObj.product)
-      const product = data
+      const {data: product} = await axios.post(`/api/orders/${infoObj.userId}`, infoObj.product)
       dispatch(addProduct(product))
     } catch(error) {
       console.log(error)
