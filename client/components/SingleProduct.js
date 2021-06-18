@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchSingleProduct } from "../store/singleProduct";
+import { fetchSingleProduct,
+  clearSingleProduct } from "../store/singleProduct";
 
 // SCAFFOLDING
 class SingleProduct extends Component {
@@ -8,9 +9,15 @@ class SingleProduct extends Component {
     super(props);
     this.addToCart = this.addToCart.bind(this)
   }
+
   async componentDidMount() {
     await this.props.fetch(this.props.match.params.id);
   }
+
+  async componentWillUnmount() {
+    await this.props.clear();
+  }
+
   addToCart() {
     console.log('hello there!')
   }
@@ -48,6 +55,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     fetch: (id) => dispatch(fetchSingleProduct(id)),
+    clear: () => dispatch(clearSingleProduct())
   };
 };
 

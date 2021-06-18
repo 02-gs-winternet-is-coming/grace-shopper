@@ -1,27 +1,40 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateProduct, addProduct } from '../store/allproducts';
+import { addProduct } from '../store/allproducts';
+import { updateProduct } from '../store/singleProduct';
 
 class EditProduct extends Component {
   constructor() {
     super();
-    this.state = {name: '', price: 0, description: '', quantity: 0, imageUrl: '', category: []};
+    this.state =
+    this.props.singleProduct &&
+      this.props.singleProduct.id
+      ? {...this.props.singleProduct}
+      : {name: '', price: 0, description: '',
+          quantity: 0, imageUrl: '', category: []};
+    this.handleUpdate = this.handleUpdate.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleUpdate(evt) {
+    evt.preventDefault();
+    this.props.update({...this.state})
+  }
+
+  handleSubmit(evt) {
+    evt.preventDefault();
+    this.props.add({...this.state})
   }
 
   handleChange(evt) {
     this.setState({[evt.target.name]: evt.target.value});
   }
 
-  handleSubmit(evt) {
-    evt.preventDefault();
-
-  }
-
   render () {
 
-    const { handleSubmit, handleChange } = this;
+    const { handleUpdate, handleSubmit, handleChange } = this;
+
     const { name, price, quantity, imageUrl,
       description, singleProduct} = this.props;
 
@@ -73,8 +86,8 @@ class EditProduct extends Component {
               onChange={handleChange}
               />
           </div>
-          { !!singleProduct
-            ? <button type="edit"> Edit Product</button>
+          {Object.keys(singleProduct).length > 0
+            ? <button type="edit" onClick={handleUpdate}> Edit Product</button>
             : <button type="submit"> Submit</button>
           }
         </form>
@@ -88,8 +101,8 @@ const mapState = (state) => ({
 })
 
 const mapDispatch = (dispatch) => ({
-  addProduct: (product) => dispatch(addProduct(product)),
-  updateProduct: (product) => dispatch(updateProduct(product))
+  add: (product) => dispatch(addProduct(product)),
+  update: (product) => dispatch(updateProduct(product)),
 })
 
 connect(mapState, mapDispatch)(EditProduct)
