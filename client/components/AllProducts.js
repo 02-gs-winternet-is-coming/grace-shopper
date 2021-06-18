@@ -7,6 +7,7 @@ import SingleProduct from './SingleProduct'
 class AllProducts extends React.Component {
    constructor(){
     super()
+    this.addToCart = this.addToCart.bind(this)
 }
 componentDidMount() {
 try {
@@ -15,6 +16,11 @@ this.props.getProds()
     console.log(err)
 }
 }
+
+addToCart() {
+console.log('hello!')
+}
+
 render() {
     const products = this.props.products || []
     return (
@@ -29,8 +35,8 @@ render() {
                     <p id="shroomNames">{product.name}</p>
                     <p>{product.description}</p>
                     <p>{product.price}</p>
-                    <button>add to cart</button>
                     </Link>
+                    <button onClick={this.addToCart}>add to cart</button>
                     </div>)
             })}
             </div>
