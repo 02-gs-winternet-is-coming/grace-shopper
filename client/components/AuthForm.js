@@ -1,10 +1,12 @@
+// import { render } from 'enzyme'
 import React from 'react'
 import {connect} from 'react-redux'
-import {authenticate} from '../store'
+import { authenticate } from '../store/auth'
 
 /**
  * COMPONENT
  */
+
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props
 
