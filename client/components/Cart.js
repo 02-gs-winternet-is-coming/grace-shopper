@@ -6,18 +6,28 @@ class Cart extends React.Component {
     constructor() {
         super()
     }
-    componentDidMount() {
-        this.props.getCart()
+    async componentDidMount() {
+        let id = Number(this.props.match.params.userId)
+        await this.props.getCart(id)
+        console.log(id)
+        console.log('props', this.props)
+        console.log('props.match', this.props.match)
     }
 
     render() {
         let cart = this.props.cart || []
+        let productList = cart[1]
+        console.log('cart', cart)
         return (
             <div>
-                {cart.map(product => {
+                {!productList || productList.length === 0 ? 'Nothing in Cart' :
+                productList.map(product => {
                     return (
                         <div key={product.id}>
-                            {product.name}
+                            <h1>{product.name}</h1>
+                            <img src={product.imageUrl} />
+                            <p>{product.price}</p>
+                            <p>{product.description}</p>
                         </div>
                     )
                 })}
@@ -28,8 +38,9 @@ class Cart extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    console.log('state', state)
     return {
-        cart: state.cart
+        cart: state.storageReducer
     }
 }
 
