@@ -15,15 +15,6 @@ const updateProductAction = (product) => ({
 const addProductAction = (product) => ({
   type: ADD_PRODUCT, product
 })
-=======
-const ADD_PRODUCT = "ADD_PRODUCT"
-
-const getProducts = (products) => {
-    return {
-      type: GET_PRODUCTS,
-       products
-      }
-}
 
 const addProduct = (product) => {
   return {
