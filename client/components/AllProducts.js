@@ -10,22 +10,35 @@ componentDidMount() {
 try {
 this.props.getProds()
 } catch(err) {
-    console.log('inside component did mount')
     console.log(err)
 }
 }
 render() {
+    const products = this.props.products || []
     return (
         <div>
-        <h1>All Products</h1>
-        <p>Currently available at Good Morels:</p>
-        <p>mushroom name</p>
-        <p>mushroom image</p>
-        <p>mushroom price</p>
-        <span>click for more details add to cart </span>
+        <h1>All Products View</h1>
+        <p id="currentAvail">currently available at Good Morels:</p>
+        <div id="productParent">
+            {products.map((product)=> {
+                return (<div key={product.id} className="allProducts">
+                    <img className="placeholderImage"src={product.imageUrl}/>
+                    <p id="shroomNames">{product.name}</p>
+                    <p>{product.description}</p>
+                    <p>{product.price}</p>
+                    <button>add to cart</button>
+                    </div>)
+            })}
+            </div>
         </div>
     )
 }
+}
+
+const mapStateToProps = (state) => {
+    return { 
+        products: state.allproducts
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -33,4 +46,4 @@ const mapDispatchToProps = (dispatch) => {
         getProds: () => dispatch(fetchProducts())
     }
 }
-export default connect(null, mapDispatchToProps)(AllProducts)
+export default connect(mapStateToProps, mapDispatchToProps)(AllProducts)

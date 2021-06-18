@@ -1,4 +1,5 @@
 const router = require('express').Router();
+<<<<<<< HEAD:server/api/products.js
 const {models: User, Product} = require('../db/');
 
 async function requireToken(req, res, next) {
@@ -12,6 +13,11 @@ async function requireToken(req, res, next) {
   }
 }
 
+=======
+const Product = require('../db/models/Product');
+
+// GET api/products
+>>>>>>> 994d6cd02f90b17c4d05f47b0d7b01b91a78db78:server/api/Products.js
 router.get('/', async (req, res, next) => {
   try {
     const allProducts = await Product.findAll();
