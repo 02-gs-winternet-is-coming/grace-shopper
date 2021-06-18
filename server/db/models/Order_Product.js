@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../db');
 
 const Order_Product = db.define('order product', {
+
     quantity: {
         type: Sequelize.INTEGER,
         defaultValue: 1,
@@ -10,5 +11,6 @@ const Order_Product = db.define('order product', {
         }
     },
 });
+
 
 module.exports = Order_Product;
