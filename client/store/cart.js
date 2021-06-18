@@ -1,29 +1,42 @@
 import axios from 'axios'
 
 //action types
-export const ADD_TO_CART = 'ADD_TO_CART'
-export const DELETE_FROM_CART = 'DELETE_FROM_CART'
-export const GET_CART = 'GET_CART'
+const ADD_TO_CART = 'ADD_TO_CART'
+const DELETE_FROM_CART = 'DELETE_FROM_CART'
+const GET_CART = 'GET_CART'
 
 //action creators
-export const addToCart = (product) => ({
+const addToCart = (product) => ({
     type: ADD_TO_CART,
     product
 })
-export const deleteFromCart = (product) => ({
+const deleteFromCart = (product) => ({
     type: DELETE_FROM_CART,
     product
 })
-export const getCart = (cart) => ({
+const getCart = (cart) => ({
     type: GET_CART,
     cart
 })
 
+export const addToCartThunk = (infoObj, history) => {
+    return async(dispatch) => {
+      try {
+        const {data} = await axios.post(`/api/orders/${infoObj.userId}`, infoObj.product)
+        const product = data
+        dispatch(addToCart(product))
+      } catch(error) {
+        console.log(error)
+      }
+    }
+  }
+
 //thunks
-export const fetchCart = (id) => {
+export const fetchCart = (userId) => {
     return async (dispatch) => {
         try {
-            const { data } = await axios.get(`api/orders/${id}`)
+            const { data } = await axios.get(`/api/orders/${userId}`)
+            console.log('--->', data)
             dispatch(getCart(data))
         } catch (err) {
             console.error(err)
@@ -34,7 +47,7 @@ export const fetchCart = (id) => {
 export const addProductThunk = (id) => {
     return async (dispatch) => {
         try {
-            const { data } = await axios.post(`api/orders/${id}`)
+            const { data } = await axios.post(`/api/orders/${id}`)
             dispatch(addToCart(data))
         } catch (err) {
             console.error(err)
@@ -54,7 +67,7 @@ export const deleteProductThunk = () => {
 }
 
 //reducer
-export default function storageReducer(state = [], action) {
+export default function (state = [], action) {
     switch (action.type) {
       case ADD_TO_CART:
         return [...state, action.product];

@@ -17,7 +17,7 @@ const addProductAction = (product) => ({
 })
 
 export const addAProduct = (infoObj, history) => {
-  return async(dispatch) => {
+  return async (dispatch) => {
     try {
       const {data: product} = await axios.post(`/api/orders/${infoObj.userId}`, infoObj.product)
       dispatch(addProductAction(product))
