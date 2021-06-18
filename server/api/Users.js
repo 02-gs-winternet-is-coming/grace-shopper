@@ -36,7 +36,7 @@ router.post('/', async (req, res, next) => {
   try {
     if (!req.body.isAdmin) {
       const newUser = await User.create(req.body);
-      res.status(201).send(newUser);
+      res.status(201).send(newUser.username);
     }
   } catch (err) {next(err)}
 })

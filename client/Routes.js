@@ -28,6 +28,7 @@ class Routes extends Component {
             <Route exact path="/products/:id" component={SingleProduct} />
             <Route exact path="/products" component={AllProducts} />
             <Route exact path="/createaccount" component={CreateAccount} />
+            <Route exact path="/login" component={Login} />
 {/*
             <Redirect to="/home" /> */}
         {/* {isLoggedIn ? (

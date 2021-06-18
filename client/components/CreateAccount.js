@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import { createNewAccount } from '../store/createAccount'
 
 const initialState = {
@@ -85,7 +86,7 @@ class NewAccount extends React.Component {
               <input
                 value={this.state.state}
                 type="text"
-                name=""
+                name="state"
                 onChange={handleChange}
               />
           </div>
@@ -113,3 +114,6 @@ const mapDispatch = (dispatch) => ({
 });
 
 export default connect(null, mapDispatch)(NewAccount)
+
+// this.props.history.push('/home')
+// <input type="password" style="-webkit-text-security: square;" />
