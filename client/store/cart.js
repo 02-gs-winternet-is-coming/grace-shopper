@@ -19,6 +19,18 @@ export const getCart = (cart) => ({
     cart
 })
 
+export const addToCartThunk = (infoObj, history) => {
+    return async(dispatch) => {
+      try {
+        const {data} = await axios.post(`/api/orders/${infoObj.userId}`, infoObj.product)
+        const product = data
+        dispatch(addToCart(product))
+      } catch(error) {
+        console.log(error)
+      }
+    }
+  }
+
 //thunks
 export const fetchCart = (id) => {
     return async (dispatch) => {
