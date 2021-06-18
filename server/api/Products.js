@@ -13,8 +13,6 @@ async function requireToken(req, res, next) {
   }
 }
 
-
-
 // GET api/products
 router.get('/', async (req, res, next) => {
   try {

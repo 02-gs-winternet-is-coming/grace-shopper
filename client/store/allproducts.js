@@ -15,6 +15,33 @@ const updateProductAction = (product) => ({
 const addProductAction = (product) => ({
   type: ADD_PRODUCT, product
 })
+=======
+const ADD_PRODUCT = "ADD_PRODUCT"
+
+const getProducts = (products) => {
+    return {
+      type: GET_PRODUCTS,
+       products
+      }
+}
+
+const addProduct = (product) => {
+  return {
+    type: ADD_PRODUCT,
+    product
+  }
+}
+
+export const addAProduct = (infoObj, history) => {
+  return async(dispatch) => {
+    try {
+      const {data: product} = await axios.post(`/api/orders/${infoObj.userId}`, infoObj.product)
+      dispatch(addProduct(product))
+    } catch(error) {
+      console.log(error)
+    }
+  }
+}
 
 export const fetchProducts = () => {
   return async (dispatch) => {
