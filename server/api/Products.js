@@ -16,7 +16,6 @@ async function requireToken(req, res, next) {
 
 
 // GET api/products
-
 router.get('/', async (req, res, next) => {
   try {
     const allProducts = await Product.findAll();
@@ -26,15 +25,14 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-
 //GET api/products/:id
 router.get('/:productId', async (req, res, next) => {
     try {
         let product = await Product.findOne({
             where: {
-                id: req.params.id,
+                id: req.params.productId,
             },
-// Admin only
+
 router.post('/', requireToken, async (req, res, next) => {
   if (req.user.isAdmin) {
     try {
@@ -52,11 +50,6 @@ router.get('/:productId', async (req, res, next) => {
         res.json(product);
     } catch (error) {
         next(error);
-
-    };
-});
-
-
     }
 });
 

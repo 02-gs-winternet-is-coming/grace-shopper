@@ -6,23 +6,28 @@ import Home from './components/Home';
 import {me} from './store'
 import AllProducts from './components/AllProducts'
 import SingleProduct from './components/SingleProduct'
+import Navbar from './components/Navbar';
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
   componentDidMount() {
-    this.props.loadInitialData()
+    // this.props.loadInitialData()
   }
 
   render() {
-    const {isLoggedIn} = this.props
+    // const {isLoggedIn} = this.props
 
     return (
       <div>
-            <Route path="/home" component={Home} />
-            <Redirect to="/home" />
-        {isLoggedIn ? (
+        <Navbar />
+            {/* <Route path="/home" component={Home} /> */}
+            <Route exact path="/products/:id" component={SingleProduct} />
+            <Route exact path="/products" component={AllProducts} />
+{/*  
+            <Redirect to="/home" /> */}
+        {/* {isLoggedIn ? (
           <Switch>
             <Route path="/home" component={Home} />
             <Redirect to="/home" />
@@ -33,7 +38,7 @@ class Routes extends Component {
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
           </Switch>
-        )}
+        )} */}
       </div>
     )
   }
