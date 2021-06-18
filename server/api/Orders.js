@@ -48,9 +48,9 @@ router.delete('/:userId/:orderId', async (req, res, next) => {
             }
         })
         let product = await Product.findByPk(req.params.orderId)
-    }
-    catch (err) {
-        console.error(err)
+
+    } catch(error) {
+        console.log(error)
     }
 })
 

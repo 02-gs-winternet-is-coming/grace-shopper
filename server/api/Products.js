@@ -1,6 +1,6 @@
 const router = require('express').Router();
-
-const {models: User, Product} = require('../db/');
+const Product = require('../db/models/Product')
+const User = require('../db/models/User')
 
 async function requireToken(req, res, next) {
   try {
@@ -13,10 +13,7 @@ async function requireToken(req, res, next) {
   }
 }
 
-
-
 // GET api/products
-
 router.get('/', async (req, res, next) => {
   try {
     const allProducts = await Product.findAll();
@@ -26,20 +23,19 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-
 //GET api/products/:id
 router.get('/:productId', async (req, res, next) => {
     try {
         let product = await Product.findOne({
             where: {
-                id: req.params.id,
+                id: req.params.productId,
             },
           })
-        } catch (err) {
-          console.error(err)
+          res.send(product)
+        } catch(error) {
+          console.log(error)
         }
       })
-// Admin only
 
 router.post('/', requireToken, async (req, res, next) => {
   if (req.user.isAdmin) {
@@ -58,8 +54,7 @@ router.get('/:productId', async (req, res, next) => {
         res.json(product);
     } catch (error) {
         next(error);
-
-    };
+    }
 });
 
 // Admin only
