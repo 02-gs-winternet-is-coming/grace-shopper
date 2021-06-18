@@ -57,7 +57,7 @@ router.delete('/:userId/:orderId', async (req, res, next) => {
 })
 
 
-// GET route for users current order/cart
+// GET route for users current orders/:id
 router.get('/:userId', async (req, res, next) => {
   try {
     const usersCart = await Order.findOne({
@@ -65,11 +65,11 @@ router.get('/:userId', async (req, res, next) => {
         userId: req.params.userId,
         status: 'open'
       },
-      include: {
-        model: Product
-      }
+      include: Product
     })
-    res.status(200).send(usersCart);
+    const { id, products, tax, shippingMethod, paymentMethod, userId } = usersCart
+    const cartArray = [ id, products, tax, shippingMethod, paymentMethod, userId ]
+    res.status(200).send(cartArray);
   } catch(err) {
     console.log('Error inside your get all orders for this user Route', err);
     next(err);

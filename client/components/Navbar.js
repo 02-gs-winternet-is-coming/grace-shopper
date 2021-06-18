@@ -7,9 +7,12 @@ const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
       <h1>Good Morels</h1>
     <nav>
-      <Link to="/home">home</Link>
-      <Link to="/products">all products</Link>
-      <Link to="/createAccount">create account</Link>
+
+    <Link to="/home">home</Link>
+    <Link to="/products">all products</Link>
+    <Link to='/cart'>cart</Link>
+    <Link to="/createAccount">create account</Link>
+
     </nav>
     <hr />
   </div>
