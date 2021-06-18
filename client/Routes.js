@@ -24,7 +24,7 @@ class Routes extends Component {
     return (
       <div>
         <Navbar />
-            {/* <Route path="/home" component={Home} /> */}
+            <Route path="/home" component={Home} />
             <Route exact path="/products/:id" component={SingleProduct} />
             <Route exact path="/products" component={AllProducts} />
             <Route exact path="/createaccount" component={CreateAccount} />

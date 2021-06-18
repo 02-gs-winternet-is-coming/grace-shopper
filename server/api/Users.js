@@ -13,7 +13,6 @@ async function requireToken(req, res, next) {
   }
 }
 
-// Still trying to work out specifics of req.params
 router.get('/:id', requireToken, async (req, res, next) => {
   try {
     if (req.user.id == req.params.id
@@ -28,6 +27,16 @@ router.get('/:id', requireToken, async (req, res, next) => {
         }
       })
       res.json(user);
+    }
+  } catch (err) {next(err)}
+})
+
+// Create new user; cannot be admin
+router.post('/', async (req, res, next) => {
+  try {
+    if (!req.body.isAdmin) {
+      const newUser = await User.create(req.body);
+      res.status(201).send(newUser);
     }
   } catch (err) {next(err)}
 })
