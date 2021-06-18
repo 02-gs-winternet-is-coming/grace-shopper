@@ -5,13 +5,23 @@ import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
-      <h1>Good Morels</h1>
+    <h1>Good Morels</h1>
     <nav id="navBar">
-    <Link to="/home">home</Link>
-    <Link to="/products">all products</Link>
-    <Link to="/createaccount">create account</Link>
-    <Link to="/login">login</Link>
-    <Link to='/cart' id="cartNav">cart</Link>
+      <Link to="/home">home</Link>
+      <Link to="/products">all products</Link>
+      {isLoggedIn ? (
+          <div id="logged-in">
+            <a href="#" onClick={handleClick}>
+              Logout
+            </a>
+          </div>
+        ) : (
+          <div id="logged-in">
+            <Link to="/login">login</Link>
+            <Link to="/createaccount">create account</Link>
+          </div>
+        )}
+      <Link to='/cart'>cart</Link>
     </nav>
     <hr />
   </div>
@@ -34,19 +44,3 @@ const mapDispatch = dispatch => {
 }
 
 export default connect(mapState, mapDispatch)(Navbar)
-
-
-// {isLoggedIn ? (
-//   <div>
-//     {/* The navbar will show these links after you log in */}
-//     <a href="#" onClick={handleClick}>
-//       Logout
-//     </a>
-//   </div>
-// ) : (
-//   <div>
-//     {/* The navbar will show these links before you log in */}
-//     <Link to="/login">Login</Link>
-//     <Link to="/signup">Sign Up</Link>
-//   </div>
-// )}

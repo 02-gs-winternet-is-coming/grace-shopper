@@ -29,8 +29,10 @@ class Routes extends Component {
             <Route exact path="/cart/:userId" component={Cart} />
             <Route exact path="/createaccount" component={CreateAccount} />
             <Route exact path="/login" component={Login} />
-             {/* <Redirect to="/home" /> */ 
-        /* {isLoggedIn ? (
+            {/* <Redirect to="/home" /> */ 
+              
+        {/* {isLoggedIn ? (
+
           <Switch>
             <Route path="/home" component={Home} />
             <Redirect to="/home" />
