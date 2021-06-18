@@ -22,7 +22,8 @@ class EditProduct extends Component {
   render () {
 
     const { handleSubmit, handleChange } = this;
-    const { name, price, quantity, imageUrl, description } = this.props;
+    const { name, price, quantity, imageUrl,
+      description, singleProduct} = this.props;
 
     return (
       <div>
@@ -72,16 +73,23 @@ class EditProduct extends Component {
               onChange={handleChange}
               />
           </div>
-          <button type="submit"> Submit</button>
+          { !!singleProduct
+            ? <button type="edit"> Edit Product</button>
+            : <button type="submit"> Submit</button>
+          }
         </form>
       </div>
     )
   }
 }
 
+const mapState = (state) => ({
+  singleProduct: state.singleProduct
+})
+
 const mapDispatch = (dispatch) => ({
   addProduct: (product) => dispatch(addProduct(product)),
   updateProduct: (product) => dispatch(updateProduct(product))
 })
 
-connect(null, mapDispatch)()
+connect(mapState, mapDispatch)(EditProduct)
