@@ -78,7 +78,7 @@ class EditProduct extends Component {
 }
 
 const mapDispatch = (dispatch) => ({
-  addProduct: () => {}
+  addProduct: () => {},
 })
 
 connect(null, mapDispatch)()
