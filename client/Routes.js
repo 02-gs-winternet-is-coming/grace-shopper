@@ -29,8 +29,8 @@ class Routes extends Component {
             <Route exact path="/cart/:userId" component={Cart} />
             <Route exact path="/createaccount" component={CreateAccount} />
             <Route exact path="/login" component={Login} />
-            {/* <Redirect to="/home" /> */ 
-              
+            {/* <Redirect to="/home" /> */}
+
         {/* {isLoggedIn ? (
 
           <Switch>
@@ -45,8 +45,7 @@ class Routes extends Component {
             <Route path="/signup" component={Signup} />
           </Switch>
         )} */}
-      </div>
-    )
+      </div> )
   }
 }
 
