@@ -3,6 +3,7 @@ import axios from 'axios';
 //Action type
 const GET_SINGLE_PRODUCT = 'GET_SINGLE_PRODUCT'
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
+const CLEAR_PRODUCT = 'CLEAR_PRODUCT'
 
 //Action creator
 const getSingleProduct = (product) => ({
@@ -12,6 +13,10 @@ const getSingleProduct = (product) => ({
 
 const updateProductAction = (product) => ({
   type: UPDATE_PRODUCT, product
+})
+
+export const clearSingleProduct = () => ({
+  type: CLEAR_PRODUCT
 })
 
 //Thunks
@@ -42,6 +47,8 @@ export default function (state = {}, action) {
       return action.product;
     case UPDATE_PRODUCT:
       return action.product;
+    case CLEAR_PRODUCT:
+      return {};
     default:
       return state;
   }
