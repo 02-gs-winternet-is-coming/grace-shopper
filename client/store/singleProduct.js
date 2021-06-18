@@ -2,16 +2,19 @@ import axios from 'axios';
 
 //Action type
 const GET_SINGLE_PRODUCT = 'GET_SINGLE_PRODUCT'
+const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 
 //Action creator
-const getSingleProduct = (product) => {
-  return {
+const getSingleProduct = (product) => ({
     type: GET_SINGLE_PRODUCT,
     product
-  }
-}
+})
 
-//Thunk
+const updateProductAction = (product) => ({
+  type: UPDATE_PRODUCT, product
+})
+
+//Thunks
 export const fetchSingleProduct = (productId) => {
   return async (dispatch) => {
     try {
@@ -22,10 +25,22 @@ export const fetchSingleProduct = (productId) => {
   }
 }
 
+export const updateProduct = (product) => {
+  return async (dispatch) => {
+    try {
+      const {data: updated} =
+        await axios.put(`/api/products/${product.id}`, product);
+      dispatch(updateProductAction(updated));
+    } catch (error) {console.log(error)}
+  }
+}
+
 //Reducer
-export default function (state = [], action) {
+export default function (state = {}, action) {
   switch (action.type) {
     case GET_SINGLE_PRODUCT:
+      return action.product;
+    case UPDATE_PRODUCT:
       return action.product;
     default:
       return state;
