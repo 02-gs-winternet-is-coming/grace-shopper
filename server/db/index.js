@@ -20,8 +20,8 @@ module.exports = {
   db,
   models: {
     User,
+    Order,
     Product,
     Order_Product,
-    Order,
   },
 };
