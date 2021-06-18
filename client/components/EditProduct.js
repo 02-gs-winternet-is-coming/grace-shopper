@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { updateProduct, addProduct } from '../store/allproducts';
 
 class EditProduct extends Component {
   constructor() {
@@ -15,6 +16,7 @@ class EditProduct extends Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
+
   }
 
   render () {
@@ -78,7 +80,8 @@ class EditProduct extends Component {
 }
 
 const mapDispatch = (dispatch) => ({
-  addProduct: () => {},
+  addProduct: (product) => dispatch(addProduct(product)),
+  updateProduct: (product) => dispatch(updateProduct(product))
 })
 
 connect(null, mapDispatch)()

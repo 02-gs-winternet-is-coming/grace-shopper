@@ -8,6 +8,7 @@ import Cart from './components/Cart';
 import AllProducts from './components/AllProducts'
 import SingleProduct from './components/SingleProduct'
 import Navbar from './components/Navbar';
+import CreateAccount from './components/CreateAccount';
 
 /**
  * COMPONENT
@@ -23,11 +24,15 @@ class Routes extends Component {
     return (
       <div>
         <Navbar />
-            {/* <Route path="/home" component={Home} /> */}
+            <Route path="/home" component={Home} />
             <Route exact path="/products/:id" component={SingleProduct} />
             <Route exact path="/products" component={AllProducts} />
+
             <Route exact path="/cart/:userId" component={Cart} />
 {/*  
+
+            <Route exact path="/createaccount" component={CreateAccount} />
+{/*
             <Redirect to="/home" /> */}
         {/* {isLoggedIn ? (
           <Switch>
