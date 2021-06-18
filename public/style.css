@@ -1,5 +1,41 @@
+html {
+  font-size: 75%;
+}
+
 body {
   font-family: sans-serif;
+  background-color: whitesmoke;
+  font-size: 1rem
+}
+
+#productParent {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 1vw;
+  text-align: center;
+  justify-content: center;
+
+}
+#currentAvail {
+  text-align: center;
+  font-size: 2rem;
+}
+
+#shroomNames {
+  font-size: 1.5rem
+}
+
+.allProducts {
+  margin: .5%;
+  font-size: 1em;
+  background-color: #79AEA3;
+  width: 20vw
+}
+
+.placeholderImage {
+  height: auto;
+  width: 15vw;
 }
 
 a {

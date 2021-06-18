@@ -1,26 +1,36 @@
 const router = require('express').Router();
 const { 
-    models: { Order, Product, User }, 
+    models: { Order, Product, User, Order_Product }, 
 } = require('../db/index')
 
 //add a product to cart
-//route: '/orders/:userId
 router.post('/:userId', async (req, res, next) => {
     try {
         //find open order based on userId
-        const currentOrder = await Order.findOne({
+        let currentOrder = await Order.findOne({
             where: {
                 userId: req.params.userId, status: 'open'
             }
         })
         //if user does not have an open order, create one for the user
-        const user = await User.findByPk(req.params.userId)
+        let user = await User.findByPk(req.params.userId)
         if (!currentOrder) {
             currentOrder = await Order.create()
             user.addOrders(currentOrder)
         }
+        //if product is in the order, increment the quantity in the cart
+        let orderProduct = await Order_Product.findOne({
+            where: {
+                orderId: currentOrder.id,
+                productId: req.body.id
+            }
+        })
+        if (orderProduct) {
+           orderProduct.quantity++
+           orderProduct.save()    
+        }
         //add the product from incoming body to the current order of the user
-        const product = await Product.findByPk(req.body.id)
+        let product = await Product.findByPk(req.body.id)
         await currentOrder.addProducts(product)
         //send status code and the product you want to add to the cart
         res.status(201).send(product)
@@ -28,5 +38,19 @@ router.post('/:userId', async (req, res, next) => {
         next(err)
     }
 })
+//delete a product in cart
+router.delete('/:userId/:orderId', async (req, res, next) => {
+    try {
+        let currentOrder = await Order.findOne({
+            where: {
+                userId: req.params.userId, status: 'open'
+            }
+        })
+        let product = await Product.findByPk(req.params.orderId)
+        await 
+    }
+})
+
+
 
 module.exports = router

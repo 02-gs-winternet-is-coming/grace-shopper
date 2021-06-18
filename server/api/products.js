@@ -11,7 +11,6 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-
 //GET api/products/:id
 router.get('/:productId', async (req, res, next) => {
     try {
