@@ -6,18 +6,16 @@ import {logout} from '../store'
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
       <h1>Good Morels</h1>
-    <nav>
-
+    <nav id="navBar">
     <Link to="/home">home</Link>
     <Link to="/products">all products</Link>
-    <Link to='/cart'>cart</Link>
-    <Link to="/createAccount">create account</Link>
-
+    <Link to="/createaccount">create account</Link>
+    <Link to="/login">login</Link>
+    <Link to='/cart' id="cartNav">cart</Link>
     </nav>
     <hr />
   </div>
 )
-
 /**
  * CONTAINER
  */
