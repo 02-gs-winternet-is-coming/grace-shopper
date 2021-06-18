@@ -4,11 +4,11 @@ const Product = require('../db/models/Product')
 
 
 // GET route for users current order/cart
-router.get('/:orderId', async (req, res, next) => {
+router.get('/:userId', async (req, res, next) => {
   try {
     const usersCart = await Order.findOne({
       where: {
-        id: req.params.orderId,
+        userId: req.params.userId,
         status: 'open'
       },
       include: {
