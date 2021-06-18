@@ -50,7 +50,8 @@ router.delete('/:userId/:orderId', async (req, res, next) => {
             }
         })
         let product = await Product.findByPk(req.params.orderId)
-
+        await currentOrder.removeProduct(product)
+        res.status(201).send(product)
     } catch(error) {
         console.log(error)
     }
@@ -68,7 +69,13 @@ router.get('/:userId', async (req, res, next) => {
       include: Product
     })
     const { id, products, tax, shippingMethod, paymentMethod, userId } = usersCart
-    const cartArray = [ id, products, tax, shippingMethod, paymentMethod, userId ]
+    const orderProduct = await Order_Product.findOne({
+        where: {
+            orderId: id,
+        }
+    })
+    const { quantity, productId } = orderProduct
+    const cartArray = [ id, products, tax, shippingMethod, paymentMethod, userId, quantity, productId ]
     res.status(200).send(cartArray);
   } catch(err) {
     console.log('Error inside your get all orders for this user Route', err);

@@ -9,15 +9,11 @@ class Cart extends React.Component {
     async componentDidMount() {
         let id = Number(this.props.match.params.userId)
         await this.props.getCart(id)
-        console.log(id)
-        console.log('props', this.props)
-        console.log('props.match', this.props.match)
     }
 
     render() {
         let cart = this.props.cart || []
-        let productList = cart[1]
-        console.log('cart', cart)
+        let productList = cart[1] || []
         return (
             <div>
                 {!productList || productList.length === 0 ? 'Nothing in Cart' :
@@ -26,19 +22,27 @@ class Cart extends React.Component {
                         <div key={product.id}>
                             <h1>{product.name}</h1>
                             <img src={product.imageUrl} />
-                            <p>{product.price}</p>
+                            <p>${product.price}</p>
+                            <p>Quantity: {cart[6]}</p>
                             <p>{product.description}</p>
+                            <div>
+                                <button>Remove</button>
+                            </div>
                         </div>
                     )
                 })}
-            <button>Check Out</button>
+            <div> 
+                <button> Clear Cart </button> 
+            </div>
+            <div>
+                <button>Check Out</button>
+            </div>
             </div>
         )
     }
 }
 
 const mapStateToProps = (state) => {
-    console.log('state', state)
     return {
         cart: state.storageReducer
     }

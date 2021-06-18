@@ -31,24 +31,11 @@ export const addToCartThunk = (infoObj, history) => {
     }
   }
 
-//thunks
 export const fetchCart = (userId) => {
     return async (dispatch) => {
         try {
             const { data } = await axios.get(`/api/orders/${userId}`)
-            console.log('--->', data)
             dispatch(getCart(data))
-        } catch (err) {
-            console.error(err)
-        }
-    }
-}
-
-export const addProductThunk = (id) => {
-    return async (dispatch) => {
-        try {
-            const { data } = await axios.post(`/api/orders/${id}`)
-            dispatch(addToCart(data))
         } catch (err) {
             console.error(err)
         }
@@ -58,7 +45,7 @@ export const addProductThunk = (id) => {
 export const deleteProductThunk = () => {
     return async (dispatch) => {
         try {
-            const { data } = await axios.delete(``)
+            const { data } = await axios.delete(`/:userId/:orderId`)
             dispatch(deleteFromCart(data))
         } catch (err) {
             console.error(err)
