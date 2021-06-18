@@ -1,4 +1,5 @@
-# FS-App-Template
+# Good Morels
+Link to project tiers: https://github.com/FullstackAcademy/2104-GHP-NY-WEB-FT/blob/main/03-senior-phase/01-grace-shopper/gs-tiers.md 
 
 ## Setup
 
