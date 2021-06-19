@@ -5,17 +5,18 @@ import { Link, Route } from "react-router-dom"
 import SingleProduct from './SingleProduct'
 
 class AllProducts extends React.Component {
-   constructor(){
+  constructor() {
     super()
-    this.addToCart = this.addToCart.bind(this)
-}
-componentDidMount() {
-try {
-this.props.getProds()
-} catch(err) {
-    console.log(err)
-}
-}
+    this.addToCart = this.addToCart.bind(this);
+  }
+
+  componentDidMount() {
+    try {
+      this.props.getProds();
+    } catch(err) {
+      console.log(err);
+    }
+  }
 
 addToCart() {
 console.log('hello!')
@@ -25,7 +26,6 @@ render() {
     const products = this.props.products || []
     return (
         <div>
-        <h1>All Products View</h1>
         <p id="currentAvail">currently available at Good Morels:</p>
         <div id="productParent">
             {products.map((product)=> {
@@ -46,7 +46,7 @@ render() {
 }
 
 const mapStateToProps = (state) => {
-    return { 
+    return {
         products: state.allProducts
     }
 }

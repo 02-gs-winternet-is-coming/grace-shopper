@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchSingleProduct,
   clearSingleProduct } from "../store/singleProduct";
+import { deleteProduct } from "../store/allproducts"
 
 // SCAFFOLDING
 class SingleProduct extends Component {
@@ -22,6 +23,7 @@ class SingleProduct extends Component {
     console.log('hello there!')
   }
   render() {
+    console.log('PROPS ON RENDER', this.props)
     const product = this.props.product || [];
     const { isAdmin } = this.props;
     return (
@@ -33,11 +35,24 @@ class SingleProduct extends Component {
             <p id="singleMushroomName">{product.name}</p>
             <p>{product.description}hi some placefiller, this mushroom is delicious. It is great to eat and will not poison you. I think, but I'm no expert</p>
             <p>{product.price}/lb</p>
-          <button id="singleMushroomAddCartButton" onClick={this.addToCart}>add to cart</button>
-          {isAdmin &&
-            <button id="singleMushroomEdit">edit product</button>}
-          {isAdmin &&
-            <button id="singleMushroomDelete">delete from inventory</button>}
+          <div className="singleMushroomButton">
+            <button className="singleMushroomButton" onClick={this.addToCart}>add to cart</button>
+            {isAdmin &&
+              <button
+              className="singleMushroomButton"
+              >edit</button>}
+            {isAdmin &&
+              <button
+              className="singleMushroomButton"
+              onClick={
+                () => {
+                  if (window.confirm('Are you sure you wish to delete this item?')) {
+                  this.props.delete(product.id);
+                  }
+                }
+              }
+              >remove</button>}
+          </div>
           </div>
         </div>
       </div>
@@ -52,11 +67,12 @@ const mapState = (state) => {
   };
 };
 
-const mapDispatch = (dispatch) => {
-  return {
+const mapDispatch = (dispatch, { history }) => ({
     fetch: (id) => dispatch(fetchSingleProduct(id)),
-    clear: () => dispatch(clearSingleProduct())
-  };
-};
+    clear: () => dispatch(clearSingleProduct()),
+    delete: (id) => {
+      dispatch(deleteProduct(id, history, localStorage.token || null));
+    }
+})
 
 export default connect(mapState, mapDispatch)(SingleProduct);
