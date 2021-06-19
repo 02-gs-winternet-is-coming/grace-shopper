@@ -61,7 +61,7 @@ export default function (state = [], action) {
       case DELETE_FROM_CART:
         return state.filter((product) => product.id !== action.product.id);
       case GET_CART:
-        return action.cart;
+        return action.cart
       default:
         return state;
     }

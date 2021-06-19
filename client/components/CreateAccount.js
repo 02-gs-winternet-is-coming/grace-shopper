@@ -109,11 +109,10 @@ class NewAccount extends React.Component {
 
 }
 
-const mapDispatch = (dispatch) => ({
-  createdAccount: (account) => dispatch(createNewAccount(account))
+const mapDispatch = (dispatch, { history } ) => ({
+  createdAccount: (account) => dispatch(createNewAccount(account, history))
 });
 
 export default connect(null, mapDispatch)(NewAccount)
 
-// this.props.history.push('/home')
 // <input type="password" style="-webkit-text-security: square;" />

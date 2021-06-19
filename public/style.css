@@ -11,8 +11,21 @@ body {
   margin: 1vw;
   text-align: center;
   justify-content: center;
-
 }
+
+#confirmParent {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 70px;
+  margin-bottom: 70px;
+  margin-left: 310px;
+  margin-right: 310px;
+  border: solid 0.6em;
+  border-color: #79AEA3;
+  padding: 4%;
+}
+
 
 #navBar {
   display: flex;
