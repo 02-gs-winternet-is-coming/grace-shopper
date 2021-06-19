@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { fetchSingleProduct,
   clearSingleProduct } from "../store/singleProduct";
 import { deleteProduct } from "../store/allproducts"
+import { addToCartThunk } from "../store/cart";
 
 // SCAFFOLDING
 class SingleProduct extends Component {
@@ -15,15 +16,10 @@ class SingleProduct extends Component {
     await this.props.fetch(this.props.match.params.id);
   }
 
-  async componentWillUnmount() {
-    await this.props.clear();
-  }
-
-  addToCart() {
-    console.log('hello there!')
+  async addToCart(event) {
+    await this.props.addToCarts([this.props.userId,this.props.product])
   }
   render() {
-    console.log('PROPS ON RENDER', this.props)
     const product = this.props.product || [];
     const { isAdmin } = this.props;
     return (
@@ -61,18 +57,20 @@ class SingleProduct extends Component {
 }
 
 const mapState = (state) => {
+  console.log(state)
   return {
     product: state.singleProduct,
-    isAdmin: !!state.auth.id && state.auth.isAdmin
+    isAdmin: !!state.auth.id && state.auth.isAdmin,
+    userId: state.auth.id
   };
 };
 
 const mapDispatch = (dispatch, { history }) => ({
     fetch: (id) => dispatch(fetchSingleProduct(id)),
     clear: () => dispatch(clearSingleProduct()),
-    delete: (id) => {
-      dispatch(deleteProduct(id, history, localStorage.token || null));
-    }
+    delete: (id) => {dispatch(deleteProduct(id, history, localStorage.token || null))},
+    addToCarts: (infoObject) => dispatch(addToCartThunk(infoObject,history))
+
 })
 
 export default connect(mapState, mapDispatch)(SingleProduct);
