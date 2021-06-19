@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const GET_PRODUCTS = 'GET_PRODUCTS'
 const ADD_PRODUCT = 'ADD_PRODUCT'
+const DELETE_PRODUCT = 'DELETE_PRODUCT'
 
 const getProducts = (products) => ({
   type: GET_PRODUCTS, products
@@ -9,6 +10,10 @@ const getProducts = (products) => ({
 
 const addProductAction = (product) => ({
   type: ADD_PRODUCT, product
+})
+
+const deleteProductAction = (id) => ({
+  type: DELETE_PRODUCT, id
 })
 
 export const addAProduct = (infoObj, history) => {
@@ -33,6 +38,21 @@ export const fetchProducts = () => {
   }
 }
 
+export const deleteProduct = (id, history, token) => {
+  return async (dispatch) => {
+    try {
+      console.log('TOKEN IN THUNK', token)
+      const {data} = await axios.delete(
+        `/api/products/${id}`,
+        {headers: { authorization: token }}
+      );
+      console.log('data: ', data)
+      if (data) dispatch(deleteProductAction(id));
+      history.push('/products');
+    } catch (err) {console.error(err)}
+  }
+}
+
 export const addProduct = (product) => {
   return async (dispatch) => {
     try {
@@ -49,6 +69,8 @@ export default function(state = [], action) {
         return action.products
       case ADD_PRODUCT:
         return [...state, action.product]
+      case DELETE_PRODUCT:
+        return state.filter((p) => p.id !== action.id)
       default:
         return state
     }
