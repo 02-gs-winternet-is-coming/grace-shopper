@@ -7,11 +7,12 @@ const createAccount = (username) => ({
   username
 })
 
-export const createNewAccount = (account) => {
+export const createNewAccount = (account, history) => {
   return async (dispatch) => {
     try {
       const { data } = await axios.post('/api/users', account);
       dispatch(createAccount(data))
+      history.push('/home')
     } catch(err) {
       console.error('SOS -- Error in your createNewAccount Thunk!', err)
     }

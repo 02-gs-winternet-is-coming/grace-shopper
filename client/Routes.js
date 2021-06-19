@@ -9,6 +9,7 @@ import AllProducts from './components/AllProducts'
 import SingleProduct from './components/SingleProduct'
 import Navbar from './components/Navbar';
 import CreateAccount from './components/CreateAccount';
+import Confirmation from './components/Confirmation';
 
 /**
  * COMPONENT
@@ -29,6 +30,8 @@ class Routes extends Component {
             <Route exact path="/cart/:userId" component={Cart} />
             <Route exact path="/createaccount" component={CreateAccount} />
             <Route exact path="/login" component={Login} />
+
+            <Route exact path="/confirm/:userId" component={Confirmation} />
             {/* <Redirect to="/home" /> */}
 
         {/* {isLoggedIn ? (
