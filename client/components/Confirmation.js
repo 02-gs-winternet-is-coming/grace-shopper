@@ -9,7 +9,6 @@ class Confirmation extends React.Component {
   }
 
   render() {
-    console.log('this is this.props', this.props)
 
     return(
       <div id="confirmParent" >
