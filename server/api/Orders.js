@@ -53,7 +53,6 @@ router.delete('/:userId/:productId', async (req, res, next) => {
             }
         })
         let product = await Product.findByPk(req.params.productId)
-        console.log(product, "product");
         await currentOrder.removeProduct(product)
         res.status(201).send(product)
     } catch(error) {
@@ -72,9 +71,8 @@ router.get('/:userId', async (req, res, next) => {
       },
       include: {
           model: Product,
-          attributes: ['name', 'imageUrl']
+          attributes: ['name', 'imageUrl', 'price', 'description']
     },
-
 })
     res.status(200).send(cart);
   } catch(err) {
