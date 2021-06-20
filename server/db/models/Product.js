@@ -34,10 +34,12 @@ const Product = db.define('product', {
     },
     imageUrl: {
         type: Sequelize.TEXT,
-        validate: {
-            isUrl: true,
-        },
         defaultValue: 'https://media.giphy.com/media/yZRoXvpZflasovKcmN/giphy.gif',
+        set(value) {
+            if (value == '' || value == ' ') {
+                this.setDataValue('imageUrl', 'https://media.giphy.com/media/yZRoXvpZflasovKcmN/giphy.gif')
+            }
+        }
     },
     category: {
         type: Sequelize.ARRAY(Sequelize.TEXT)

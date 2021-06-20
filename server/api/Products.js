@@ -38,7 +38,8 @@ router.get('/:productId', async (req, res, next) => {
       })
 
 router.post('/', requireToken, async (req, res, next) => {
-  if (req.user.isAdmin) {
+  console.log('made it to api post route!!!!!')
+  if (req.user && req.user.isAdmin) {
     try {
       const product = await Product.create(req.body);
       res.status(201).send(product);
