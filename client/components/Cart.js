@@ -10,6 +10,11 @@ class Cart extends React.Component {
         let id = Number(this.props.match.params.userId)
         await this.props.getCart(id)
     }
+    async componentDidUpdate(prevProps){
+        if (prevProps.userId !== this.props.userId) {
+            await this.props.getCart(this.props.userId);
+        }  
+    }
 
     render() {
         let cartProducts = this.props.cart.products || []
