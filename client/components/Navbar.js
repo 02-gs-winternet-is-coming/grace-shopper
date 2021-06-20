@@ -3,7 +3,17 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
 
-const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
+class Navbar extends React.Component {
+  constructor() {
+  super()
+
+  }
+
+render() {
+const isLoggedIn = this.props.isLoggedIn
+const isAdmin = this.props.isAdmin
+const handleClick = this.props.handleClick
+return(
   <div>
     <h1>Good Morels</h1>
     <nav className="navBar">
@@ -14,11 +24,13 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
             <a href="#" onClick={handleClick}>
               Logout
             </a>
+           <Link to={`cart/${this.props.userId}`}>your cart</Link> 
           </div>
         ) : (
         <div>
         <Link to="/login">login</Link>
         <Link to="/createaccount">create account</Link>
+        <Link to="/cart">cart</Link>
         </div>
         )}
       {
@@ -33,11 +45,12 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
             </div>
           </div>
       }
-      <Link to='/cart'>cart</Link>
     </nav>
     <hr />
   </div>
 )
+    }
+  }
 /**
  * CONTAINER
  */

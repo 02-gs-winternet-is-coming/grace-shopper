@@ -1,5 +1,4 @@
 const router = require('express').Router();
-
 const { 
     models: { Order, Product, User, Order_Product }, 
 } = require('../db/index')
@@ -46,14 +45,15 @@ router.post('/', async (req, res, next) => {
 
 
 //delete a product in cart
-router.delete('/:userId/:orderId', async (req, res, next) => {
+router.delete('/:userId/:productId', async (req, res, next) => {
     try {
         let currentOrder = await Order.findOne({
             where: {
                 userId: req.params.userId, status: 'open'
             }
         })
-        let product = await Product.findByPk(req.params.orderId)
+        let product = await Product.findByPk(req.params.productId)
+        console.log(product, "product");
         await currentOrder.removeProduct(product)
         res.status(201).send(product)
     } catch(error) {
@@ -62,25 +62,21 @@ router.delete('/:userId/:orderId', async (req, res, next) => {
 })
 
 
-// GET route for users current orders/:id
+// GET route for users current cart
 router.get('/:userId', async (req, res, next) => {
   try {
-    const usersCart = await Order.findOne({
+    const cart = await Order.findOne({
       where: {
         userId: req.params.userId,
         status: 'open'
       },
-      include: Product
-    })
-    const { id, products, tax, shippingMethod, paymentMethod, userId } = usersCart
-    const orderProduct = await Order_Product.findOne({
-        where: {
-            orderId: id,
-        }
-    })
-    const { quantity, productId } = orderProduct
-    const cartArray = [ id, products, tax, shippingMethod, paymentMethod, userId, quantity, productId ]
-    res.status(200).send(cartArray);
+      include: {
+          model: Product,
+          attributes: ['name', 'imageUrl']
+    },
+
+})
+    res.status(200).send(cart);
   } catch(err) {
     console.log('Error inside your get all orders for this user Route', err);
     next(err);
