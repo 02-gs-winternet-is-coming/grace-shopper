@@ -23,7 +23,6 @@ class Cart extends React.Component {
                             <h1>{product.name}</h1>
                             <img src={product.imageUrl} />
                             <p>${product.price}</p>
-                            <p>Quantity: {cart[6]}</p>
                             <p>{product.description}</p>
                             <div>
                                 <button onClick={(productId, productName, userId) => this.props.deleteProduct(productId, productName, userId)}>Remove</button>
