@@ -29,7 +29,7 @@ export const addToCartThunk = (infoObj, history) => {
         const {data} = await axios.post(`/api/orders/`, [userId, infoObj[1]])
         const product = data
         dispatch(addToCart(product))
-        history.push(`/cart`)
+        history.push(`/cart/${userId.id}`)
       } catch(error) {
         console.log(error)
       }
@@ -62,7 +62,7 @@ export const deleteProductThunk = () => {
 export default function (state = [], action) {
     switch (action.type) {
       case ADD_TO_CART:
-        return [...state, action.product];
+        return action.product;
       case DELETE_FROM_CART:
         return state.filter((product) => product.id !== action.product.id);
       case GET_CART:

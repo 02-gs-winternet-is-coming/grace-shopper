@@ -12,22 +12,18 @@ class Cart extends React.Component {
     }
 
     render() {
-        let cart = this.props.cart || []
-        let productList = cart[1] || []
+        let cartProducts = this.props.cart.products
+        console.log(cartProducts)
         return (
             <div>
-                {!productList || productList.length === 0 ? 'Nothing in Cart' :
-                productList.map(product => {
+                {!cartProducts || cartProducts.length === 0 ? 'Nothing in Cart' :
+                cartProducts.map(product => {
                     return (
-                        <div key={product.id}>
+                        <div key={product.orderProduct['productId']}>
                             <h1>{product.name}</h1>
                             <img src={product.imageUrl} />
-                            <p>${product.price}</p>
-                            <p>Quantity: {cart[6]}</p>
-                            <p>{product.description}</p>
-                            <div>
-                                <button>Remove</button>
-                            </div>
+                            <p>quantity: {product.orderProduct['quantity']}</p>
+                            <button>Remove</button>
                         </div>
                     )
                 })}
