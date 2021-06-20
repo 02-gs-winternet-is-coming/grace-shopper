@@ -21,6 +21,7 @@ class SingleProduct extends Component {
     await this.props.addToCarts([this.props.userId,this.props.product])
   }
   render() {
+
     const product = this.props.product || [];
     const { isAdmin } = this.props;
 
