@@ -1,20 +1,23 @@
 const router = require('express').Router();
-
 const { 
     models: { Order, Product, User, Order_Product }, 
 } = require('../db/index')
 
 //add a product to cart
-router.post('/:userId', async (req, res, next) => {
+
+
+router.post('/', async (req, res, next) => {
     try {
+        const userId = req.body[0]['id']
+        const product = req.body[1]
         //find open order based on userId
         let currentOrder = await Order.findOne({
             where: {
-                userId: req.params.userId, status: 'open'
+                userId: userId, status: 'open'
             }
         })
         //if user does not have an open order, create one for the user
-        let user = await User.findByPk(req.params.userId)
+        let user = await User.findByPk(userId)
         if (!currentOrder) {
             currentOrder = await Order.create()
             user.addOrders(currentOrder)
@@ -23,7 +26,7 @@ router.post('/:userId', async (req, res, next) => {
         let orderProduct = await Order_Product.findOne({
             where: {
                 orderId: currentOrder.id,
-                productId: req.body.id
+                productId: product.id
             }
         })
         if (orderProduct) {
@@ -31,10 +34,10 @@ router.post('/:userId', async (req, res, next) => {
            orderProduct.save()    
         }
         //add the product from incoming body to the current order of the user
-        let product = await Product.findByPk(req.body.id)
-        await currentOrder.addProducts(product)
+        let newProduct = await Product.findByPk(product.id)
+        await currentOrder.addProducts(newProduct)
         //send status code and the product you want to add to the cart
-        res.status(201).send(product)
+        res.status(201).send(newProduct)
     } catch (err) {
         next(err)
     }
@@ -59,25 +62,21 @@ router.delete('/:userId/:productId', async (req, res, next) => {
 })
 
 
-// GET route for users current orders/:id
+// GET route for users current cart
 router.get('/:userId', async (req, res, next) => {
   try {
-    const usersCart = await Order.findOne({
+    const cart = await Order.findOne({
       where: {
         userId: req.params.userId,
         status: 'open'
       },
-      include: Product
-    })
-    const { id, products, tax, shippingMethod, paymentMethod, userId } = usersCart
-    const orderProduct = await Order_Product.findOne({
-        where: {
-            orderId: id,
-        }
-    })
-    const { quantity, productId } = orderProduct
-    const cartArray = [ id, products, tax, shippingMethod, paymentMethod, userId, quantity, productId ]
-    res.status(200).send(cartArray);
+      include: {
+          model: Product,
+          attributes: ['name', 'imageUrl']
+    },
+
+})
+    res.status(200).send(cart);
   } catch(err) {
     console.log('Error inside your get all orders for this user Route', err);
     next(err);

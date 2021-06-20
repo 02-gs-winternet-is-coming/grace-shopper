@@ -38,7 +38,8 @@ router.get('/:productId', async (req, res, next) => {
       })
 
 router.post('/', requireToken, async (req, res, next) => {
-  if (req.user.isAdmin) {
+  console.log('made it to api post route!!!!!')
+  if (req.user && req.user.isAdmin) {
     try {
       const product = await Product.create(req.body);
       res.status(201).send(product);
@@ -59,7 +60,7 @@ router.get('/:productId', async (req, res, next) => {
 
 // Admin only
 router.put('/:productId', requireToken, async (req, res, next) => {
-  if (req.user.isAdmin) {
+  if (req.user && req.user.isAdmin) {
     try {
       let product = await Product.findOne({
         where: { id: req.params.productId }
@@ -71,8 +72,8 @@ router.put('/:productId', requireToken, async (req, res, next) => {
 })
 
 // Admin only
-router.delete('/:productId', async (req, res, next) => {
-  if (req.user.isAdmin) {
+router.delete('/:productId', requireToken, async (req, res, next) => {
+  if (req.user && req.user.isAdmin) {
     try {
       const product = await Product.findByPk(req.params.productId);
       await product.destroy();

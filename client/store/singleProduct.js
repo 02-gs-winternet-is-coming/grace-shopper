@@ -3,6 +3,7 @@ import axios from 'axios';
 //Action type
 const GET_SINGLE_PRODUCT = 'GET_SINGLE_PRODUCT'
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
+const CLEAR_PRODUCT = 'CLEAR_PRODUCT'
 
 //Action creator
 const getSingleProduct = (product) => ({
@@ -12,6 +13,10 @@ const getSingleProduct = (product) => ({
 
 const updateProductAction = (product) => ({
   type: UPDATE_PRODUCT, product
+})
+
+export const clearSingleProduct = () => ({
+  type: CLEAR_PRODUCT
 })
 
 //Thunks
@@ -25,12 +30,16 @@ export const fetchSingleProduct = (productId) => {
   }
 }
 
-export const updateProduct = (product) => {
+export const updateProduct = (product, history, token) => {
   return async (dispatch) => {
     try {
       const {data: updated} =
-        await axios.put(`/api/products/${product.id}`, product);
+        await axios.put(
+          `/api/products/${product.id}`, product,
+          { headers: { authorization: token }}
+        );
       dispatch(updateProductAction(updated));
+      history.push(`/products/${updated.id}`)
     } catch (error) {console.log(error)}
   }
 }
@@ -42,6 +51,8 @@ export default function (state = {}, action) {
       return action.product;
     case UPDATE_PRODUCT:
       return action.product;
+    case CLEAR_PRODUCT:
+      return {};
     default:
       return state;
   }

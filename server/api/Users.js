@@ -36,16 +36,17 @@ router.post('/', async (req, res, next) => {
   try {
     if (!req.body.isAdmin) {
       const newUser = await User.create(req.body);
-      res.status(201).send(newUser);
+      res.status(201).send(newUser.username);
     }
   } catch (err) {next(err)}
 })
 
 router.get('/', requireToken, async (req, res, next) => {
+  // console.log('req.user in router', req.user)
   try {
     if (req.user.isAdmin) {
-      const {data: users} = await User.findAll();
-      res.json(users);
+      const users = await User.findAll();
+      res.status(201).send(users);
     }
   } catch (err) {
     next(err);

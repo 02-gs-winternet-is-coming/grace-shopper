@@ -1,10 +1,12 @@
+// import { render } from 'enzyme'
 import React from 'react'
 import {connect} from 'react-redux'
-import {authenticate} from '../store'
+import { authenticate } from '../store/auth'
 
 /**
  * COMPONENT
  */
+
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props
 
@@ -40,6 +42,8 @@ const AuthForm = props => {
  *   can stay DRY with interfaces that are very similar to each other!
  */
 const mapLogin = state => {
+
+  console.log('state in login', state)
   return {
     name: 'login',
     displayName: 'Login',
@@ -55,14 +59,14 @@ const mapSignup = state => {
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch, { history }) => {
   return {
     handleSubmit(evt) {
       evt.preventDefault()
       const formName = evt.target.name
       const username = evt.target.username.value
       const password = evt.target.password.value
-      dispatch(authenticate(username, password, formName))
+      dispatch(authenticate(username, password, formName, history))
     }
   }
 }

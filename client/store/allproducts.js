@@ -1,19 +1,19 @@
 import axios from 'axios'
 
 const GET_PRODUCTS = 'GET_PRODUCTS'
-const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 const ADD_PRODUCT = 'ADD_PRODUCT'
+const DELETE_PRODUCT = 'DELETE_PRODUCT'
 
 const getProducts = (products) => ({
   type: GET_PRODUCTS, products
 })
 
-const updateProductAction = (product) => ({
-  type: UPDATE_PRODUCT, product
-})
-
 const addProductAction = (product) => ({
   type: ADD_PRODUCT, product
+})
+
+const deleteProductAction = (id) => ({
+  type: DELETE_PRODUCT, id
 })
 
 export const addAProduct = (infoObj, history) => {
@@ -38,22 +38,32 @@ export const fetchProducts = () => {
   }
 }
 
-export const updateProduct = (product) => {
+export const deleteProduct = (id, history, token) => {
   return async (dispatch) => {
     try {
-      const {data: updated} =
-        await axios.put(`/api/products/${product.id}`, product);
-      dispatch(updateProductAction(updated));
-    } catch (error) {console.log(error)}
+      const {data} = await axios.delete(
+        `/api/products/${id}`,
+        {headers: { authorization: token }}
+      );
+      if (data) dispatch(deleteProductAction(id));
+      history.push('/products');
+    } catch (err) {console.error(err)}
   }
 }
 
-export const addProduct = (product) => {
+export const addProduct = (product, history, token) => {
   return async (dispatch) => {
     try {
       const {data: newProduct} =
-        await axios.post('/api/products', product);
+        await axios.post(
+          '/api/products',
+          product,
+          {headers:
+            { authorization: token }
+          }
+        );
       dispatch(addProductAction(newProduct));
+      history.push('/products');
     } catch (error) {console.log(error)}
   }
 }
@@ -62,13 +72,10 @@ export default function(state = [], action) {
     switch (action.type) {
       case GET_PRODUCTS:
         return action.products
-      case UPDATE_PRODUCT:
-        return state.map((product) => {
-          return product.id == action.product.id
-            ? action.product : product;
-        })
       case ADD_PRODUCT:
         return [...state, action.product]
+      case DELETE_PRODUCT:
+        return state.filter((p) => p.id !== action.id)
       default:
         return state
     }

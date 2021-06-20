@@ -1,32 +1,36 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateProduct, addProduct } from '../store/allproducts';
+import { addProduct } from '../store/allproducts';
+import { updateProduct } from '../store/singleProduct';
 
-class EditProduct extends Component {
-  constructor() {
-    super();
-    this.state = {name: '', price: 0, description: '', quantity: 0, imageUrl: '', category: []};
+class ProductForm extends Component {
+  constructor(props) {
+    super(props);
+    console.log('PROPS', this.props)
+    this.state = {...this.props.singleProduct}
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+
+  handleSubmit(evt) {
+    evt.preventDefault();
+    this.props.add({...this.state})
   }
 
   handleChange(evt) {
     this.setState({[evt.target.name]: evt.target.value});
   }
 
-  handleSubmit(evt) {
-    evt.preventDefault();
-
-  }
-
   render () {
-
+    console.log('state in render: ', this.state)
     const { handleSubmit, handleChange } = this;
+
     const { name, price, quantity, imageUrl,
-      description, singleProduct} = this.props;
+      description } = this.state;
 
     return (
-      <div>
+      <div className="singleProductView">
         <form onSubmit={handleSubmit}>
         <div>
             <label htmlFor="name">Name: </label>
@@ -38,7 +42,7 @@ class EditProduct extends Component {
               />
           </div>
           <div>
-            <label htmlFor="price"> Price: </label>
+            <label htmlFor="price"> Price (per pound): </label>
               <input
               type="text"
               name="price"
@@ -73,10 +77,7 @@ class EditProduct extends Component {
               onChange={handleChange}
               />
           </div>
-          { !!singleProduct
-            ? <button type="edit"> Edit Product</button>
-            : <button type="submit"> Submit</button>
-          }
+          <button type="submit"> Submit</button>
         </form>
       </div>
     )
@@ -84,12 +85,32 @@ class EditProduct extends Component {
 }
 
 const mapState = (state) => ({
-  singleProduct: state.singleProduct
+  singleProduct: state.singleProduct,
 })
 
-const mapDispatch = (dispatch) => ({
-  addProduct: (product) => dispatch(addProduct(product)),
-  updateProduct: (product) => dispatch(updateProduct(product))
+const blankState = () => ({
+  singleProduct: {name: '', price: 0, description: '',
+  quantity: 0, imageUrl: '', category: []},
 })
 
-connect(mapState, mapDispatch)(EditProduct)
+const mapUpdate = (dispatch, { history }) => ({
+  add: (product) => dispatch(
+    updateProduct(product,
+      history,
+      localStorage.token
+    ))
+})
+
+const mapAdd = (dispatch, { history }) => ({
+  add: (product) => dispatch(
+    addProduct(product,
+    history,
+    localStorage.token
+  ))
+})
+
+const EditProduct = connect(mapState, mapUpdate)(ProductForm)
+
+const AddProduct = connect(blankState, mapAdd)(ProductForm)
+
+export { EditProduct, AddProduct }
