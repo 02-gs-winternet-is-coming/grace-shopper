@@ -22,9 +22,14 @@ const getCart = (cart) => ({
 export const addToCartThunk = (infoObj, history) => {
     return async(dispatch) => {
       try {
-        const {data} = await axios.post(`/api/orders/${infoObj.userId}`, infoObj.product)
+        console.log('info object in thunk',infoObj)
+        const userId = {
+          id: infoObj[0]
+        }
+        const {data} = await axios.post(`/api/orders/`, [userId, infoObj[1]])
         const product = data
         dispatch(addToCart(product))
+        history.push(`/cart`)
       } catch(error) {
         console.log(error)
       }
