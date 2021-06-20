@@ -45,14 +45,15 @@ router.post('/', async (req, res, next) => {
 
 
 //delete a product in cart
-router.delete('/:userId/:orderId', async (req, res, next) => {
+router.delete('/:userId/:productId', async (req, res, next) => {
     try {
         let currentOrder = await Order.findOne({
             where: {
                 userId: req.params.userId, status: 'open'
             }
         })
-        let product = await Product.findByPk(req.params.orderId)
+        let product = await Product.findByPk(req.params.productId)
+        console.log(product, "product");
         await currentOrder.removeProduct(product)
         res.status(201).send(product)
     } catch(error) {
