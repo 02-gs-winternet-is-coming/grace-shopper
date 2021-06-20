@@ -72,7 +72,7 @@ router.get('/:userId', async (req, res, next) => {
       },
       include: {
           model: Product,
-          attributes: ['name', 'imageUrl']
+          attributes: ['name', 'imageUrl', 'price']
     },
 
 })
