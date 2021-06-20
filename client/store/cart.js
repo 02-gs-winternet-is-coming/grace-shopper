@@ -22,7 +22,6 @@ const getCart = (cart) => ({
 export const addToCartThunk = (infoObj, history) => {
     return async(dispatch) => {
       try {
-        console.log('info object in thunk',infoObj)
         const userId = {
           id: infoObj[0]
         }
