@@ -12,8 +12,8 @@ class Cart extends React.Component {
     }
 
     render() {
-        let cartProducts = this.props.cart.products
-        console.log(cartProducts)
+        let cartProducts = this.props.cart.products || []
+        let userId = Number(this.props.match.params.userId)
         return (
             <div>
                 {!cartProducts || cartProducts.length === 0 ? 'Nothing in Cart' :
@@ -23,13 +23,11 @@ class Cart extends React.Component {
                             <h1>{product.name}</h1>
                             <img src={product.imageUrl} />
                             <p>${product.price}</p>
-                            <p>Quantity: {cart[6]}</p>
                             <p>{product.description}</p>
-                            <div>
-                                <button onClick={(productId, productName, userId) => this.props.deleteProduct(productId, productName, userId)}>Remove</button>
-                            </div>
                             <p>quantity: {product.orderProduct['quantity']}</p>
-                            <button>Remove</button>
+                            <div>
+                                <button onClick={() => this.props.deleteProduct(product.orderProduct['productId'], product.name, userId)}>Remove</button>
+                            </div>
                         </div>
                     )
                 })}
