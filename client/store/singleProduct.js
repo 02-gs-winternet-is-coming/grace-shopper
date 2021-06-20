@@ -30,12 +30,16 @@ export const fetchSingleProduct = (productId) => {
   }
 }
 
-export const updateProduct = (product) => {
+export const updateProduct = (product, history, token) => {
   return async (dispatch) => {
     try {
       const {data: updated} =
-        await axios.put(`/api/products/${product.id}`, product);
+        await axios.put(
+          `/api/products/${product.id}`, product,
+          { headers: { authorization: token }}
+        );
       dispatch(updateProductAction(updated));
+      history.push(`/products/${updated.id}`)
     } catch (error) {console.log(error)}
   }
 }

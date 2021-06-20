@@ -41,24 +41,29 @@ export const fetchProducts = () => {
 export const deleteProduct = (id, history, token) => {
   return async (dispatch) => {
     try {
-      console.log('TOKEN IN THUNK', token)
       const {data} = await axios.delete(
         `/api/products/${id}`,
         {headers: { authorization: token }}
       );
-      console.log('data: ', data)
       if (data) dispatch(deleteProductAction(id));
       history.push('/products');
     } catch (err) {console.error(err)}
   }
 }
 
-export const addProduct = (product) => {
+export const addProduct = (product, history, token) => {
   return async (dispatch) => {
     try {
       const {data: newProduct} =
-        await axios.post('/api/products', product);
+        await axios.post(
+          '/api/products',
+          product,
+          {headers:
+            { authorization: token }
+          }
+        );
       dispatch(addProductAction(newProduct));
+      history.push('/products');
     } catch (error) {console.log(error)}
   }
 }

@@ -45,15 +45,12 @@ render() {
 }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        products: state.allProducts
-    }
-}
+const mapStateToProps = (state) => ({
+  products: state.allProducts
+})
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        getProds: () => dispatch(fetchProducts())
-    }
-}
+const mapDispatchToProps = (dispatch) => ({
+  getProds: () => dispatch(fetchProducts())
+})
+
 export default connect(mapStateToProps, mapDispatchToProps)(AllProducts)

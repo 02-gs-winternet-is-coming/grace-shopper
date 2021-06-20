@@ -28,8 +28,8 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
               <i className="fa fa-caret-down"></i>
             </button>
             <div className="dropdown-content">
-              <Link to='/addProduct'>Add product</Link>
-              <Link to='/viewUsers'>View users</Link>
+              <Link to='/addproduct'>Add product</Link>
+              <Link to='/viewusers'>View users</Link>
             </div>
           </div>
       }
@@ -48,12 +48,10 @@ const mapState = state => {
   }
 }
 
-const mapDispatch = dispatch => {
-  return {
-    handleClick() {
-      dispatch(logout())
-    }
+const mapDispatch = dispatch => ({
+  handleClick() {
+    dispatch(logout())
   }
-}
+})
 
 export default connect(mapState, mapDispatch)(Navbar)

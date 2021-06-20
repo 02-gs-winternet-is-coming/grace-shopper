@@ -3,11 +3,12 @@ import { connect } from "react-redux";
 import { fetchSingleProduct,
   clearSingleProduct } from "../store/singleProduct";
 import { deleteProduct } from "../store/allproducts"
+import { EditProduct } from "./ProductForm"
 
-// SCAFFOLDING
 class SingleProduct extends Component {
   constructor(props) {
     super(props);
+    this.state = {showEdit: false};
     this.addToCart = this.addToCart.bind(this)
   }
 
@@ -23,11 +24,12 @@ class SingleProduct extends Component {
     console.log('hello there!')
   }
   render() {
-    console.log('PROPS ON RENDER', this.props)
+
     const product = this.props.product || [];
     const { isAdmin } = this.props;
+
     return (
-      <div>
+      <div className="singleProductContainer">
         <h3 id="singleMushroomHeader">{product.name} mushrooms</h3>
         <div className="singleProductView" key={product.id}>
           <img src={product.imageUrl} id="singleProductViewImage" />
@@ -40,6 +42,7 @@ class SingleProduct extends Component {
             {isAdmin &&
               <button
               className="singleMushroomButton"
+              onClick={() => {this.setState({showEdit: !this.state.showEdit})}}
               >edit</button>}
             {isAdmin &&
               <button
@@ -55,6 +58,16 @@ class SingleProduct extends Component {
           </div>
           </div>
         </div>
+        {this.state.showEdit &&
+          <div className="singleProductEdit">
+            <a
+            onClick={() => {this.setState({showEdit: false})}}
+            className="remove-form"
+            >
+              &#10006;
+            </a>
+            <EditProduct />
+          </div> }
       </div>
     );
   }
