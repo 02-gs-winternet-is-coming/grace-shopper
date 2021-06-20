@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { fetchCart } from '../store/cart'
+import { fetchCart, deleteProductThunk } from '../store/cart'
 
 class Cart extends React.Component {
     constructor() {
@@ -26,7 +26,7 @@ class Cart extends React.Component {
                             <p>Quantity: {cart[6]}</p>
                             <p>{product.description}</p>
                             <div>
-                                <button>Remove</button>
+                                <button onClick={(productId, productName, userId) => this.props.deleteProduct(productId, productName, userId)}>Remove</button>
                             </div>
                         </div>
                     )
@@ -50,7 +50,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getCart: (id) => dispatch(fetchCart(id))
+        getCart: (id) => dispatch(fetchCart(id)),
+        deleteProduct: (productId, productName, userId) => dispatch(deleteProductThunk(productId, productName, userId))
     }
 }
 
