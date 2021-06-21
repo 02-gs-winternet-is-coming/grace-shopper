@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { authenticate } from './auth'
 
 const CREATE_NEW_ACCOUNT = 'CREATE_NEW_ACCOUNT'
 
@@ -12,7 +13,7 @@ export const createNewAccount = (account, history) => {
     try {
       const { data } = await axios.post('/api/users', account);
       dispatch(createAccount(data))
-      history.push('/home')
+      dispatch(authenticate(account.username, account.password, 'Login', history))
     } catch(err) {
       console.error('SOS -- Error in your createNewAccount Thunk!', err)
     }

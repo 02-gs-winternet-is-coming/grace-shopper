@@ -13,6 +13,7 @@ import Confirmation from './components/Confirmation';
 import { AddProduct } from './components/ProductForm';
 import ViewUsers from './components/ViewUsers';
 import Checkout from './components/Checkout';
+import { isAdmin } from './store/auth';
 
 /**
  * COMPONENT
@@ -24,10 +25,13 @@ class Routes extends Component {
   }
 
   render() {
-    // const {isLoggedIn} = this.props
+    console.log('ISADMIN...', isAdmin())
     return (
       <div>
         <Navbar />
+            <Route exact path="/">
+              <Redirect to="/home" />
+            </Route>
             <Route path="/home" component={Home} />
             <Route exact path="/cart/:userId" component={Cart} />
             <Route exact path="/products/:id" component={SingleProduct} />
@@ -37,15 +41,16 @@ class Routes extends Component {
             <Route exact path="/createaccount" component={CreateAccount} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/confirm/:userId" component={Confirmation} />
-            <Route exact path="/viewusers" render={(props) => (
-                this.props.isAdmin ?
+            {/* <Route exact path="/viewusers" render={(props) => (
+                isAdmin() ?
                 <ViewUsers {...props} />
                 : <Redirect to="/"/>
                 )}
-            />
+            /> */}
+            <Route exact path="/viewusers" component={ViewUsers} />
             <Route exact path="/addproduct"
               render={(props) => (
-                this.props.isAdmin ?
+                isAdmin() ?
                 <AddProduct {...props} />
                 : <Redirect to="/products"/>
                 )}
