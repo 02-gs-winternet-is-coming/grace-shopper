@@ -29,6 +29,7 @@ class Routes extends Component {
       <div>
         <Navbar />
             <Route path="/home" component={Home} />
+            <Route exact path="/cart/:userId" component={Cart} />
             <Route exact path="/products/:id" component={SingleProduct} />
             <Route exact path="/products" component={AllProducts} />
             <Route exact path="/cart/checkout/:userId" component={Checkout} />
