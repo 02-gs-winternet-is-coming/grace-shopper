@@ -17,11 +17,13 @@ class Cart extends React.Component {
     }
     render() {
         let cartProducts = this.props.cart.products || []
+        console.log('cartproducts', cartProducts)
         let userId = Number(this.props.match.params.userId)
         const total = cartProducts.reduce((accum, product) => {
             let subTotal = product.orderProduct['quantity'] * product.price
             return accum + subTotal
         }, 0)
+        
         return (
             <div>
                 {!cartProducts || cartProducts.length === 0 ? 'Nothing in Cart' :
@@ -29,10 +31,10 @@ class Cart extends React.Component {
                     return (
                         <div key={product.orderProduct['productId']}>
                             <img src={product.imageUrl} /> 
-                            {/* <h1>{product.name} <button onClick={() => this.props.deleteProduct(product.orderProduct['productId'], product.name, userId)}>Remove</button> </h1> */}
+                            <h1>{product.name} <button onClick={() => this.props.deleteProduct(product.orderProduct['productId'], product.name, userId)}>Remove</button> </h1>
                             <p>${product.price}</p>
                             <p>{product.description}</p>
-                            <p>quantity: {product.orderProduct['quantity']} <button>-</button> <button onClick={() => this.props.updateCart(userId, product.orderProduct['productId'])}>+</button> </p> 
+                            <p>quantity: {product.orderProduct['quantity']} <button>-</button> <button>+</button> </p> 
                         </div>
                     )
                 })}
@@ -49,11 +51,10 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, { history }) => {
     return {
         getCart: (id) => dispatch(fetchCart(id)),
-        // updateCart: (userId, productId) => dispatch(updateCartThunk(userId, productId)),
-        deleteProduct: (productId, productName, userId) => dispatch(deleteProductThunk(productId, productName, userId))
+        deleteProduct: (productId, productName, userId) => dispatch(deleteProductThunk(productId, productName, userId, history))
     }
 }
 
