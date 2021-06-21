@@ -26,10 +26,11 @@ export const addToCartThunk = (infoObj, history) => {
         const userId = {
           id: infoObj[0]
         }
+        console.log(infoObj)
         const { data } = await axios.post(`/api/orders/`, [userId, infoObj[1]])
         const product = data
         dispatch(addToCart(product))
-        history.push(`/cart/${userId.id}`)
+       history.push(`/cart/${userId.id}`)
       } catch(error) {
         console.log(error)
       }
@@ -51,7 +52,6 @@ export const deleteProductThunk = (productId, productName, userId, history) => {
     return async (dispatch) => {
         try {
             const { data } = await axios.delete(`/api/orders/${userId}/${productId}`)
-            console.log('userId =>', userId)
             dispatch(deleteFromCart(data))
             history.push(`/cart/${userId}`)
         } catch (err) {
@@ -64,8 +64,15 @@ export const deleteProductThunk = (productId, productName, userId, history) => {
 export default function (state = [], action) {
     switch (action.type) {
       case ADD_TO_CART:
-        console.log(action.product)
-        return action.product;
+        const mapped = state.products.map(product => {
+          if (product.orderProduct.productId === action.product.id) {
+            product.orderProduct.quantity = product.orderProduct.quantity + 1
+            return product
+          } return product
+        })
+        const newNState = {...state}
+        newNState.products = mapped
+        return newNState
       case DELETE_FROM_CART: 
         const updatedCart = state.products.filter((product) => {
             return product.orderProduct.productId !== action.product.id

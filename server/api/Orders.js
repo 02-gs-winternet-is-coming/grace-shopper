@@ -8,7 +8,7 @@ const {
 
 router.post('/', async (req, res, next) => {
     try {
-        const userId = req.body[0]['id']
+        const userId = req.body[0].id
         const product = req.body[1]
         console.log('product', product)
         //find open order based on userId
