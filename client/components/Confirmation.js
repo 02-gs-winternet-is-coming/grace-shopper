@@ -6,6 +6,7 @@ import { fetchCart } from '../store/cart'
 class Confirmation extends React.Component {
   constructor(props) {
     super(props);
+
     this.getCart = this.props.getCart.bind(this);
   }
 
