@@ -19,10 +19,10 @@ const getCart = (cart) => ({
     type: GET_CART,
     cart
 })
-// const updateCart = (cart) => ({
-//     type: UPDATE_CART,
-//     cart,
-// })
+const updateCart = (cart) => ({
+    type: UPDATE_CART,
+    cart,
+})
 
 // export const updateCartThunk = (userId, productId) => {
 //     return async(dispatch) => {
