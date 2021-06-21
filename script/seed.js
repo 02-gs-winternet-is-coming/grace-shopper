@@ -217,5 +217,5 @@ const products = [
     quantity: 1,
   }
 ]
-const orderProducts = [{price: 2.99, quantity: 3, orderId: 1, productId: 1}]
+const orderProducts = [{price: 2.99, quantity: 3, orderId: 1, productId: 1}, {price: 2.99, quantity: 2, orderId: 1, productId: 2}]
 const orders = [{tax: 2.54, shipping: 5.00, shippingMethod: 'USPS', paymentMethod: 'Stripe', status: 'open', userId: 1}, {status: 'open', userId: 3}, {status: 'open', userId: 2}]

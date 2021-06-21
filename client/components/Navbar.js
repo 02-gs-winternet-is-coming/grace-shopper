@@ -24,9 +24,7 @@ return(
             <a href="#" onClick={handleClick}>
               logout
             </a>
-
            <Link to={`/cart/${this.props.userId}`}>your cart</Link> 
-
           </div>
         ) : (
         <div>
