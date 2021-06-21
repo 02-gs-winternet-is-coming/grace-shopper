@@ -4,6 +4,7 @@ import axios from 'axios'
 const ADD_TO_CART = 'ADD_TO_CART'
 const DELETE_FROM_CART = 'DELETE_FROM_CART'
 const GET_CART = 'GET_CART'
+const UPDATE_CART = 'UPDATE_CART'
 
 //action creators
 const addToCart = (product) => ({
@@ -18,6 +19,21 @@ const getCart = (cart) => ({
     type: GET_CART,
     cart
 })
+const updateCart = (cart) => ({
+    type: UPDATE_CART,
+    cart
+})
+
+export const updateCartThunk = (userId, productId) => {
+    return async(dispatch) => {
+        try {
+            const { data } = await axios.put(`/api/orders/:userId/:productId`)
+            dispatch(updateCart(data))
+        } catch(error) {
+            console.log(error)
+        }
+    }
+}
 
 export const addToCartThunk = (infoObj, history) => {
     return async(dispatch) => {
@@ -25,7 +41,7 @@ export const addToCartThunk = (infoObj, history) => {
         const userId = {
           id: infoObj[0]
         }
-        const {data} = await axios.post(`/api/orders/`, [userId, infoObj[1]])
+        const { data } = await axios.post(`/api/orders/`, [userId, infoObj[1]])
         const product = data
         dispatch(addToCart(product))
         history.push(`/cart/${userId.id}`)
@@ -50,9 +66,6 @@ export const deleteProductThunk = (productId, productName, userId) => {
     return async (dispatch) => {
         try {
             const { data } = await axios.delete(`/api/orders/${userId}/${productId}`)
-            console.log(productName)
-            console.log(productId)
-            console.log(userId)
             dispatch(deleteFromCart(data))
         } catch (err) {
             console.error(err)
@@ -69,6 +82,8 @@ export default function (state = [], action) {
         return state.products.filter((product) => product.id !== action.product.id);
       case GET_CART:
         return action.cart
+      case UPDATE_CART:
+          return action.cart
       default:
         return state;
     }

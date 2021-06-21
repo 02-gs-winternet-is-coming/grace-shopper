@@ -56,10 +56,35 @@ router.delete('/:userId/:productId', async (req, res, next) => {
         await currentOrder.removeProduct(product)
         res.status(201).send(product)
     } catch(error) {
-        console.log(error)
+        next(error)
     }
 })
 
+//increase quantity of product in cart
+router.put('/:userId/:productId', async (req, res, next) => {
+    try {
+        console.log('userId', req.params.userId)
+        let currentOrder = await Order.findOne({
+            where: {
+                userId: req.params.userId, status: 'open'
+            }
+        })
+        let orderProduct = await Order_Product.findOne({
+            where: {
+                orderId: currentOrder.id,
+                productId: req.params.productId
+            }
+        })
+        const result = await orderProduct.increment('quantity')
+        // if (orderProduct) {
+        //    orderProduct.quantity--
+        //    orderProduct.save()    
+        // }
+        res.status(201).send(result)
+    } catch (err) {
+        next(err)
+    }
+})
 
 // GET route for users current cart
 router.get('/:userId', async (req, res, next) => {
