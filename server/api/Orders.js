@@ -71,7 +71,9 @@ router.get('/:userId', async (req, res, next) => {
       },
       include: {
           model: Product,
+
           attributes: ['name', 'imageUrl', 'price', 'description']
+
     },
 })
     res.status(200).send(cart);
