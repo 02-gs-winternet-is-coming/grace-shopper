@@ -8,9 +8,7 @@ async function requireToken(req, res, next) {
     const userObj = await User.findByToken(token);
     req.user = userObj;
     next();
-  } catch (error) {
-    next(error);
-  }
+  } catch (err) {next(err)}
 }
 
 router.get('/:id', requireToken, async (req, res, next) => {
@@ -42,15 +40,12 @@ router.post('/', async (req, res, next) => {
 })
 
 router.get('/', requireToken, async (req, res, next) => {
-  // console.log('req.user in router', req.user)
   try {
     if (req.user.isAdmin) {
       const users = await User.findAll();
       res.status(201).send(users);
     }
-  } catch (err) {
-    next(err);
-  }
+  } catch (err) {next(err)}
 })
 
 router.put('/:id', requireToken, async (req, res, next) => {

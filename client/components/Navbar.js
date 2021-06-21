@@ -22,9 +22,9 @@ return(
       {isLoggedIn ? (
           <div>
             <a href="#" onClick={handleClick}>
-              Logout
+              logout
             </a>
-           <Link to={`cart/${this.props.userId}`}>your cart</Link> 
+           <Link to={`cart/${this.props.userId}`}>your cart</Link>
           </div>
         ) : (
         <div>

@@ -6,7 +6,6 @@ import { updateProduct } from '../store/singleProduct';
 class ProductForm extends Component {
   constructor(props) {
     super(props);
-    console.log('PROPS', this.props)
     this.state = {...this.props.singleProduct}
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,7 +22,6 @@ class ProductForm extends Component {
   }
 
   render () {
-    console.log('state in render: ', this.state)
     const { handleSubmit, handleChange } = this;
 
     const { name, price, quantity, imageUrl,
