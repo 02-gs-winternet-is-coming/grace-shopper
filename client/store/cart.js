@@ -4,7 +4,7 @@ import axios from 'axios'
 const ADD_TO_CART = 'ADD_TO_CART'
 const DELETE_FROM_CART = 'DELETE_FROM_CART'
 const GET_CART = 'GET_CART'
-// const UPDATE_CART = 'UPDATE_CART'
+
 
 //action creators
 const addToCart = (product) => ({
@@ -82,8 +82,6 @@ export default function (state = [], action) {
         return state.products.filter((product) => product.id !== action.product.id);
       case GET_CART:
         return action.cart
-      case UPDATE_CART:
-          return action.cart
       default:
         return state;
     }
