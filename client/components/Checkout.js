@@ -2,28 +2,42 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { fetchCart } from '../store/cart'
 
+const initialState = {
+  shippingMethod: '',
+  username: '',
+  orderStatus: 'open'
+}
 
 class Checkout extends React.Component {
   constructor(props) {
     super(props);
+    this.state = initialState;
 
-    this.state = {
-      shippingMethod: '',
-    };
-
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.chooseShipping = this.chooseShipping.bind(this);
   }
 
-  // async componentDidUpdate() {
-  //   await this.props.
-  // }
+  handleChange(evt) {
+    this.setState({
+      [evt.target.name]: evt.target.value
+    })
+  }
+
+  handleSubmit(evt) {
+    evt.preventDefault()
+    console.log('you have clicked Submit Order')
+    // update state to set order status to closed -- here or confirmation comp..?
+    this.props.history.push(`/confirm/${this.props.match.params.userId}`)
+  }
 
   chooseShipping(event) {
     event.preventDefault();
     console.log('you have clicked on a shipping option')
+    // update state here
   }
 
   render() {
+    console.log('this is props', this.props)
 
     return(
       <>
@@ -44,6 +58,7 @@ class Checkout extends React.Component {
               <button onClick={this.chooseShipping} > UPS Overnight </button>
               <button onClick={this.chooseShipping} > USPS </button>
         </div>
+            <button onClick={this.handleSubmit}> Submit Order </button>
       </>
     )
   }
