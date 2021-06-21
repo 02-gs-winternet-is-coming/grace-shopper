@@ -21,7 +21,8 @@ const Order = db.define('order', {
     }
   },
   shippingMethod: {
-    type: Sequelize.STRING,
+    type: Sequelize.ENUM,
+    values: ['UPS Ground', 'UPS Overnight', 'USPS'],
   },
   paymentMethod: {
     type: Sequelize.ENUM,
