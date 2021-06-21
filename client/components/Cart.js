@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { fetchCart, deleteProductThunk, updateCartThunk } from '../store/cart'
+import { fetchCart, deleteProductThunk, addToCartThunk } from '../store/cart'
 
 class Cart extends React.Component {
     constructor() {
@@ -34,7 +34,7 @@ class Cart extends React.Component {
                             <h1>{product.name} <button onClick={() => this.props.deleteProduct(product.orderProduct['productId'], product.name, userId)}>Remove</button> </h1>
                             <p>${product.price}</p>
                             <p>{product.description}</p>
-                            <p>quantity: {product.orderProduct['quantity']} <button>-</button> <button>+</button> </p> 
+                            <p>quantity: {product.orderProduct['quantity']} <button>-</button> <button onClick={() => this.props.updateCart([userId, product])}>+</button> </p> 
                         </div>
                     )
                 })}
@@ -54,7 +54,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, { history }) => {
     return {
         getCart: (id) => dispatch(fetchCart(id)),
-        deleteProduct: (productId, productName, userId) => dispatch(deleteProductThunk(productId, productName, userId, history))
+        deleteProduct: (productId, productName, userId) => dispatch(deleteProductThunk(productId, productName, userId, history)),
+        updateCart: (infoObj) => dispatch(addToCartThunk(infoObj, history))
     }
 }
 

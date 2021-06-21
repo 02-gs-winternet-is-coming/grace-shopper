@@ -79,6 +79,7 @@ export const deleteProductThunk = (productId, productName, userId, history) => {
 export default function (state = [], action) {
     switch (action.type) {
       case ADD_TO_CART:
+        console.log(action.product)
         return action.product;
       case DELETE_FROM_CART: 
         const updatedCart = state.products.filter((product) => {
