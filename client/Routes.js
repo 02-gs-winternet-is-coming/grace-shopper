@@ -32,11 +32,7 @@ class Routes extends Component {
             <Route exact path="/products/:id" component={SingleProduct} />
             <Route exact path="/products" component={AllProducts} />
             <Route exact path="/cart/checkout/:userId" component={Checkout} />
-<<<<<<< HEAD
             <Route exact path="/cart/:userId" component={Cart} />
-=======
-            {/* <Route exact path="/cart/:userId/:productId" component={Cart} /> */}
->>>>>>> eeca520eb8259124d567c3bb2982fe69e4b01c54
             <Route exact path="/cart" component={Cart} />
             <Route exact path="/createaccount" component={CreateAccount} />
             <Route exact path="/login" component={Login} />
