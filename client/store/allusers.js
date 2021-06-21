@@ -7,7 +7,7 @@ const setUsers = (users) => ({
   type: GET_ALL_USERS, users
 })
 
-export const clearAllUsers = () => ({
+const clearAllUsers = () => ({
   type: CLEAR_ALL_USERS
 })
 

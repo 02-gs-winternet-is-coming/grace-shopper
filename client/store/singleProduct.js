@@ -15,7 +15,7 @@ const updateProductAction = (product) => ({
   type: UPDATE_PRODUCT, product
 })
 
-export const clearSingleProduct = () => ({
+const clearSingleProduct = () => ({
   type: CLEAR_PRODUCT
 })
 

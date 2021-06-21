@@ -4,7 +4,7 @@ import axios from 'axios'
 const ADD_TO_CART = 'ADD_TO_CART'
 const DELETE_FROM_CART = 'DELETE_FROM_CART'
 const GET_CART = 'GET_CART'
-const UPDATE_CART = 'UPDATE_CART'
+
 
 //action creators
 const addToCart = (product) => ({
