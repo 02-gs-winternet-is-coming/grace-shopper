@@ -29,7 +29,7 @@ class Cart extends React.Component {
                     return (
                         <div key={product.orderProduct['productId']}>
                             <img src={product.imageUrl} /> 
-                            <h1>{product.name} <button onClick={() => this.props.deleteProduct(product.orderProduct['productId'], product.name, userId)}>Remove</button> </h1>
+                            {/* <h1>{product.name} <button onClick={() => this.props.deleteProduct(product.orderProduct['productId'], product.name, userId)}>Remove</button> </h1> */}
                             <p>${product.price}</p>
                             <p>{product.description}</p>
                             <p>quantity: {product.orderProduct['quantity']} <button>-</button> <button onClick={() => this.props.updateCart(userId, product.orderProduct['productId'])}>+</button> </p> 
@@ -52,7 +52,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getCart: (id) => dispatch(fetchCart(id)),
-        updateCart: (userId, productId) => dispatch(updateCartThunk(userId, productId)),
+        // updateCart: (userId, productId) => dispatch(updateCartThunk(userId, productId)),
         deleteProduct: (productId, productName, userId) => dispatch(deleteProductThunk(productId, productName, userId))
     }
 }

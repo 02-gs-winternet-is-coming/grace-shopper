@@ -4,7 +4,7 @@ import axios from 'axios'
 const ADD_TO_CART = 'ADD_TO_CART'
 const DELETE_FROM_CART = 'DELETE_FROM_CART'
 const GET_CART = 'GET_CART'
-const UPDATE_CART = 'UPDATE_CART'
+// const UPDATE_CART = 'UPDATE_CART'
 
 //action creators
 const addToCart = (product) => ({
@@ -19,21 +19,21 @@ const getCart = (cart) => ({
     type: GET_CART,
     cart
 })
-const updateCart = (cart) => ({
-    type: UPDATE_CART,
-    cart,
-})
+// const updateCart = (cart) => ({
+//     type: UPDATE_CART,
+//     cart,
+// })
 
-export const updateCartThunk = (userId, productId) => {
-    return async(dispatch) => {
-        try {
-            const { data } = await axios.put(`/api/orders/${userId}/${productId}`)
-            dispatch(updateCart(data))
-        } catch(error) {
-            console.log(error)
-        }
-    }
-}
+// export const updateCartThunk = (userId, productId) => {
+//     return async(dispatch) => {
+//         try {
+//             const { data } = await axios.put(`/api/orders/${userId}/${productId}`)
+//             dispatch(updateCart(data))
+//         } catch(error) {
+//             console.log(error)
+//         }
+//     }
+// }
 
 export const addToCartThunk = (infoObj, history) => {
     return async(dispatch) => {
