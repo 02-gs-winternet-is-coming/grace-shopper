@@ -32,7 +32,7 @@ class Cart extends React.Component {
                             <h1>{product.name} <button onClick={() => this.props.deleteProduct(product.orderProduct['productId'], product.name, userId)}>Remove</button> </h1>
                             <p>${product.price}</p>
                             <p>{product.description}</p>
-                            <p>quantity: {product.orderProduct['quantity']} <button>-</button> <button onClick={this.props.updateCart(userId, product.orderProduct['productId'])}>+</button> </p> 
+                            <p>quantity: {product.orderProduct['quantity']} <button>-</button> <button onClick={() => this.props.updateCart(userId, product.orderProduct['productId'])}>+</button> </p> 
                         </div>
                     )
                 })}
