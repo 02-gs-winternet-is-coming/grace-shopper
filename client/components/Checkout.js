@@ -45,7 +45,7 @@ class Checkout extends React.Component {
 
   render() {
     console.log('checkout props', this.props)
-    console.log('state', this.state)
+    console.log('storagereducer', this.state)
     const { handleSubmit, handleChange } = this;
 
     return(
