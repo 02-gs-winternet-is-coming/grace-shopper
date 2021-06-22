@@ -4,7 +4,7 @@ import axios from 'axios'
 const ADD_TO_CART = 'ADD_TO_CART'
 const DELETE_FROM_CART = 'DELETE_FROM_CART'
 const GET_CART = 'GET_CART'
-
+const DELETE_QUANTITY = 'DELETE_QUANTITY'
 
 //action creators
 const addToCart = (product) => ({
@@ -13,6 +13,10 @@ const addToCart = (product) => ({
 })
 const deleteFromCart = (product) => ({
     type: DELETE_FROM_CART,
+    product
+})
+const deleteQuantity = (product) => ({
+    type: DELETE_QUANTITY,
     product
 })
 const getCart = (cart) => ({
@@ -26,15 +30,38 @@ export const addToCartThunk = (infoObj, history) => {
         const userId = {
           id: infoObj[0]
         }
-        const { data } = await axios.post(`/api/orders/`, [userId, infoObj[1]])
+        const quantityType = {
+          type: infoObj[2]
+        }
+        const { data } = await axios.post(`/api/orders/`, [userId, infoObj[1], quantityType])
         const product = data
+        console.log('product in addToCartThunk', product.quantityType)
         dispatch(addToCart(product))
        history.push(`/cart/${userId.id}`)
       } catch(error) {
         console.log(error)
       }
     }
-  }
+}
+
+export const deleteQuantityThunk = (infoObj, history) => {
+    return async(dispatch) => {
+      try {
+        const userId = {
+          id: infoObj[0]
+        }
+        const quantityType = {
+          type: infoObj[2]
+        }
+        const { data } = await axios.post(`/api/orders/`, [userId, infoObj[1], quantityType])
+        const product = data
+        dispatch(deleteQuantity(product))
+       history.push(`/cart/${userId.id}`)
+      } catch(error) {
+        console.log(error)
+      }
+    }
+}
 
 export const fetchCart = (userId) => {
     return async (dispatch) => {
@@ -63,8 +90,6 @@ export const deleteProductThunk = (productId, productName, userId, history) => {
 export default function (state = [], action) {
     switch (action.type) {
       case ADD_TO_CART:
-        console.log('reducer state', state)
-        console.log('action in reducer', action)
         if(state.length !== 0) {
         const mapped = state.products.map(product => {
           if (product.orderProduct.productId === action.product.id) {
@@ -78,6 +103,20 @@ export default function (state = [], action) {
       } else {
         return action.product
       };
+      case DELETE_QUANTITY:
+        if(state.length !== 0) {
+          const mapped = state.products.map(product => {
+            if (product.orderProduct.productId === action.product.id) {
+              product.orderProduct.quantity = product.orderProduct.quantity - 1
+              return product
+            } return product
+          })
+          const newNState = {...state}
+          newNState.products = mapped
+          return newNState
+        } else {
+          return action.product
+        };
       case DELETE_FROM_CART: 
         const updatedCart = state.products.filter((product) => {
             return product.orderProduct.productId !== action.product.id
