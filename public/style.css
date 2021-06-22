@@ -19,7 +19,6 @@ body {
   width: 100%;
   height: 12vh;
   font-size: 1vh;
-
 }
 
 #productParent {
@@ -44,10 +43,26 @@ body {
   padding: 4%;
 }
 
-
-.navBar {
+#allProductsNav {
+  flex:1
+}
+#navigate {
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  order: 1;
+  margin-right: 2vw;
+}
+#containerNav {
+  display: flex;
+  width: 100%;
+  flex: 1;
+}
+
+#navBar {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 #currentAvail {
@@ -154,10 +169,10 @@ label {
   display: block;
 }
 
-nav a, #logged-in {
+/* nav a, #logged-in {
   display: inline-block;
   margin: 1em;
-}
+} */
 
 form div {
   margin: 1em;

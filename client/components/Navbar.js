@@ -16,20 +16,20 @@ const handleClick = this.props.handleClick
 return(
   <div>
     <h1>Good Morels</h1>
-    <nav className="navBar">
-      <Link to="/home">home</Link>
-      <Link to="/products">all products</Link>
+    <nav id="navBar">
       {isLoggedIn ? (
-          <div>
-            <a href="#" onClick={handleClick}>
-              logout
-            </a>
-           <Link to={`/cart/${this.props.userId}`}>your cart</Link> 
-          </div>
+        <div id="navigate">
+         <Link to="/home">home</Link>
+         <Link to="/products">all products</Link>
+         <Link to={`/cart/${this.props.userId}`} id="yourCart">your cart</Link> 
+         <Link to='/login' onClick={handleClick} id="logout">logout</Link>
+         </div>
         ) : (
-        <div>
-        <Link to="/login">login</Link>
+        <div id="navigate">
+        <Link to="/home">home</Link>
+        <Link to="/products">all products</Link>
         <Link to="/createaccount">create account</Link>
+        <Link to="/login">login</Link>
         <Link to="/cart">cart</Link>
         </div>
         )}
