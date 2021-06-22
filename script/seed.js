@@ -125,7 +125,7 @@ const users = [
     address: "3900 Woodland Ave",
     city: "Philadelphia",
     state: "PA",
-    zipCode: "19104",
+    zipCode: 19104,
   },
   {
     username: "ellatest@gmail.com",
@@ -134,7 +134,7 @@ const users = [
     address: "1400 John F Kennedy Blvd",
     city: "Philadelphia",
     state: "PA",
-    zipCode: "19107",
+    zipCode: 19107,
   },
   {
     username: "phoebe@me.com",
@@ -143,7 +143,7 @@ const users = [
     address: "1400 John F Kennedy Blvd",
     city: "Philadelphia",
     state: "PA",
-    zipCode: "19107",
+    zipCode: 19107,
   },
   {
     username: "sambucus@elder.flower",
@@ -152,7 +152,7 @@ const users = [
     address: "1 Elderberry Way",
     city: "Minneapolis",
     state: "MN",
-    zipCode: "55111",
+    zipCode: 55111,
   },
   {
     username: "mayaderen@meshes.afternoon",
@@ -161,8 +161,17 @@ const users = [
     address: "4444 Celluloid Way",
     city: "Anchorage",
     state: "AK",
-    zipCode: "99511",
+    zipCode: 99511,
   },
+  {
+    username: "victoriahj@me.com",
+    password: "vickie123",
+    isAdmin: true,
+    address: "1200 Redwood Ave",
+    city: "New York",
+    state: "NY",
+    zipcode: 10001
+  }
 ];
 
 const products = [

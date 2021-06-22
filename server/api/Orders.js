@@ -28,6 +28,7 @@ router.post('/', async (req, res, next) => {
     try {
         const userId = req.body[0].id
         const product = req.body[1]
+        const quantityType = req.body[2]
 
         //find open order based on userId
         let currentOrder = await Order.findOne({
@@ -41,17 +42,21 @@ router.post('/', async (req, res, next) => {
             currentOrder = await Order.create()
             user.addOrders(currentOrder)
         }
-        //if product is in the order, increment the quantity in the cart
+        //if product is in the order, increment/decrement the quantity in the cart
         let orderProduct = await Order_Product.findOne({
             where: {
                 orderId: currentOrder.id,
                 productId: product.id
             }
         })
-        if (orderProduct) {
+        if (orderProduct && quantityType.type === 'increment') {
            orderProduct.quantity++
            orderProduct.save()
         }
+        else if (orderProduct && quantityType.type === 'decrement') {
+            orderProduct.quantity--
+            orderProduct.save()
+         }
         //add the product from incoming body to the current order of the user
         let newProduct = await Product.findByPk(product.id)
         await currentOrder.addProducts(newProduct)
@@ -94,29 +99,4 @@ router.delete('/:userId/:productId', async (req, res, next) => {
     }
 })
 
-
 module.exports = router;
-
-
-// //increase quantity of product in cart
-// router.put('/:userId/:productId', async (req, res, next) => {
-//     try {
-//         const cart = await Order.findOne({
-//             where: {
-//               userId: req.params.userId,
-//               status: 'open'
-//             },
-//             include: {
-//                 model: Product,
-//                 attributes: ['name', 'imageUrl', 'price', 'description']
-//             },
-//         })
-//         let product = await Order_Product.findByPk(req.params.productId)
-//         console.log('req.body ==>', req.body)
-//         let updatedProduct = await product.increment('quantity')
-//         let updatedCart = await cart.update(updatedProduct)
-//         res.status(201).send(updatedCart)
-//     } catch (err) {
-//         next(err)
-//     }
-// })
