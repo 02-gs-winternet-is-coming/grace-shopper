@@ -6,6 +6,7 @@ const DELETE_FROM_CART = 'DELETE_FROM_CART'
 const GET_CART = 'GET_CART'
 
 
+
 //action creators
 const addToCart = (product) => ({
     type: ADD_TO_CART,
@@ -59,12 +60,12 @@ export const deleteProductThunk = (productId, productName, userId, history) => {
     }
 }
 
+
+
 //reducer
 export default function (state = [], action) {
     switch (action.type) {
       case ADD_TO_CART:
-        console.log('reducer state', state)
-        console.log('action in reducer', action)
         if(state.length !== 0) {
         const mapped = state.products.map(product => {
           if (product.orderProduct.productId === action.product.id) {
