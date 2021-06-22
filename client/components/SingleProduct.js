@@ -5,11 +5,20 @@ import { deleteProduct } from "../store/allproducts"
 import { EditProduct } from "./ProductForm"
 import { addToCartThunk } from "../store/cart";
 
+import {addToGuestCart } from "../store/guestcart"
+import { isAdmin } from "../store/auth"
+
+
 class SingleProduct extends Component {
   constructor(props) {
     super(props);
-    this.state = {showEdit: false};
+
+    this.state = {
+    showEdit: false,
+    cart: [],
+    }
     this.addToCart = this.addToCart.bind(this)
+
   }
 
   async componentDidMount() {
@@ -17,13 +26,16 @@ class SingleProduct extends Component {
   }
 
   async addToCart() {
+    if(this.props.isLoggedIn) {
     await this.props.addToCarts([this.props.userId,this.props.product])
+    } else {
+    await this.props.guestCart(this.props.product)
+}
   }
-  render() {
 
+    render() {
     const product = this.props.product || [];
     const { isAdmin } = this.props;
-
     return (
       <div className="singleProductContainer">
         <h3 id="singleMushroomHeader">{product.name} mushrooms</h3>
@@ -71,6 +83,7 @@ class SingleProduct extends Component {
 
 const mapState = (state) => {
   return {
+    isLoggedIn: !!state.auth.id,
     product: state.singleProduct,
     isAdmin: !!state.auth.id && state.auth.isAdmin,
     userId: state.auth.id
@@ -80,7 +93,8 @@ const mapState = (state) => {
 const mapDispatch = (dispatch, { history }) => ({
     fetch: (id) => dispatch(fetchSingleProduct(id)),
     delete: (id) => {dispatch(deleteProduct(id, history, localStorage.token || null))},
-    addToCarts: (infoObject) => dispatch(addToCartThunk(infoObject,history))
+    addToCarts: (infoObject) => dispatch(addToCartThunk(infoObject,history)),
+    guestCart: (product) => dispatch(addToGuestCart(product))
 
 })
 

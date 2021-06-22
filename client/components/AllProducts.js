@@ -4,6 +4,7 @@ import { connect }from 'react-redux'
 import {fetchProducts} from '../store/allproducts'
 import { Link, Route } from "react-router-dom"
 import { addToCartThunk } from "../store/cart";
+import {addToGuestCart } from "../store/guestcart"
 
 class AllProducts extends React.Component {
   constructor() {
@@ -21,7 +22,11 @@ class AllProducts extends React.Component {
 
 async addToCart(event) {
   const {data} = await axios.get(`/api/products/${event.target.id}`)
+  if(this.props.isLoggedIn) {
   await this.props.addToCarts([this.props.userId, data])
+} else {
+  await this.props.guestCart(data)
+}
 }
 
 render() {
@@ -47,14 +52,17 @@ render() {
 }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => { 
+  return {
   products: state.allProducts,
-  userId: state.auth.id
-})
+  userId: state.auth.id,
+  isLoggedIn: !!state.auth.id,
+}}
 
 const mapDispatchToProps = (dispatch, {history}) => ({
   getProds: () => dispatch(fetchProducts()),
-  addToCarts: (infoObject) => dispatch(addToCartThunk(infoObject,history))
+  addToCarts: (infoObject) => dispatch(addToCartThunk(infoObject,history)),
+  guestCart: (product) => dispatch(addToGuestCart(product))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllProducts)
