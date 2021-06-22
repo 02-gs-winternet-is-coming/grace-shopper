@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchSingleProduct,
-  clearSingleProduct } from "../store/singleProduct";
+import { fetchSingleProduct } from "../store/singleProduct";
 import { deleteProduct } from "../store/allproducts"
 import { EditProduct } from "./ProductForm"
 import { addToCartThunk } from "../store/cart";

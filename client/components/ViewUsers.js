@@ -1,4 +1,4 @@
-import React, { Component, useReducer } from 'react';
+import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { fetchUsers, clearAllUsers } from '../store/allusers';
 
