@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, useReducer } from 'react';
 import {connect} from 'react-redux';
 import { fetchUsers, clearAllUsers } from '../store/allusers';
-import { isAdmin } from '../store/auth';
 
 class ViewUsers extends Component {
   constructor(props) {
@@ -16,37 +15,27 @@ class ViewUsers extends Component {
 
   render() {
     return (
-      <div>
-        {!isAdmin()
-        ? 'You are not authorized :('
-        : <table>
-            <thead>
-              <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Username</th>
-                <th scope="col">Address</th>
-              </tr>
-            </thead>
-            <tbody>
-            {this.props.users && this.props.users.length > 0 &&
-              this.props.users.map((user) =>
-              {return (
-                <tr key={user.id}>
-                  <th>{user.id}</th>
-                  <td>{user.username}</td>
-                  <td>
-                    {user.address},
-                    {user.city}
-                    {user.state}
-                    {user.zipCode}
-                  </td>
-                </tr>
-              )}
-            )}
-            </tbody>
-          </table>
-        }
-      </div>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Username</th>
+            <th scope="col">Address</th>
+          </tr>
+        </thead>
+        <tbody>
+        {this.props.users && this.props.users.length > 0 &&
+          this.props.users.map((user) =>
+          {return (
+            <tr key={user.id}>
+              <th>{user.id}</th>
+              <td>{user.username}</td>
+              <td>{user.address}, {user.city} {user.state} {user.zipCode}</td>
+            </tr>
+          )}
+        )}
+        </tbody>
+      </table>
     )
   }
 }

@@ -1,4 +1,4 @@
-import axios from 'axios'
+ import axios from 'axios'
 import history from '../history'
 
 const TOKEN = 'token'
@@ -28,25 +28,12 @@ export const me = () => async dispatch => {
   }
 }
 
-// Component authenticator
-export async function isAdmin() {
-  const token = window.localStorage.getItem(TOKEN)
-  if (token) {
-    const res = await axios.get('/auth/me', {
-      headers: {
-        authorization: token
-      }
-    })
-  return res.isAdmin === true;
-  }
-}
-
 export const authenticate = (username, password, method, history) => async dispatch => {
   try {
     const res = await axios.post(`/auth/${method}`, {username, password})
     window.localStorage.setItem(TOKEN, res.data.token)
     dispatch(me())
-    history.push('/home')
+    history.push('/products')
   } catch (authError) {
     return dispatch(setAuth({error: authError}))
   }
