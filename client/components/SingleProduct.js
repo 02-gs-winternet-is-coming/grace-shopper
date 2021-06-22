@@ -10,10 +10,8 @@ import {addToGuestCart } from "../store/guestcart"
 class SingleProduct extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
     showEdit: false,
-    cart: [],
     }
     this.addToCart = this.addToCart.bind(this)
 
@@ -21,22 +19,30 @@ class SingleProduct extends Component {
 
   async componentDidMount() {
     await this.props.fetch(this.props.match.params.id);
+
   }
 
   async addToCart() {
     if(this.props.isLoggedIn) {
-
     await this.props.addToCarts([this.props.userId,this.props.product])
     } else {
-
-    await this.props.guestCart(this.props.product)
-    console.log('state', this.state)
-    console.log('this.props', this.props)
-
-    localStorage.setItem('guestCart', JSON.stringify(guestCart))
+    await this.props.addToGuestCart(this.props.product) 
+    //get the item from local storage, append the new item onto it, send it bac;
+    let existingCart = JSON.parse(localStorage.getItem('guestCart'))
+    if(existingCart === null) existingCart = []
+    const currentProduct = this.props.product
+    for(let i =0; i<existingCart.length;i++) {
+      let cartItem = existingCart[i]
+      if(currentProduct.id === cartItem.id) {
+        cartItem = currentProduct
+        return cartItem
+      } return cartItem
+    }
+    existingCart.push(currentProduct)
+    console.log('existing cart', existingCart)
+    localStorage.setItem('guestCart', JSON.stringify(existingCart))
 }
   }
-
     render() {
     const product = this.props.product || [];
     const { isAdmin } = this.props;
@@ -90,7 +96,8 @@ const mapState = (state) => {
     isLoggedIn: !!state.auth.id,
     product: state.singleProduct,
     isAdmin: !!state.auth.id && state.auth.isAdmin,
-    userId: state.auth.id
+    userId: state.auth.id,
+    guestCart: state.guestCart
   };
 };
 
@@ -98,7 +105,7 @@ const mapDispatch = (dispatch, { history }) => ({
     fetch: (id) => dispatch(fetchSingleProduct(id)),
     delete: (id) => {dispatch(deleteProduct(id, history, localStorage.token || null))},
     addToCarts: (infoObject) => dispatch(addToCartThunk(infoObject,history)),
-    guestCart: (product) => dispatch(addToGuestCart(product))
+    addToGuestCart: (product) => dispatch(addToGuestCart(product))
 
 })
 

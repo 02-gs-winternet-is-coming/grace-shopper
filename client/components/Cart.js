@@ -10,12 +10,17 @@ class Cart extends React.Component {
         super()
         this.incrementQuantity = this.incrementQuantity.bind(this)
         this.decrementQuantity = this.decrementQuantity.bind(this)
+        this.state = {
+            cart: []
+        }
     }
     async componentDidMount() {
         // const TOKEN = 'token';
         // const token = window.localStorage.getItem(TOKEN)
         let id = Number(this.props.match.params.userId)
         await this.props.getCart(id)
+        const guestCart = JSON.parse(localStorage.getItem('guestCart'))
+        this.setState({cart: guestCart})
     }
     async componentDidUpdate(prevProps){
         if (prevProps.userId !== this.props.userId) {
