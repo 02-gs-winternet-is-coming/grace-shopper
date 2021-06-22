@@ -4,7 +4,7 @@ import axios from 'axios'
 const ADD_TO_CART = 'ADD_TO_CART'
 const DELETE_FROM_CART = 'DELETE_FROM_CART'
 const GET_CART = 'GET_CART'
-
+const CONFIRM_CART = 'CONFIRM_CART'
 
 
 //action creators
@@ -21,6 +21,11 @@ const getCart = (cart) => ({
     cart
 })
 
+const confirmCart = (cart) => ({
+    type: CONFIRM_CART,
+    cart
+})
+
 export const addToCartThunk = (infoObj, history) => {
     return async(dispatch) => {
       try {
@@ -30,7 +35,7 @@ export const addToCartThunk = (infoObj, history) => {
         const { data } = await axios.post(`/api/orders/`, [userId, infoObj[1]])
         const product = data
         dispatch(addToCart(product))
-       history.push(`/cart/${userId.id}`)
+        history.push(`/cart/${userId.id}`)
       } catch(error) {
         console.log(error)
       }
@@ -40,12 +45,24 @@ export const addToCartThunk = (infoObj, history) => {
 export const fetchCart = (userId) => {
     return async (dispatch) => {
         try {
-            const { data } = await axios.get(`/api/orders/${userId}`)
-            dispatch(getCart(data))
+          const { data } = await axios.get(`/api/orders/${userId}`)
+          dispatch(getCart(data))
         } catch (err) {
             console.error(err)
         }
     }
+}
+
+export const confirmedCart = (userId, history) => {
+  return async (dispatch) => {
+    try {
+      const { data: updatedCart } = await axios.get(`/api/orders/${userId}`)
+      dispatch(confirmCart(updatedCart))
+      history.push(`/confirm/${this.props.match.params.userId}`)
+    } catch (err) {
+      console.error(err)
+    }
+  }
 }
 
 export const deleteProductThunk = (productId, productName, userId, history) => {
@@ -79,7 +96,9 @@ export default function (state = [], action) {
       } else {
         return action.product
       };
-      case DELETE_FROM_CART: 
+      case CONFIRM_CART:
+        return action.cart
+      case DELETE_FROM_CART:
         const updatedCart = state.products.filter((product) => {
             return product.orderProduct.productId !== action.product.id
         });

@@ -1,21 +1,24 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchSingleProduct,
-  clearSingleProduct } from "../store/singleProduct";
+import { fetchSingleProduct } from "../store/singleProduct";
 import { deleteProduct } from "../store/allproducts"
 import { EditProduct } from "./ProductForm"
 import { addToCartThunk } from "../store/cart";
+
 import {addToGuestCart } from "../store/guestcart"
 import { isAdmin } from "../store/auth"
+
 
 class SingleProduct extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
     showEdit: false,
     cart: [],
     }
-    this.addToCart = this.addToCart.bind(this);
+    this.addToCart = this.addToCart.bind(this)
+
   }
 
   async componentDidMount() {
@@ -29,8 +32,10 @@ class SingleProduct extends Component {
     await this.props.guestCart(this.props.product)
 }
   }
+
     render() {
     const product = this.props.product || [];
+    const { isAdmin } = this.props;
     return (
       <div className="singleProductContainer">
         <h3 id="singleMushroomHeader">{product.name} mushrooms</h3>
@@ -42,12 +47,12 @@ class SingleProduct extends Component {
             <p>{product.price}/lb</p>
           <div className="singleMushroomButton">
             <button className="singleMushroomButton" onClick={this.addToCart}>add to cart</button>
-            {isAdmin() &&
+            {isAdmin &&
               <button
               className="singleMushroomButton"
               onClick={() => {this.setState({showEdit: !this.state.showEdit})}}
               >edit</button>}
-            {isAdmin() &&
+            {isAdmin &&
               <button
               className="singleMushroomButton"
               onClick={
@@ -80,13 +85,13 @@ const mapState = (state) => {
   return {
     isLoggedIn: !!state.auth.id,
     product: state.singleProduct,
-    userId: state.auth.id,
+    isAdmin: !!state.auth.id && state.auth.isAdmin,
+    userId: state.auth.id
   };
 };
 
 const mapDispatch = (dispatch, { history }) => ({
     fetch: (id) => dispatch(fetchSingleProduct(id)),
-    clear: () => dispatch(clearSingleProduct()),
     delete: (id) => {dispatch(deleteProduct(id, history, localStorage.token || null))},
     addToCarts: (infoObject) => dispatch(addToCartThunk(infoObject,history)),
     guestCart: (product) => dispatch(addToGuestCart(product))

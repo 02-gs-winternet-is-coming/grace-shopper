@@ -2,11 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { fetchCart } from '../store/cart'
 
-
 class Confirmation extends React.Component {
   constructor(props) {
     super(props);
-
+    this.state = {
+      orderStatus: 'closed'
+    }
     this.getCart = this.props.getCart.bind(this);
   }
 
@@ -15,7 +16,8 @@ class Confirmation extends React.Component {
   }
 
   render() {
-    console.log('this is this.props', this.props)
+    console.log('confirmation props', this.props.cart)
+    console.log('confirmation state:', this.state)
     const cart = this.props.cart || [];
 
     return(
@@ -30,7 +32,7 @@ class Confirmation extends React.Component {
           <p >Confirmation will be sent to: [email address -- order.userId.username]</p>
 
           <h4>Order Summary:</h4>
-            <p>Order Total: [$0.00]</p>
+            <p>Order Total: [place holder]</p>
             <p>Shipping Method: {cart.shippingMethod}</p>
             <p>Payment: {cart.paymentMethod}</p>
         </div>

@@ -1,16 +1,34 @@
 const router = require('express').Router();
-const { 
-    models: { Order, Product, User, Order_Product }, 
+const {
+    models: { Order, Product, User, Order_Product },
 } = require('../db/index')
 
+// GET route for users current cart
+router.get('/:userId', async (req, res, next) => {
+    try {
+      const cart = await Order.findOne({
+        where: {
+          userId: req.params.userId,
+          status: 'open'
+        },
+        include: {
+          model: Product,
+          attributes: ['name', 'imageUrl', 'price', 'description']
+      }
+  })
+      res.status(200).send(cart);
+    } catch(err) {
+      console.log('Error inside your get all orders for this user Route', err);
+      next(err);
+    }
+  })
+
 //add a product to cart
-
-
 router.post('/', async (req, res, next) => {
     try {
         const userId = req.body[0].id
         const product = req.body[1]
-        
+
         //find open order based on userId
         let currentOrder = await Order.findOne({
             where: {
@@ -32,7 +50,7 @@ router.post('/', async (req, res, next) => {
         })
         if (orderProduct) {
            orderProduct.quantity++
-           orderProduct.save()    
+           orderProduct.save()
         }
         //add the product from incoming body to the current order of the user
         let newProduct = await Product.findByPk(product.id)
@@ -44,6 +62,21 @@ router.post('/', async (req, res, next) => {
     }
 })
 
+// update order -- paymentMethod/shippingMethod/
+router.put('/:userId', async (req, res, next) => {
+    try {
+        const order = await Order.findOne({
+            where: {
+                userId: req.params.userId,
+                status: 'open'
+            }
+        });
+        res.send(await order.update(req.body)).status(204);
+    } catch(err) {
+        console.log('error in your update order API ROUTE: ', err);
+        next(err);
+    }
+})
 
 //delete a product in cart
 router.delete('/:userId/:productId', async (req, res, next) => {
@@ -60,6 +93,10 @@ router.delete('/:userId/:productId', async (req, res, next) => {
         next(error)
     }
 })
+
+
+module.exports = router;
+
 
 // //increase quantity of product in cart
 // router.put('/:userId/:productId', async (req, res, next) => {
@@ -83,29 +120,3 @@ router.delete('/:userId/:productId', async (req, res, next) => {
 //         next(err)
 //     }
 // })
-
-// GET route for users current cart
-router.get('/:userId', async (req, res, next) => {
-  try {
-    const cart = await Order.findOne({
-      where: {
-        userId: req.params.userId,
-        status: 'open'
-      },
-      include: {
-          model: Product,
-
-          attributes: ['name', 'imageUrl', 'price', 'description']
-
-    },
-})
-    res.status(200).send(cart);
-  } catch(err) {
-    console.log('Error inside your get all orders for this user Route', err);
-    next(err);
-  }
-})
-
-
-module.exports = router;
-
