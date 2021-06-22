@@ -8,9 +8,10 @@ import singleProduct from './singleProduct'
 import storageReducer from './cart'
 import createAccount from './createAccount'
 import allUsers from './allusers'
+import guestCart from './guestcart'
 
 const reducer = combineReducers({
-  auth, allProducts, singleProduct, storageReducer, createAccount, allUsers
+  auth, allProducts, singleProduct, storageReducer, createAccount, allUsers, guestCart
 })
 
 const middleware = composeWithDevTools(
