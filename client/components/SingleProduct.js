@@ -79,7 +79,6 @@ const mapState = (state) => {
 
 const mapDispatch = (dispatch, { history }) => ({
     fetch: (id) => dispatch(fetchSingleProduct(id)),
-    clear: () => dispatch(clearSingleProduct()),
     delete: (id) => {dispatch(deleteProduct(id, history, localStorage.token || null))},
     addToCarts: (infoObject) => dispatch(addToCartThunk(infoObject,history))
 
