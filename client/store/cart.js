@@ -5,6 +5,7 @@ const ADD_TO_CART = 'ADD_TO_CART'
 const DELETE_FROM_CART = 'DELETE_FROM_CART'
 const GET_CART = 'GET_CART'
 const DELETE_QUANTITY = 'DELETE_QUANTITY'
+// const CLEAR_CART = 'CLEAR_CART'
 
 //action creators
 const addToCart = (product) => ({
@@ -23,6 +24,24 @@ const getCart = (cart) => ({
     type: GET_CART,
     cart
 })
+// const clearCart = (cart) => ({
+//     type: CLEAR_CART,
+//     cart
+// })
+
+// export const clearCartThunk = (userId, history) => {
+//   return async(dispatch) => {
+//     try {
+//       console.log('userId =>', userId)
+//       const { data } = await axios.delete(`/api/orders/${userId}`)
+//       console.log('data', data)
+//       dispatch(clearCart(data))
+//       history.push(`/cart/${userId}`)
+//     } catch(error) {
+//       console.log(error)
+//     }
+//   }
+// }
 
 export const addToCartThunk = (infoObj, history) => {
     return async(dispatch) => {
@@ -35,7 +54,6 @@ export const addToCartThunk = (infoObj, history) => {
         }
         const { data } = await axios.post(`/api/orders/`, [userId, infoObj[1], quantityType])
         const product = data
-        console.log('product in addToCartThunk', product.quantityType)
         dispatch(addToCart(product))
        history.push(`/cart/${userId.id}`)
       } catch(error) {

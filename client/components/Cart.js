@@ -2,7 +2,6 @@ import axios from 'axios'
 import React from 'react'
 import { connect } from 'react-redux'
 import { fetchCart, deleteProductThunk, addToCartThunk, deleteQuantityThunk } from '../store/cart'
-import { fetchSingleProduct } from '../store/singleProduct'
 
 class Cart extends React.Component {
     constructor() {
@@ -18,7 +17,6 @@ class Cart extends React.Component {
         if (prevProps.userId !== this.props.userId) {
             await this.props.getCart(this.props.userId);
         }  
-
     }
     async incrementQuantity(event) {
         const quantityType = event.target.value
@@ -55,7 +53,7 @@ class Cart extends React.Component {
                     )
                 })}
                 <p>total: ${Number(stringTotal)}</p>
-            <div><button> Clear Cart </button> <button>Check Out</button></div>
+            <div><button onClick={}> Clear Cart </button> <button>Check Out</button></div>
             </div>
         )
     }
@@ -73,7 +71,7 @@ const mapDispatchToProps = (dispatch, { history }) => {
         deleteProduct: (productId, productName, userId) => dispatch(deleteProductThunk(productId, productName, userId, history)),
         increment: (infoObj) => dispatch(addToCartThunk(infoObj, history)),
         decrement: (infoObj) => dispatch(deleteQuantityThunk(infoObj, history)),
-        fetch: (id) => dispatch(fetchSingleProduct)
+        // clear: (id) => dispatch(clearCartThunk(id))
     }
 }
 

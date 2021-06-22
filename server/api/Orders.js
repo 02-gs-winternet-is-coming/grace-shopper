@@ -65,27 +65,19 @@ router.delete('/:userId/:productId', async (req, res, next) => {
         next(error)
     }
 })
-
-// //increase quantity of product in cart
-// router.put('/:userId/:productId', async (req, res, next) => {
+//clear cart
+// router.delete('/:userId', async (req, res, next) => {
 //     try {
-//         const cart = await Order.findOne({
+//         let currentOrder = await Order.findOne({
 //             where: {
-//               userId: req.params.userId,
-//               status: 'open'
-//             },
-//             include: {
-//                 model: Product,
-//                 attributes: ['name', 'imageUrl', 'price', 'description']
-//             },
+//                 userId: req.params.userId, status: 'open'
+//             }
 //         })
-//         let product = await Order_Product.findByPk(req.params.productId)
-//         console.log('req.body ==>', req.body)
-//         let updatedProduct = await product.increment('quantity')
-//         let updatedCart = await cart.update(updatedProduct)
-//         res.status(201).send(updatedCart)
-//     } catch (err) {
-//         next(err)
+//         await currentOrder.destroy()
+//         res.status(21).send(currentOrder)
+//     }
+//     catch (error){
+//         next(error)
 //     }
 // })
 
