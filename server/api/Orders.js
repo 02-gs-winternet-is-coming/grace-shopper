@@ -53,7 +53,7 @@ router.post('/', async (req, res, next) => {
            orderProduct.quantity++
            orderProduct.save()
         }
-        else if (orderProduct && quantityType.type === 'decrement') {
+        else if (orderProduct && quantityType.type === 'decrement' && orderProduct.quantity >= 1) {
             orderProduct.quantity--
             orderProduct.save()
          }

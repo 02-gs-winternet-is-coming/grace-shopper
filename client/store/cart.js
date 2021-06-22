@@ -5,7 +5,7 @@ const ADD_TO_CART = 'ADD_TO_CART'
 const DELETE_FROM_CART = 'DELETE_FROM_CART'
 const GET_CART = 'GET_CART'
 const DELETE_QUANTITY = 'DELETE_QUANTITY'
-// const CLEAR_CART = 'CLEAR_CART'
+const CLEAR_CART = 'CLEAR_CART'
 const CONFIRM_CART = 'CONFIRM_CART'
 
 //action creators
@@ -145,7 +145,7 @@ export default function (state = [], action) {
       case DELETE_QUANTITY:
         if(state.length !== 0) {
           const mapped = state.products.map(product => {
-            if (product.orderProduct.productId === action.product.id) {
+            if (product.orderProduct.productId === action.product.id && product.orderProduct.quantity > 1) {
               product.orderProduct.quantity = product.orderProduct.quantity - 1
               return product
             } return product
