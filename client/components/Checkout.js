@@ -24,6 +24,20 @@ class Checkout extends React.Component {
   }
 
   async componentDidMount() {
+    if (this.props.cart
+      && this.props.cart.products
+      && this.props.cart.products.length > 0) {
+      let cartProducts = this.props.cart.products;
+      let newSubtotal = cartProducts.reduce((accum, product) => {
+        return accum + product.orderProduct['quantity'] * product.price
+      }, 0);
+
+      this.setState({
+        subtotalString: newSubtotal.toFixed(2),
+        taxString: (newSubtotal * .065).toFixed(2)
+      })
+    }
+
     await this.props.getCart(this.props.match.params.userId);
   }
 
@@ -80,7 +94,7 @@ class Checkout extends React.Component {
           <h4>Shipping Method:</h4>
           <form className="checkoutform">
             <label>
-              Shipping Method:
+              <span>Shipping Method:</span>
               <select name="shippingMethod" value={this.state.shippingValue} onChange={handleChange}>
                 <option value="UPS Ground">UPS Ground</option>
                 <option value="UPS Overnight">UPS Overnight</option>
@@ -90,7 +104,7 @@ class Checkout extends React.Component {
           </form>
           <form className="checkoutform">
             <label>
-              Payment:
+              <span>Payment:</span>
               <select name="paymentMethod" value={this.state.paymentValue} onChange={handleChange}>
                 <option value="Stripe">Stripe</option>
                 <option value="Bitcoin">Bitcoin</option>
