@@ -53,7 +53,7 @@ class Cart extends React.Component {
                     )
                 })}
                 <p>total: ${Number(stringTotal)}</p>
-            <div><button onClick={}> Clear Cart </button> <button>Check Out</button></div>
+            <div><button > Clear Cart </button> <button>Check Out</button></div>
             </div>
         )
     }
@@ -71,7 +71,6 @@ const mapDispatchToProps = (dispatch, { history }) => {
         deleteProduct: (productId, productName, userId) => dispatch(deleteProductThunk(productId, productName, userId, history)),
         increment: (infoObj) => dispatch(addToCartThunk(infoObj, history)),
         decrement: (infoObj) => dispatch(deleteQuantityThunk(infoObj, history)),
-        // clear: (id) => dispatch(clearCartThunk(id))
     }
 }
 
