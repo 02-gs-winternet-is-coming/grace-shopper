@@ -94,7 +94,9 @@ class Checkout extends React.Component {
           <h4>Shipping Method:</h4>
           <form className="checkoutform">
             <label>
+
               <span>Shipping Method:</span>
+
               <select name="shippingMethod" value={this.state.shippingValue} onChange={handleChange}>
                 <option value="UPS Ground">UPS Ground</option>
                 <option value="UPS Overnight">UPS Overnight</option>
@@ -102,6 +104,7 @@ class Checkout extends React.Component {
               </select>
             </label>
           </form>
+
           <form className="checkoutform">
             <label>
               <span>Payment:</span>

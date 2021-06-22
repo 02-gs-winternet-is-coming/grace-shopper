@@ -5,7 +5,7 @@ const ADD_TO_CART = 'ADD_TO_CART'
 const DELETE_FROM_CART = 'DELETE_FROM_CART'
 const GET_CART = 'GET_CART'
 const DELETE_QUANTITY = 'DELETE_QUANTITY'
-// const CLEAR_CART = 'CLEAR_CART'
+const CLEAR_CART = 'CLEAR_CART'
 const CONFIRM_CART = 'CONFIRM_CART'
 
 //action creators
@@ -98,12 +98,12 @@ export const fetchCart = (userId) => {
     }
 }
 
-export const confirmedCart = (userId, history) => {
+export const confirmedCart = (userId, options, history) => {
   return async (dispatch) => {
     try {
-      const { data: updatedCart } = await axios.get(`/api/orders/${userId}`)
-      dispatch(confirmCart(updatedCart))
-      history.push(`/confirm/${this.props.match.params.userId}`)
+      const { data } = await axios.put(`/api/orders/${userId}`, options)
+      dispatch(confirmCart(data))
+      history.push(`/confirm/${userId}`)
     } catch (err) {
       console.error(err)
     }
@@ -123,7 +123,6 @@ export const deleteProductThunk = (productId, productName, userId, history) => {
 }
 
 
-
 //reducer
 export default function (state = [], action) {
     switch (action.type) {
@@ -140,12 +139,15 @@ export default function (state = [], action) {
         return newNState
       } else {
         return action.product
+
+      }
+
       };
 
       case DELETE_QUANTITY:
         if(state.length !== 0) {
           const mapped = state.products.map(product => {
-            if (product.orderProduct.productId === action.product.id) {
+            if (product.orderProduct.productId === action.product.id && product.orderProduct.quantity > 1) {
               product.orderProduct.quantity = product.orderProduct.quantity - 1
               return product
             } return product
@@ -156,6 +158,7 @@ export default function (state = [], action) {
         } else {
           return action.product
         };
+
       case CONFIRM_CART:
         return action.cart
       case DELETE_FROM_CART:

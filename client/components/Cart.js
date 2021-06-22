@@ -1,9 +1,11 @@
 import axios from 'axios'
 import React from 'react'
 import { connect } from 'react-redux'
+
 import { fetchCart,deleteProductThunk,
     addToCartThunk, deleteQuantityThunk } from '../store/cart'
 import { Link } from 'react-router-dom'
+
 
 class Cart extends React.Component {
     constructor() {
@@ -12,6 +14,8 @@ class Cart extends React.Component {
         this.decrementQuantity = this.decrementQuantity.bind(this)
     }
     async componentDidMount() {
+        // const TOKEN = 'token';
+        // const token = window.localStorage.getItem(TOKEN)
         let id = Number(this.props.match.params.userId)
         await this.props.getCart(id)
     }
@@ -37,12 +41,14 @@ class Cart extends React.Component {
         const stringTotal = cartProducts.reduce((accum, product) => {
             let subTotal = product.orderProduct['quantity'] * product.price
             return accum + subTotal
-        }, 0).toFixed(2)
 
+        }, 0).toFixed(2)
+ 
         return (
             <div>
-                {cartProducts.length > 0 &&
-                cartProducts.map(product => {
+                { this.props.isLoggedIn ?
+                <div>
+                  {cartProducts.map(product => {
                     return (
                         <div key={product.orderProduct['productId']}>
                             <img src={product.imageUrl} />
@@ -51,17 +57,21 @@ class Cart extends React.Component {
                             <p>{product.description}</p>
                             <p>quantity: {product.orderProduct['quantity']} <button id={product.orderProduct['productId']} value={"decrement"} onClick={this.decrementQuantity}>-</button> <button id={product.orderProduct['productId']} value={"increment"} onClick={this.incrementQuantity}>+</button> </p>
                         </div>
-
                     )
                 })}
 
-                {this.props.guestCart.length > 1 && this.props.guestCart.map(product => {
+                <p>total: $ {Number(stringTotal)}</p>
+                <div><button> Clear Cart </button> <button>Check Out</button></div>
+                </div>
+         :  
+               <div> { this.props.guestCart.map(product => {
                        return(
                         <div key={product.id}>
                        <img src={product.imageUrl} />
                        <h1>{product.name}</h1>
                        <p>quantity: {product.quantity} <button>-</button> <button>+</button></p>
                        <p>{product.price}</p>
+
                        </div>)
                 })}
                <p>total: ${Number(stringTotal)}</p>
@@ -75,6 +85,7 @@ class Cart extends React.Component {
             </div>
 
             </div>
+
         )
     }
 }
@@ -82,7 +93,8 @@ class Cart extends React.Component {
 const mapStateToProps = (state) => {
     return {
         cart: state.storageReducer,
-        guestCart: state.guestCart
+        guestCart: state.guestCart,
+        isLoggedIn: !!state.auth.id,
     }
 }
 
