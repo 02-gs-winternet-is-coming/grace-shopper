@@ -31,7 +31,6 @@ class Cart extends React.Component {
 
     render() {
         let cartProducts = this.props.cart.products || []
-
         let userId = Number(this.props.match.params.userId)
         const stringTotal = cartProducts.reduce((accum, product) => {
             let subTotal = product.orderProduct['quantity'] * product.price
@@ -40,7 +39,7 @@ class Cart extends React.Component {
         
         return (
             <div>
-                {!cartProducts || cartProducts.length === 0 ? 'Nothing in Cart' :
+                {this.props.isLoggedIn && cartProducts.length > 0 &&
                 cartProducts.map(product => {
                     return (
                         <div key={product.orderProduct['productId']}>
@@ -50,10 +49,22 @@ class Cart extends React.Component {
                             <p>{product.description}</p>
                             <p>quantity: {product.orderProduct['quantity']} <button id={product.orderProduct['productId']} value={"decrement"} onClick={this.decrementQuantity}>-</button> <button id={product.orderProduct['productId']} value={"increment"} onClick={this.incrementQuantity}>+</button> </p> 
                         </div>
+
                     )
+                })
+
+                {this.props.guestCart.length > 1 && this.props.guestCart.map(product => {
+                       return(
+                        <div key={product.id}>
+                       <img src={product.imageUrl} /> 
+                       <h1>{product.name}</h1>
+                       <p>quantity: {product.quantity} <button>-</button> <button>+</button></p>
+                       <p>{product.price}</p>
+                       </div>)  
                 })}
-                <p>total: ${Number(stringTotal)}</p>
-            <div><button > Clear Cart </button> <button>Check Out</button></div>
+               <p>total: ${Number(stringTotal)}</p>
+            <div><button> Clear Cart </button> <button>Check Out</button></div>
+
             </div>
         )
     }
@@ -61,7 +72,8 @@ class Cart extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        cart: state.storageReducer
+        cart: state.storageReducer,
+        guestCart: state.guestCart
     }
 }
 
