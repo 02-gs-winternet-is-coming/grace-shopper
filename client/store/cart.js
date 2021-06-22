@@ -63,7 +63,9 @@ export const deleteProductThunk = (productId, productName, userId, history) => {
 export default function (state = [], action) {
     switch (action.type) {
       case ADD_TO_CART:
-        if(state !== []) {
+        console.log('reducer state', state)
+        console.log('action in reducer', action)
+        if(state.length !== 0) {
         const mapped = state.products.map(product => {
           if (product.orderProduct.productId === action.product.id) {
             product.orderProduct.quantity = product.orderProduct.quantity + 1
@@ -75,7 +77,7 @@ export default function (state = [], action) {
         return newNState
       } else {
         return action.product
-      }
+      };
       case DELETE_FROM_CART: 
         const updatedCart = state.products.filter((product) => {
             return product.orderProduct.productId !== action.product.id
