@@ -83,7 +83,6 @@ const mapDispatchToProps = (dispatch, { history }) => {
     return {
         getCart: (id) => dispatch(fetchCart(id)),
         deleteProduct: (productId, productName, userId) => dispatch(deleteProductThunk(productId, productName, userId, history)),
-        updateCart: (infoObj) => dispatch(addToCartThunk(infoObj, history)),
         increment: (infoObj) => dispatch(addToCartThunk(infoObj, history)),
         decrement: (infoObj) => dispatch(deleteQuantityThunk(infoObj, history)),
     }
