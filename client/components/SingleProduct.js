@@ -1,17 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchSingleProduct,
-  clearSingleProduct } from "../store/singleProduct";
+import { fetchSingleProduct } from "../store/singleProduct";
 import { deleteProduct } from "../store/allproducts"
 import { EditProduct } from "./ProductForm"
 import { addToCartThunk } from "../store/cart";
-import { isAdmin } from "../store/auth"
 
 class SingleProduct extends Component {
   constructor(props) {
     super(props);
     this.state = {showEdit: false};
-    this.addToCart = this.addToCart.bind(this);
+    this.addToCart = this.addToCart.bind(this)
   }
 
   async componentDidMount() {
@@ -21,10 +19,10 @@ class SingleProduct extends Component {
   async addToCart() {
     await this.props.addToCarts([this.props.userId,this.props.product])
   }
-
   render() {
 
     const product = this.props.product || [];
+    const { isAdmin } = this.props;
 
     return (
       <div className="singleProductContainer">
@@ -37,12 +35,12 @@ class SingleProduct extends Component {
             <p>{product.price}/lb</p>
           <div className="singleMushroomButton">
             <button className="singleMushroomButton" onClick={this.addToCart}>add to cart</button>
-            {isAdmin() &&
+            {isAdmin &&
               <button
               className="singleMushroomButton"
               onClick={() => {this.setState({showEdit: !this.state.showEdit})}}
               >edit</button>}
-            {isAdmin() &&
+            {isAdmin &&
               <button
               className="singleMushroomButton"
               onClick={
@@ -74,6 +72,7 @@ class SingleProduct extends Component {
 const mapState = (state) => {
   return {
     product: state.singleProduct,
+    isAdmin: !!state.auth.id && state.auth.isAdmin,
     userId: state.auth.id
   };
 };
