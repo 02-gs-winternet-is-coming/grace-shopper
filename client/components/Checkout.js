@@ -4,9 +4,13 @@ import { fetchCart, confirmedCart } from '../store/cart'
 
 const initialState = {
   shippingMethod: 'UPS Ground',
+  shipping: 6,
   paymentMethod: 'Stripe',
   username: '',
-  orderStatus: 'open'
+  orderStatus: 'open',
+  subtotalString: '',
+  taxString: '',
+  grandTotal: 0
 }
 
 class Checkout extends React.Component {
@@ -23,9 +27,37 @@ class Checkout extends React.Component {
     await this.props.getCart(this.props.match.params.userId);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+
+    const shippingLookup = {
+      "UPS Ground": 6,
+      "UPS Overnight": 25,
+      "USPS": 3.25
+    }
+
+    if (prevProps.cart.length !== this.props.cart.length) {
+      let cartProducts = this.props.cart.products || [];
+
+      let newSubtotal = cartProducts.reduce((accum, product) => {
+        return accum + product.orderProduct['quantity'] * product.price
+      }, 0);
+
+      this.setState({
+        subtotalString: newSubtotal.toFixed(2),
+        taxString: (newSubtotal * .065).toFixed(2)
+      });
+    }
+
+    if (prevState.shippingMethod !== this.state.shippingMethod) {
+      this.setState({
+        shipping: shippingLookup[this.state.shippingMethod]
+      })
+    }
+  }
+
   handleSubmit(evt) {
     evt.preventDefault();
-    this.props.placeOrder();
+    this.props.placeOrder(this.props.match.params.userId);
   }
 
   handleChange(evt) {
@@ -35,8 +67,6 @@ class Checkout extends React.Component {
   }
 
   render() {
-    console.log('checkout props', this.props)
-    console.log('storagereducer', this.state)
     const { handleSubmit, handleChange } = this;
 
     return(
@@ -48,20 +78,20 @@ class Checkout extends React.Component {
         <h2>Order Summary</h2>
         <div>
           <h4>Shipping Method:</h4>
-          <form>
+          <form className="checkoutform">
             <label>
               Shipping Method:
-              <select value={this.state.shippingValue} onChange={handleChange}>
+              <select name="shippingMethod" value={this.state.shippingValue} onChange={handleChange}>
                 <option value="UPS Ground">UPS Ground</option>
                 <option value="UPS Overnight">UPS Overnight</option>
                 <option value="USPS">US Postal Service</option>
               </select>
             </label>
           </form>
-          <form>
+          <form className="checkoutform">
             <label>
               Payment:
-              <select value={this.state.paymentValue} onChange={handleChange}>
+              <select name="paymentMethod" value={this.state.paymentValue} onChange={handleChange}>
                 <option value="Stripe">Stripe</option>
                 <option value="Bitcoin">Bitcoin</option>
                 <option value="Credit Card">Credit Card</option>
@@ -72,9 +102,18 @@ class Checkout extends React.Component {
           </form>
         </div>
         <div>
-          <p>place holder for subtotal: [$0.00]</p>
-          <p>place holder for tax cost: </p>
-          <p>place holder for order total cost: </p>
+          <p>Subtotal: ${this.state.subtotalString}</p>
+          <p>Tax: ${this.state.taxString}</p>
+          <p>Shipping: ${(this.state.shipping).toFixed(2)}</p>
+          <p>-––––––</p>
+          <p>
+            Order Total:
+              <span className="bold">
+                &nbsp;${Number(this.state.subtotalString) +
+                Number(this.state.taxString) +
+                this.state.shipping}
+              </span>
+          </p>
         </div>
         <button onClick={handleSubmit} >
           Submit Order
@@ -89,11 +128,14 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch, { history }) => ({
-  getCart: (id) => dispatch(fetchCart(id)),
-  placeOrder: (id) => dispatch(confirmedCart(id, history))
+  getCart: (id) => {dispatch(fetchCart(id))},
+  placeOrder: (id) => dispatch(confirmedCart(id, {
+    shippingMethod: this.state.shippingMethod,
+    paymentMethod: this.state.paymentMethod,
+    tax: Number(this.state.taxString),
+    shipping: this.state.shipping,
+    status: closed
+  }, history))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Checkout)
-
-
-// 
