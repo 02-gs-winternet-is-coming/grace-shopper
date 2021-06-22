@@ -28,7 +28,9 @@ class Routes extends Component {
     return (
       <div>
         <Navbar />
-            <Redirect from='/' to='/home' />
+            <Route exact path="/">
+              <Redirect to="/home" />
+            </Route>
             <Route path="/home" component={Home} />
             <Route exact path="/cart/:userId" component={Cart} />
             <Route exact path="/products/:id" component={SingleProduct} />
