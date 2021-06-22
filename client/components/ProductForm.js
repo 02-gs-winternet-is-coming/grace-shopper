@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addProduct } from '../store/allproducts';
 import { updateProduct } from '../store/singleProduct';
-import { isAdmin } from '../store/auth';
 
 class ProductForm extends Component {
   constructor(props) {
@@ -30,9 +29,8 @@ class ProductForm extends Component {
 
     return (
       <div className="singleProductView">
-      {!isAdmin() ? 'You are not authorized :(' :
         <form onSubmit={handleSubmit}>
-          <div>
+        <div>
             <label htmlFor="name">Name: </label>
               <input
               type="text"
@@ -79,7 +77,6 @@ class ProductForm extends Component {
           </div>
           <button type="submit"> Submit</button>
         </form>
-      }
       </div>
     )
   }

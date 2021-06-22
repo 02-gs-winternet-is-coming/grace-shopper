@@ -1,10 +1,13 @@
+import axios from 'axios'
 import React from 'react'
 import { connect } from 'react-redux'
 import { fetchCart, deleteProductThunk, addToCartThunk } from '../store/cart'
+import { fetchSingleProduct } from '../store/singleProduct'
 
 class Cart extends React.Component {
     constructor() {
         super()
+        this.incrementQuantity = this.incrementQuantity.bind(this)
     }
     async componentDidMount() {
         let id = Number(this.props.match.params.userId)
@@ -14,10 +17,16 @@ class Cart extends React.Component {
         if (prevProps.userId !== this.props.userId) {
             await this.props.getCart(this.props.userId);
         }  
+
     }
+    async incrementQuantity(event) {
+        const {data} = await axios.get(`/api/products/${event.target.id}`)
+        await this.props.updateCart([this.props.cart.userId ,data])
+    }
+
     render() {
         let cartProducts = this.props.cart.products || []
-        console.log('cartproducts', cartProducts)
+
         let userId = Number(this.props.match.params.userId)
         const total = cartProducts.reduce((accum, product) => {
             let subTotal = product.orderProduct['quantity'] * product.price
@@ -34,7 +43,7 @@ class Cart extends React.Component {
                             <h1>{product.name} <button onClick={() => this.props.deleteProduct(product.orderProduct['productId'], product.name, userId)}>Remove</button> </h1>
                             <p>${product.price}</p>
                             <p>{product.description}</p>
-                            <p>quantity: {product.orderProduct['quantity']} <button>-</button> <button onClick={() => this.props.updateCart([userId, product])}>+</button> </p> 
+                            <p>quantity: {product.orderProduct['quantity']} <button>-</button> <button id={product.orderProduct['productId']}onClick={this.incrementQuantity}>+</button> </p> 
                         </div>
                     )
                 })}
@@ -55,7 +64,8 @@ const mapDispatchToProps = (dispatch, { history }) => {
     return {
         getCart: (id) => dispatch(fetchCart(id)),
         deleteProduct: (productId, productName, userId) => dispatch(deleteProductThunk(productId, productName, userId, history)),
-        updateCart: (infoObj) => dispatch(addToCartThunk(infoObj, history))
+        updateCart: (infoObj) => dispatch(addToCartThunk(infoObj, history)),
+        fetch: (id) => dispatch(fetchSingleProduct)
     }
 }
 

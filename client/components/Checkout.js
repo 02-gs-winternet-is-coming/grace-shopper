@@ -17,7 +17,6 @@ class Checkout extends React.Component {
     this.getCart = this.props.getCart.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.orderTotal = this.orderTotal.bind(this);
   }
 
   async componentDidMount() {
@@ -35,14 +34,6 @@ class Checkout extends React.Component {
     })
   }
 
-  orderTotal() {
-    let order = this.props.cart.products;
-    console.log(typeof order)
-    if (order !== undefined) {
-      console.log('object keys', Object.keys(order), order)
-    }
-  }
-
   render() {
     console.log('checkout props', this.props)
     console.log('storagereducer', this.state)
@@ -58,7 +49,7 @@ class Checkout extends React.Component {
           <div>
             <p>place holder for subtotal: [$0.00]</p>
             <p>place holder for tax cost: </p>
-            <p>place holder for order total cost: {this.orderTotal()}</p>
+            <p>place holder for order total cost: </p>
           </div>
         <div>
            <h4>Shipping Method:</h4>
