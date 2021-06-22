@@ -4,9 +4,7 @@ import { fetchSingleProduct } from "../store/singleProduct";
 import { deleteProduct } from "../store/allproducts"
 import { EditProduct } from "./ProductForm"
 import { addToCartThunk } from "../store/cart";
-
 import {addToGuestCart } from "../store/guestcart"
-import { isAdmin } from "../store/auth"
 
 
 class SingleProduct extends Component {
@@ -27,9 +25,15 @@ class SingleProduct extends Component {
 
   async addToCart() {
     if(this.props.isLoggedIn) {
+
     await this.props.addToCarts([this.props.userId,this.props.product])
     } else {
+
     await this.props.guestCart(this.props.product)
+    console.log('state', this.state)
+    console.log('this.props', this.props)
+
+    localStorage.setItem('guestCart', JSON.stringify(guestCart))
 }
   }
 
