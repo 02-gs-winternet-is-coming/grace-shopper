@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const { 
-    models: { Order, Product, User, Order_Product }, 
+const {
+    models: { Order, Product, User, Order_Product },
 } = require('../db/index')
 
 //add a product to cart
@@ -32,7 +32,7 @@ router.post('/', async (req, res, next) => {
         })
         if (orderProduct) {
            orderProduct.quantity++
-           orderProduct.save()    
+           orderProduct.save()
         }
         //add the product from incoming body to the current order of the user
         let newProduct = await Product.findByPk(product.id)
@@ -93,11 +93,9 @@ router.get('/:userId', async (req, res, next) => {
         status: 'open'
       },
       include: {
-          model: Product,
-
-          attributes: ['name', 'imageUrl', 'price', 'description']
-
-    },
+        model: Product,
+        attributes: ['name', 'imageUrl', 'price', 'description']
+    }
 })
     res.status(200).send(cart);
   } catch(err) {

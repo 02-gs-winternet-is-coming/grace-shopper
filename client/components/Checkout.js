@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { fetchCart } from '../store/cart'
 
 const initialState = {
-  shippingMethod: '',
+  shippingMethod: 'select shipping method',
   username: '',
   orderStatus: 'open'
 }
@@ -13,31 +13,31 @@ class Checkout extends React.Component {
     super(props);
     this.state = initialState;
 
+
+    this.getCart = this.props.getCart.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.chooseShipping = this.chooseShipping.bind(this);
   }
 
-  handleChange(evt) {
-    this.setState({
-      [evt.target.name]: evt.target.value
-    })
+  async componentDidMount() {
+    await this.props.getCart(this.props.match.params.userId);
   }
 
   handleSubmit(evt) {
     evt.preventDefault()
-    console.log('you have clicked Submit Order')
-    // update state to set order status to closed -- here or confirmation comp..?
     this.props.history.push(`/confirm/${this.props.match.params.userId}`)
   }
 
-  chooseShipping(event) {
-    event.preventDefault();
-    console.log('you have clicked on a shipping option')
-    // update state here
+  handleChange(evt) {
+    this.setState({
+      shippingMethod: evt.target.name
+    })
   }
 
   render() {
-    console.log('this is props', this.props)
+    console.log('checkout props', this.props)
+    console.log('storagereducer', this.state)
+    const { handleSubmit, handleChange } = this;
 
     return(
       <>
@@ -48,17 +48,31 @@ class Checkout extends React.Component {
         <h2>Order Summary</h2>
           <div>
             <p>place holder for subtotal: [$0.00]</p>
-            <p>place holder for shipping cost: [$0.00]</p>
-            <p>place holder for tax cost: [$0.00]</p>
-            <p>place holder for order total cost: [$0.00]</p>
+            <p>place holder for tax cost: </p>
+            <p>place holder for order total cost: </p>
           </div>
         <div>
-           <h4> Shipping Method:</h4>
-              <button onClick={this.chooseShipping} > UPS Ground </button>
-              <button onClick={this.chooseShipping} > UPS Overnight </button>
-              <button onClick={this.chooseShipping} > USPS </button>
+           <h4>Shipping Method:</h4>
+              <p>{this.state.shippingMethod}</p>
+              <button
+                name='UPS Ground'
+                onClick={handleChange}
+                > UPS Ground
+              </button>
+              <button
+                value={this.state.shippingMethod}
+                name='UPS Overnight'
+                onClick={handleChange}
+                > UPS Overnight
+              </button>
+              <button
+                value={this.state.shippingMethod}
+                name='USPS Overnight'
+                onClick={handleChange}
+                > USPS
+              </button>
         </div>
-            <button onClick={this.handleSubmit}> Submit Order </button>
+            <button onClick={handleSubmit}> Submit Order </button>
       </>
     )
   }
