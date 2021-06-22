@@ -137,6 +137,15 @@ const users = [
     zipCode: "19107",
   },
   {
+    username: "phoebe@me.com",
+    password: "lola123",
+    isAdmin: true,
+    address: "1400 John F Kennedy Blvd",
+    city: "Philadelphia",
+    state: "PA",
+    zipCode: "19107",
+  },
+  {
     username: "sambucus@elder.flower",
     password: "48ghar48!!!",
     isAdmin: false,

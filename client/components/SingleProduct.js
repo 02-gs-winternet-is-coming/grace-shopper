@@ -18,7 +18,7 @@ class SingleProduct extends Component {
     await this.props.fetch(this.props.match.params.id);
   }
 
-  async addToCart(event) {
+  async addToCart() {
     await this.props.addToCarts([this.props.userId,this.props.product])
   }
 
@@ -72,7 +72,6 @@ class SingleProduct extends Component {
 }
 
 const mapState = (state) => {
-  console.log(state)
   return {
     product: state.singleProduct,
     userId: state.auth.id

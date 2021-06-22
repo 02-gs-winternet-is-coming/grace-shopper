@@ -1,8 +1,9 @@
 import React from 'react'
+import axios from 'axios'
 import { connect }from 'react-redux'
 import {fetchProducts} from '../store/allproducts'
 import { Link, Route } from "react-router-dom"
-import SingleProduct from './SingleProduct'
+import { addToCartThunk } from "../store/cart";
 
 class AllProducts extends React.Component {
   constructor() {
@@ -18,8 +19,9 @@ class AllProducts extends React.Component {
     }
   }
 
-addToCart() {
-console.log('hello!')
+async addToCart(event) {
+  const {data} = await axios.get(`/api/products/${event.target.id}`)
+  await this.props.addToCarts([this.props.userId, data])
 }
 
 render() {
@@ -36,7 +38,7 @@ render() {
                     <p>{product.description}</p>
                     <p>{product.price}</p>
                     </Link>
-                    <button onClick={this.addToCart}>add to cart</button>
+                    <button onClick={this.addToCart} id={product.id}>add to cart</button>
                     </div>)
             })}
             </div>
@@ -46,11 +48,13 @@ render() {
 }
 
 const mapStateToProps = (state) => ({
-  products: state.allProducts
+  products: state.allProducts,
+  userId: state.auth.id
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  getProds: () => dispatch(fetchProducts())
+const mapDispatchToProps = (dispatch, {history}) => ({
+  getProds: () => dispatch(fetchProducts()),
+  addToCarts: (infoObject) => dispatch(addToCartThunk(infoObject,history))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllProducts)
