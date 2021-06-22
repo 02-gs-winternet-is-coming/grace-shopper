@@ -25,7 +25,7 @@ class Checkout extends React.Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
-    this.props.placeOrder();
+    this.props.placeOrder(this.props.match.params.userId);
   }
 
   handleChange(evt) {
@@ -51,17 +51,17 @@ class Checkout extends React.Component {
           <form>
             <label>
               Shipping Method:
-              <select value={this.state.shippingValue} onChange={handleChange}>
+              <select name="shippingMethod" value={this.state.shippingValue} onChange={handleChange}>
                 <option value="UPS Ground">UPS Ground</option>
                 <option value="UPS Overnight">UPS Overnight</option>
                 <option value="USPS">US Postal Service</option>
               </select>
             </label>
           </form>
-          <form>
+          <form name="paymentMethod">
             <label>
               Payment:
-              <select value={this.state.paymentValue} onChange={handleChange}>
+              <select name="paymentMethod" value={this.state.paymentValue} onChange={handleChange}>
                 <option value="Stripe">Stripe</option>
                 <option value="Bitcoin">Bitcoin</option>
                 <option value="Credit Card">Credit Card</option>
@@ -94,6 +94,3 @@ const mapDispatchToProps = (dispatch, { history }) => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Checkout)
-
-
-// 
