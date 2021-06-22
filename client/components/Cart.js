@@ -1,7 +1,9 @@
 import axios from 'axios'
 import React from 'react'
 import { connect } from 'react-redux'
+
 import { fetchCart, deleteProductThunk, addToCartThunk, deleteQuantityThunk } from '../store/cart'
+
 
 class Cart extends React.Component {
     constructor() {
@@ -35,8 +37,8 @@ class Cart extends React.Component {
         const stringTotal = cartProducts.reduce((accum, product) => {
             let subTotal = product.orderProduct['quantity'] * product.price
             return accum + subTotal
+
         }, 0).toFixed(2)
-        
         return (
             <div>
                 {this.props.isLoggedIn && cartProducts.length > 0 &&
