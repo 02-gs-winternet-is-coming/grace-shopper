@@ -2,12 +2,12 @@ import axios from 'axios'
 import React from 'react'
 import { connect } from 'react-redux'
 import { fetchCart, deleteProductThunk, addToCartThunk } from '../store/cart'
-import { fetchSingleProduct } from '../store/singleProduct'
 
 class Cart extends React.Component {
     constructor() {
         super()
         this.incrementQuantity = this.incrementQuantity.bind(this)
+
     }
     async componentDidMount() {
         let id = Number(this.props.match.params.userId)
@@ -30,7 +30,6 @@ class Cart extends React.Component {
             let subTotal = product.orderProduct['quantity'] * product.price
             return accum + subTotal
         }, 0)
-
         return (
             <div>
                 {cartProducts.length > 0 &&
@@ -74,7 +73,6 @@ const mapDispatchToProps = (dispatch, { history }) => {
         getCart: (id) => dispatch(fetchCart(id)),
         deleteProduct: (productId, productName, userId) => dispatch(deleteProductThunk(productId, productName, userId, history)),
         updateCart: (infoObj) => dispatch(addToCartThunk(infoObj, history)),
-        fetch: (id) => dispatch(fetchSingleProduct)
     }
 }
 
