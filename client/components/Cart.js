@@ -86,11 +86,13 @@ class Cart extends React.Component {
                 })}
 
                 <p>total: $ {Number(stringTotal)}</p>
+
                 <Link to={`/cart/checkout/${userId}`}>
                     <button>
                         Check Out
                     </button></Link>
                 </div>
+
                 </div>
          :
                <div> { guests.map(product => {
