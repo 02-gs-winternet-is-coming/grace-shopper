@@ -98,12 +98,12 @@ export const fetchCart = (userId) => {
     }
 }
 
-export const confirmedCart = (userId, history) => {
+export const confirmedCart = (userId, options, history) => {
   return async (dispatch) => {
     try {
-      const { data: updatedCart } = await axios.get(`/api/orders/${userId}`)
-      dispatch(confirmCart(updatedCart))
-      history.push(`/confirm/${this.props.match.params.userId}`)
+      const { data } = await axios.put(`/api/orders/${userId}`, options)
+      dispatch(confirmCart(data))
+      history.push(`/confirm/${userId}`)
     } catch (err) {
       console.error(err)
     }
@@ -123,7 +123,6 @@ export const deleteProductThunk = (productId, productName, userId, history) => {
 }
 
 
-
 //reducer
 export default function (state = [], action) {
     switch (action.type) {
@@ -140,6 +139,9 @@ export default function (state = [], action) {
         return newNState
       } else {
         return action.product
+
+      }
+
       };
 
       case DELETE_QUANTITY:
@@ -156,6 +158,7 @@ export default function (state = [], action) {
         } else {
           return action.product
         };
+
       case CONFIRM_CART:
         return action.cart
       case DELETE_FROM_CART:

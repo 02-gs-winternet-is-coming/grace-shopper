@@ -67,7 +67,27 @@ router.post('/', async (req, res, next) => {
     }
 })
 
-// update order -- paymentMethod/shippingMethod/
+// add an order to the database, as guest user
+router.post('/guest/:id', async (req, res, next) => {
+    try {
+        /* suggest moving this logic to front end
+        if (!req.body.id) {
+            let guestUserId = []
+            while(guestUserId.length < 1){
+                let num = Math.floor(Math.random() * 100000) + 1;
+                guestUserId.push(num);
+                req.body.id = Number(guestUserId);
+            }
+        */
+        const guestOrder = await Order.create(req.body);
+        res.status(201).send(guestOrder)
+    } catch(err) {
+        console.log('error in your post new order API ROUTE: ', err);
+        next(err);
+    }
+})
+
+// update order as a logged in user
 router.put('/:userId', async (req, res, next) => {
     try {
         const order = await Order.findOne({
@@ -78,7 +98,6 @@ router.put('/:userId', async (req, res, next) => {
         });
         res.send(await order.update(req.body)).status(204);
     } catch(err) {
-        console.log('error in your update order API ROUTE: ', err);
         next(err);
     }
 })
