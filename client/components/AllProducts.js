@@ -23,7 +23,7 @@ class AllProducts extends React.Component {
 async addToCart(event) {
   const {data} = await axios.get(`/api/products/${event.target.id}`)
   if(this.props.isLoggedIn) {
-  await this.props.addToCarts([this.props.userId, data])
+  await this.props.addToCarts([this.props.userId, data, 'increment'])
 } else {
   await this.props.guestCart(data)
 }
@@ -52,7 +52,7 @@ render() {
 }
 }
 
-const mapStateToProps = (state) => { 
+const mapStateToProps = (state) => {
   return {
   products: state.allProducts,
   userId: state.auth.id,

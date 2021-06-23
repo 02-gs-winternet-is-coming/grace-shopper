@@ -25,6 +25,7 @@ router.get('/:userId', async (req, res, next) => {
 //add a product to cart
 router.post('/', async (req, res, next) => {
     try {
+        console.log('req.body', req.body)
         const userId = req.body[0].id
         const product = req.body[1]
         const quantityType = req.body[2]
