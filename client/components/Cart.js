@@ -2,10 +2,7 @@ import axios from 'axios'
 import React from 'react'
 import { connect } from 'react-redux'
 import { fetchCart, deleteProductThunk, addToCartThunk, deleteQuantityThunk } from '../store/cart'
-import history from '../history'
 import { Link } from 'react-router-dom'
-
-
 
 class Cart extends React.Component {
     constructor() {
@@ -29,8 +26,8 @@ class Cart extends React.Component {
         if (prevProps.userId !== this.props.userId) {
             await this.props.getCart(this.props.userId);
 
-        }
 
+        }
     }
     async incrementQuantity(event) {
         event.persist()
@@ -55,9 +52,8 @@ class Cart extends React.Component {
           }
       })
       }
-    //    localStorage.setItem('latestItem', JSON.stringify(currentProduct))
        localStorage.setItem('guestCart', JSON.stringify(existingCart))}
-       window.location.reload(true)
+       window.location.reload()
 }
     async decrementQuantity(event) {
         const quantityType = event.target.value
@@ -117,7 +113,6 @@ class Cart extends React.Component {
         )
     }
 }
-
 const mapStateToProps = (state) => {
     return {
         cart: state.storageReducer,
@@ -125,7 +120,6 @@ const mapStateToProps = (state) => {
         isLoggedIn: !!state.auth.id,
     }
 }
-
 const mapDispatchToProps = (dispatch, { history }) => {
     return {
         getCart: (id) => dispatch(fetchCart(id)),
