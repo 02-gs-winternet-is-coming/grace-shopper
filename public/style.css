@@ -68,6 +68,7 @@ body {
 #currentAvail {
   text-align: center;
   font-size: 2rem;
+
 }
 
 #shroomNames {
@@ -106,7 +107,7 @@ body {
 }
 
 .singleMushroomButton {
-  height: 5vh;
+  /* height: 5vh; */
   width: 10vw;
   min-width: 80px;
   min-height: 20px;
@@ -244,4 +245,18 @@ form {
 
 .checkoutform span {
   padding-right: 5px;
+}
+
+button {
+  background-color: white;
+  border: 2px solid grey;
+  transition-duration: 0.4s;
+  font-family: ff-avance-web-pro;
+  border-radius: 5px;
+  /* margin: 8% */
+}
+
+button:hover {
+  background-color: grey;
+  color: white;
 }
