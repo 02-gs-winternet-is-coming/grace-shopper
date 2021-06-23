@@ -1,6 +1,5 @@
 import axios from 'axios'
 
-//action types
 const ADD_TO_CART = 'ADD_TO_CART'
 const DELETE_FROM_CART = 'DELETE_FROM_CART'
 const GET_CART = 'GET_CART'
@@ -8,7 +7,6 @@ const DELETE_QUANTITY = 'DELETE_QUANTITY'
 const CLEAR_CART = 'CLEAR_CART'
 const CONFIRM_CART = 'CONFIRM_CART'
 
-//action creators
 const addToCart = (product) => ({
     type: ADD_TO_CART,
     product
@@ -25,24 +23,6 @@ const getCart = (cart) => ({
     type: GET_CART,
     cart
 })
-// const clearCart = (cart) => ({
-//     type: CLEAR_CART,
-//     cart
-// })
-
-// export const clearCartThunk = (userId, history) => {
-//   return async(dispatch) => {
-//     try {
-//       console.log('userId =>', userId)
-//       const { data } = await axios.delete(`/api/orders/${userId}`)
-//       console.log('data', data)
-//       dispatch(clearCart(data))
-//       history.push(`/cart/${userId}`)
-//     } catch(error) {
-//       console.log(error)
-//     }
-//   }
-// }
 
 const confirmCart = (cart) => ({
     type: CONFIRM_CART,
@@ -122,8 +102,6 @@ export const deleteProductThunk = (productId, productName, userId, history) => {
     }
 }
 
-
-//reducer
 export default function (state = [], action) {
     switch (action.type) {
       case ADD_TO_CART:
@@ -155,7 +133,6 @@ export default function (state = [], action) {
         } else {
           return action.product
         };
-
       case CONFIRM_CART:
         return action.cart
       case DELETE_FROM_CART:
