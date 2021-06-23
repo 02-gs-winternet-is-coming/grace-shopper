@@ -3,7 +3,6 @@ const {
     models: { Order, Product, User, Order_Product },
 } = require('../db/index')
 
-// GET route for users current cart
 router.get('/:userId', async (req, res, next) => {
     try {
       const cart = await Order.findOne({
@@ -30,19 +29,16 @@ router.post('/', async (req, res, next) => {
         const product = req.body[1]
         const quantityType = req.body[2]
 
-        //find open order based on userId
         let currentOrder = await Order.findOne({
             where: {
                 userId: userId, status: 'open'
             }
         })
-        //if user does not have an open order, create one for the user
         let user = await User.findByPk(userId)
         if (!currentOrder) {
             currentOrder = await Order.create()
             user.addOrders(currentOrder)
         }
-        //if product is in the order, increment/decrement the quantity in the cart
         let orderProduct = await Order_Product.findOne({
             where: {
                 orderId: currentOrder.id,
@@ -57,17 +53,14 @@ router.post('/', async (req, res, next) => {
             orderProduct.quantity--
             orderProduct.save()
          }
-        //add the product from incoming body to the current order of the user
         let newProduct = await Product.findByPk(product.id)
         await currentOrder.addProducts(newProduct)
-        //send status code and the product you want to add to the cart
         res.status(201).send(newProduct)
     } catch (err) {
         next(err)
     }
 })
 
-// add an order to the database, as guest user
 router.post('/guest/:id', async (req, res, next) => {
     try {
         /* suggest moving this logic to front end
@@ -87,7 +80,6 @@ router.post('/guest/:id', async (req, res, next) => {
     }
 })
 
-// update order as a logged in user
 router.put('/:userId', async (req, res, next) => {
     try {
         const order = await Order.findOne({
@@ -102,7 +94,6 @@ router.put('/:userId', async (req, res, next) => {
     }
 })
 
-//delete a product in cart
 router.delete('/:userId/:productId', async (req, res, next) => {
     try {
         let currentOrder = await Order.findOne({
