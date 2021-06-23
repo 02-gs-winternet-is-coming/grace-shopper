@@ -24,9 +24,7 @@ async addToCart(event) {
   event.persist()
   const {data} = await axios.get(`/api/products/${event.target.id}`)
   if(this.props.isLoggedIn) {
-    const type = "increment"
-
-  await this.props.addToCarts([this.props.userId, data, type])
+  await this.props.addToCarts([this.props.userId, data, 'increment'])
 } else {
     let existingCart = await JSON.parse(localStorage.getItem('guestCart'))
     let truthyValue;
@@ -76,7 +74,7 @@ render() {
 }
 }
 
-const mapStateToProps = (state) => { 
+const mapStateToProps = (state) => {
   return {
   products: state.allProducts,
   userId: state.auth.id,
