@@ -25,9 +25,7 @@ class Cart extends React.Component {
     async componentDidUpdate(prevProps){
         if (prevProps.userId !== this.props.userId) {
             await this.props.getCart(this.props.userId);
-
-
-        }
+        }   
     }
     async incrementQuantity(event) {
         event.persist()
@@ -87,8 +85,7 @@ class Cart extends React.Component {
                     )
                 })}
 
-                <p>total: ${Number(stringTotal)}</p>
-                <div><button>Check Out</button></div>
+                <p>total: $ {Number(stringTotal)}</p>
                 <Link to={`/cart/checkout/${userId}`}>
                     <button>
                         Check Out
