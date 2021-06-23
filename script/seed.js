@@ -164,7 +164,7 @@ const users = [
     zipCode: 99511,
   },
   {
-    username: "victoriahj@me.com",
+    username: "victoria@me.com",
     password: "vickie123",
     isAdmin: true,
     address: "1200 Redwood Ave",

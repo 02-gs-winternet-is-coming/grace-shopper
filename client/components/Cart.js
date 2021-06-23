@@ -87,8 +87,8 @@ class Cart extends React.Component {
                     )
                 })}
 
-                <p>total: $ {Number(stringTotal)}</p>
-                <div><button> Clear Cart </button>
+                <p>total: ${Number(stringTotal)}</p>
+                <div><button>Check Out</button></div>
                 <Link to={`/cart/checkout/${userId}`}>
                     <button>
                         Check Out
@@ -107,7 +107,7 @@ class Cart extends React.Component {
                        </div>)
                 }) }
                 <p>total: ${guests.reduce((accum, product) => {let subTotal = product.quantity * product.price; return accum + subTotal},0).toFixed(2)}</p>
-                <div><button> Clear Cart </button> <button>Check Out</button></div>
+                <div><button>Check Out</button></div>
             </div> }
            </div>
         )
