@@ -142,8 +142,6 @@ export default function (state = [], action) {
 
       }
 
-      };
-
       case DELETE_QUANTITY:
         if(state.length !== 0) {
           const mapped = state.products.map(product => {
