@@ -14,18 +14,15 @@ class SingleProduct extends Component {
     showEdit: false,
     }
     this.addToCart = this.addToCart.bind(this)
-
   }
 async componentDidMount() {
-// localStorage.clear()
+
     await this.props.fetch(this.props.match.params.id);
   }
-
 async addToCart() {
     if(this.props.isLoggedIn) {
     await this.props.addToCarts([this.props.userId,this.props.product])
     } else {
-    // await this.props.addToGuestCart(this.props.product) 
     let existingCart = await JSON.parse(localStorage.getItem('guestCart'))
     const currentProduct = this.props.product
     let truthyValue;
@@ -44,9 +41,9 @@ async addToCart() {
   }
   if(!truthyValue) {
     //if theres no truthy value (truthy is false,), the current item needs to be added onto the existing cart
+    currentProduct.quantity = 1
     existingCart.push(currentProduct)
   }
-   localStorage.setItem('latestItem', JSON.stringify(currentProduct))
    localStorage.setItem('guestCart', JSON.stringify(existingCart))
   }
 }
@@ -104,7 +101,6 @@ const mapState = (state) => {
     product: state.singleProduct,
     isAdmin: !!state.auth.id && state.auth.isAdmin,
     userId: state.auth.id,
-    guestCart: state.guestCart
   };
 };
 
@@ -112,8 +108,6 @@ const mapDispatch = (dispatch, { history }) => ({
     fetch: (id) => dispatch(fetchSingleProduct(id)),
     delete: (id) => {dispatch(deleteProduct(id, history, localStorage.token || null))},
     addToCarts: (infoObject) => dispatch(addToCartThunk(infoObject,history)),
-    addToGuestCart: (product) => dispatch(addToGuestCart(product))
-
 })
 
 export default connect(mapState, mapDispatch)(SingleProduct);
