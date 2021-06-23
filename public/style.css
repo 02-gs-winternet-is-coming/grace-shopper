@@ -231,3 +231,17 @@ form {
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
+.bold {
+  font-weight: bold;
+}
+
+.checkoutform {
+  align-items: flex-start;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.checkoutform span {
+  padding-right: 5px;
+}

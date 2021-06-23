@@ -2,7 +2,9 @@ import axios from 'axios'
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { fetchCart, deleteProductThunk, addToCartThunk, deleteQuantityThunk } from '../store/cart'
+import { fetchCart,deleteProductThunk,
+    addToCartThunk, deleteQuantityThunk } from '../store/cart'
+import { Link } from 'react-router-dom'
 
 
 class Cart extends React.Component {
@@ -25,7 +27,7 @@ class Cart extends React.Component {
     async componentDidUpdate(prevProps){
         if (prevProps.userId !== this.props.userId) {
             await this.props.getCart(this.props.userId);
-        }  
+        }
     }
     async incrementQuantity(event) {
         const quantityType = event.target.value
@@ -46,6 +48,7 @@ class Cart extends React.Component {
             return accum + subTotal
 
         }, 0).toFixed(2)
+ 
         return (
             <div>
                 { this.props.isLoggedIn ?
@@ -53,14 +56,15 @@ class Cart extends React.Component {
                   {cartProducts.map(product => {
                     return (
                         <div key={product.orderProduct['productId']}>
-                            <img src={product.imageUrl} /> 
+                            <img src={product.imageUrl} />
                             <h1>{product.name} <button onClick={() => this.props.deleteProduct(product.orderProduct['productId'], product.name, userId)}>Remove</button> </h1>
                             <p>${product.price}</p>
                             <p>{product.description}</p>
-                            <p>quantity: {product.orderProduct['quantity']} <button id={product.orderProduct['productId']} value={"decrement"} onClick={this.decrementQuantity}>-</button> <button id={product.orderProduct['productId']} value={"increment"} onClick={this.incrementQuantity}>+</button> </p> 
+                            <p>quantity: {product.orderProduct['quantity']} <button id={product.orderProduct['productId']} value={"decrement"} onClick={this.decrementQuantity}>-</button> <button id={product.orderProduct['productId']} value={"increment"} onClick={this.incrementQuantity}>+</button> </p>
                         </div>
                     )
                 })}
+
                 <p>total: $ {Number(stringTotal)}</p>
                 <div><button> Clear Cart </button> <button>Check Out</button></div>
                 </div>
@@ -68,16 +72,25 @@ class Cart extends React.Component {
                <div> { this.props.guestCart.map(product => {
                        return(
                         <div key={product.id}>
-                       <img src={product.imageUrl} /> 
+                       <img src={product.imageUrl} />
                        <h1>{product.name}</h1>
                        <p>quantity: {product.quantity} <button>-</button> <button>+</button></p>
                        <p>{product.price}</p>
-                       </div>)  
-                }) }
-                <p>total: ${Number(stringTotal)}</p>
-                <div><button> Clear Cart </button> <button>Check Out</button></div>
-            </div> }
-           </div>
+
+                       </div>)
+                })}
+               <p>total: ${Number(stringTotal)}</p>
+            <div>
+                <button> Clear Cart </button>
+                <Link to={`/cart/checkout/${userId}`} total={Number(stringTotal)}>
+                    <button>
+                        Check Out
+                    </button>
+                </Link>
+            </div>
+
+            </div>
+
         )
     }
 }
