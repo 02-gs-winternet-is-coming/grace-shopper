@@ -41,7 +41,7 @@ export const addToCartThunk = (infoObj, history) => {
         const { data } = await axios.post(`/api/orders/`, [userId, infoObj[1], quantityType])
         const product = data
         dispatch(addToCart(product))
-        history.push(`/cart/${userId.id}`)
+        history.push(`/cart/`)
       } catch(error) {
         console.log(error)
       }
@@ -60,7 +60,7 @@ export const deleteQuantityThunk = (infoObj, history) => {
         const { data } = await axios.post(`/api/orders/`, [userId, infoObj[1], quantityType])
         const product = data
         dispatch(deleteQuantity(product))
-       history.push(`/cart/${userId.id}`)
+       history.push(`/cart/`)
       } catch(error) {
         console.log(error)
       }
@@ -70,7 +70,7 @@ export const deleteQuantityThunk = (infoObj, history) => {
 export const fetchCart = (userId) => {
     return async (dispatch) => {
         try {
-          const { data } = await axios.get(`/api/orders/${userId}`)
+          const { data } = await axios.get(`/api/orders/`)
           dispatch(getCart(data))
         } catch (err) {
             console.error(err)
@@ -83,7 +83,7 @@ export const confirmedCart = (userId, options, history) => {
     try {
       const { data } = await axios.put(`/api/orders/${userId}`, options)
       dispatch(confirmCart(data))
-      history.push(`/confirm/${userId}`)
+      history.push(`/confirm/`)
     } catch (err) {
       console.error(err)
     }
@@ -95,7 +95,7 @@ export const deleteProductThunk = (productId, productName, userId, history) => {
         try {
             const { data } = await axios.delete(`/api/orders/${userId}/${productId}`)
             dispatch(deleteFromCart(data))
-            history.push(`/cart/${userId}`)
+            history.push(`/cart/`)
         } catch (err) {
             console.error(err)
         }
