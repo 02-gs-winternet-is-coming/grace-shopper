@@ -9,8 +9,6 @@ class ViewUsers extends Component {
 
   componentDidMount() {
     this.props.loadUsers(localStorage.token);
-    const guestCart = localStorage.getItem('guestCart')
-    this.setState({guestCart})
   }
 
   componentWillUnmount() {this.props.clear()}

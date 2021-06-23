@@ -16,33 +16,40 @@ class SingleProduct extends Component {
     this.addToCart = this.addToCart.bind(this)
 
   }
-
-  async componentDidMount() {
+async componentDidMount() {
+// localStorage.clear()
     await this.props.fetch(this.props.match.params.id);
-
   }
 
-  async addToCart() {
+async addToCart() {
     if(this.props.isLoggedIn) {
     await this.props.addToCarts([this.props.userId,this.props.product])
     } else {
-    await this.props.addToGuestCart(this.props.product) 
-    //get the item from local storage, append the new item onto it, send it bac;
-    let existingCart = JSON.parse(localStorage.getItem('guestCart'))
-    if(existingCart === null) existingCart = []
+    // await this.props.addToGuestCart(this.props.product) 
+    let existingCart = await JSON.parse(localStorage.getItem('guestCart'))
     const currentProduct = this.props.product
-    for(let i =0; i<existingCart.length;i++) {
-      let cartItem = existingCart[i]
-      if(currentProduct.id === cartItem.id) {
-        cartItem = currentProduct
-        return cartItem
-      } return cartItem
-    }
-    existingCart.push(currentProduct)
-    console.log('existing cart', existingCart)
-    localStorage.setItem('guestCart', JSON.stringify(existingCart))
-}
+    let truthyValue;
+    if (!existingCart) {
+      existingCart = []
+      localStorage.setItem('guestCart', JSON.stringify(existingCart))
+    } else { 
+      //here it maps through the elements in the ucrrent cart, if it finds one it iterates the quantity
+   existingCart.map(mapproduct => {
+      if(mapproduct.id === currentProduct.id) {
+        mapproduct.quantity++
+        truthyValue = true
+        return truthyValue
+      } 
+  })
   }
+  if(!truthyValue) {
+    //if theres no truthy value (truthy is false,), the current item needs to be added onto the existing cart
+    existingCart.push(currentProduct)
+  }
+   localStorage.setItem('latestItem', JSON.stringify(currentProduct))
+   localStorage.setItem('guestCart', JSON.stringify(existingCart))
+  }
+}
     render() {
     const product = this.props.product || [];
     const { isAdmin } = this.props;
