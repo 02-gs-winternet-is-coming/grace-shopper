@@ -21,23 +21,25 @@ async componentDidMount() {
   }
 async addToCart() {
     if(this.props.isLoggedIn) {
-    await this.props.addToCarts([this.props.userId,this.props.product])
+      await this.props.addToCarts(
+        [this.props.userId, this.props.product, 'increment']
+      )
     } else {
-    let existingCart = await JSON.parse(localStorage.getItem('guestCart'))
-    const currentProduct = this.props.product
-    let truthyValue;
-    if (!existingCart) {
-      existingCart = []
-      localStorage.setItem('guestCart', JSON.stringify(existingCart))
-    } else { 
-      //here it maps through the elements in the ucrrent cart, if it finds one it iterates the quantity
-   existingCart.map(mapproduct => {
-      if(mapproduct.id === currentProduct.id) {
-        mapproduct.quantity++
-        truthyValue = true
-        return truthyValue
-      } 
-  })
+      let existingCart = await JSON.parse(localStorage.getItem('guestCart'))
+      const currentProduct = this.props.product
+      let truthyValue;
+      if (!existingCart) {
+        existingCart = []
+        localStorage.setItem('guestCart', JSON.stringify(existingCart))
+      } else {
+        //here it maps through the elements in the ucrrent cart, if it finds one it iterates the quantity
+          existingCart.map(mapproduct => {
+            if(mapproduct.id === currentProduct.id) {
+              mapproduct.quantity++
+              truthyValue = true
+              return truthyValue
+        }
+    })
   }
   if(!truthyValue) {
     //if theres no truthy value (truthy is false,), the current item needs to be added onto the existing cart
