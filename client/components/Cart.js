@@ -86,7 +86,7 @@ class Cart extends React.Component {
                 })}
 
                 <p>total: $ {Number(stringTotal)}</p>
-
+                <div>
                 <Link to={`/cart/checkout/${userId}`}>
                     <button>
                         Check Out
