@@ -12,7 +12,7 @@ class Cart extends React.Component {
         this.state = {
             cart: [],
         }
-    }   
+    }
     async componentDidMount() {
         // const TOKEN = 'token';
         // const token = window.localStorage.getItem(TOKEN)
@@ -25,7 +25,7 @@ class Cart extends React.Component {
     async componentDidUpdate(prevProps){
         if (prevProps.userId !== this.props.userId) {
             await this.props.getCart(this.props.userId);
-        }   
+        }
     }
     async incrementQuantity(event) {
         event.persist()
@@ -47,7 +47,7 @@ class Cart extends React.Component {
             mapproduct.quantity++
             truthyValue = true
             //here this is the item in the current state cart whose quantity we want to update to trigger a state change, what is state here??
-            const stateCart = this.state 
+            const stateCart = this.state
 
             return truthyValue
           }
@@ -84,7 +84,11 @@ class Cart extends React.Component {
                             <h1>{product.name} <button onClick={() => this.props.deleteProduct(product.orderProduct['productId'], product.name, userId)}>Remove</button> </h1>
                             <p>${product.price}</p>
                             <p>{product.description}</p>
-                            <p>quantity: {product.orderProduct['quantity']} <button id={product.orderProduct['productId']} value={"decrement"} onClick={this.decrementQuantity}>-</button> <button id={product.orderProduct['productId']} value={"increment"} onClick={this.incrementQuantity}>+</button> </p>
+                            <p>quantity: {product.orderProduct['quantity']}
+                            {product.orderProduct['quantity'] > 1 &&
+                                <button id={product.orderProduct['productId']} value={"decrement"} onClick={this.decrementQuantity}>-</button>
+                            }
+                            <button id={product.orderProduct['productId']} value={"increment"} onClick={this.incrementQuantity}>+</button> </p>
                         </div>
                     )
                 })}
@@ -107,7 +111,7 @@ class Cart extends React.Component {
                        <p>quantity: {product.quantity} <button>-</button> <button id={product.id} onClick={this.incrementQuantity}>+</button></p>
                        <p>{product.price}</p>
 
-                       </div>) 
+                       </div>)
                 }) }
                 <p>total: ${guests.reduce((accum, product) => {let subTotal = product.quantity * product.price; return accum + subTotal},0).toFixed(2)}</p>
                 <div><button>Check Out</button></div>
