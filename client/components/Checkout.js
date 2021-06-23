@@ -81,6 +81,11 @@ class Checkout extends React.Component {
       status: 'closed'
     };
 
+    if(!this.props.isLoggedIn) {
+      let _guestId = Math.floor(Math.random() * 100000) + 1;
+      localStorage.setItem('guestId', JSON.stringify(_guestId))
+    }
+
     localStorage.setItem(
       'confirmation', JSON.stringify(confirmation)
     );
@@ -147,9 +152,11 @@ class Checkout extends React.Component {
               </span>
           </p>
         </div>
-        <Link to={`/confirm/${this.props.match.params.userId}`} onClick={handleSubmit}>
-            Submit Order
-        </Link>
+        <button>
+          <Link id="submit-order" to={`/confirm/${this.props.match.params.userId}`} onClick={handleSubmit}>
+              Submit Order
+          </Link>
+        </button>
       </>
     )
   }
