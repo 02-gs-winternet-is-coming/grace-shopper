@@ -70,7 +70,7 @@ export const deleteQuantityThunk = (infoObj, history) => {
 export const fetchCart = (userId) => {
     return async (dispatch) => {
         try {
-          const { data } = await axios.get(`/api/orders/`)
+          const { data } = await axios.get(`/api/orders/${userId}`)
           dispatch(getCart(data))
         } catch (err) {
             console.error(err)
