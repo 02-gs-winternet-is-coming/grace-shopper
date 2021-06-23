@@ -50,6 +50,7 @@ class Checkout extends React.Component {
       "USPS": 3.25
     }
 
+    // Rendering cart total based off fetched data
     if (prevProps.cart.length !== this.props.cart.length) {
       let cartProducts = this.props.cart.products || [];
 
@@ -57,6 +58,7 @@ class Checkout extends React.Component {
         return accum + product.orderProduct['quantity'] * product.price
       }, 0);
 
+      // Set subtotal and tax in state
       this.setState({
         subtotalString: newSubtotal.toFixed(2),
         taxString: (newSubtotal * .065).toFixed(2)
@@ -70,9 +72,18 @@ class Checkout extends React.Component {
     }
   }
 
-  handleSubmit(evt) {
-    evt.preventDefault();
-    this.props.placeOrder(this.props.match.params.userId);
+  handleSubmit() {
+    const confirmation = {
+      shippingMethod: this.state.shippingMethod,
+      paymentMethod: this.state.paymentMethod,
+      tax: Number(this.state.taxString),
+      shipping: this.state.shipping,
+      status: 'closed'
+    };
+
+    localStorage.setItem(
+      'confirmation', JSON.stringify(confirmation)
+    );
   }
 
   handleChange(evt) {
@@ -82,11 +93,8 @@ class Checkout extends React.Component {
   }
 
   render() {
-    console.log('this is checkout state: ', this.state)
-
     const { handleSubmit, handleChange } = this;
-    console.log('this is props', this.state)
-    console.log('STATE ', this.state)
+    console.log('THIS', this)
     return(
       <>
         <div id="customerType">
@@ -112,7 +120,10 @@ class Checkout extends React.Component {
           <form className="checkoutform">
             <label>
               <span>Payment:</span>
-              <select name="paymentMethod" value={this.state.paymentValue} onChange={handleChange}>
+              <select name="paymentMethod"
+                value={this.state.paymentValue}
+                onChange={handleChange}
+              >
                 <option value="Stripe">Stripe</option>
                 <option value="Bitcoin">Bitcoin</option>
                 <option value="Credit Card">Credit Card</option>
@@ -136,12 +147,9 @@ class Checkout extends React.Component {
               </span>
           </p>
         </div>
-        <Link to={`/confirm/${this.props.match.params.userId}`}>
-          <button>
+        <Link to={`/confirm/${this.props.match.params.userId}`} onClick={handleSubmit}>
             Submit Order
-          </button>
         </Link>
-
       </>
     )
   }
@@ -152,14 +160,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch, { history }) => ({
-  getCart: (id) => {dispatch(fetchCart(id))},
-  placeOrder: (id) => dispatch(confirmedCart(id, {
-    shippingMethod: this.state.shippingMethod,
-    paymentMethod: this.state.paymentMethod,
-    tax: Number(this.state.taxString),
-    shipping: this.state.shipping,
-    status: 'closed'
-  }, history))
+  getCart: (id) => {dispatch(fetchCart(id))}
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Checkout)

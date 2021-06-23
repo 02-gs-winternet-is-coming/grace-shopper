@@ -12,6 +12,12 @@ class Confirmation extends React.Component {
   }
 
   async componentDidMount() {
+    // Pull data from local storage
+    // Make thunk request to complete order,
+    // get back data, display data as
+    // confirmation
+    const confirmation = JSON.parse(localStorage.getItem('confirmation'));
+    this.setState({confirmData: confirmation});
     await this.props.getCart(this.props.match.params.userId);
   }
 
