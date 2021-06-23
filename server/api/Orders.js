@@ -25,6 +25,7 @@ router.get('/:userId', async (req, res, next) => {
 //add a product to cart
 router.post('/', async (req, res, next) => {
     try {
+
         const userId = req.body[0].id
         const product = req.body[1]
         const quantityType = req.body[2]
@@ -49,7 +50,7 @@ router.post('/', async (req, res, next) => {
            orderProduct.quantity++
            orderProduct.save()
         }
-        else if (orderProduct && quantityType.type === 'decrement' && orderProduct.quantity >= 1) {
+        if (orderProduct && quantityType.type === 'decrement' && orderProduct.quantity >= 1) {
             orderProduct.quantity--
             orderProduct.save()
          }
@@ -63,15 +64,6 @@ router.post('/', async (req, res, next) => {
 
 router.post('/guest/:id', async (req, res, next) => {
     try {
-        /* suggest moving this logic to front end
-        if (!req.body.id) {
-            let guestUserId = []
-            while(guestUserId.length < 1){
-                let num = Math.floor(Math.random() * 100000) + 1;
-                guestUserId.push(num);
-                req.body.id = Number(guestUserId);
-            }
-        */
         const guestOrder = await Order.create(req.body);
         res.status(201).send(guestOrder)
     } catch(err) {
