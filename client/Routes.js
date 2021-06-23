@@ -32,14 +32,13 @@ class Routes extends Component {
               <Redirect to="/home" />
             </Route>
             <Route path="/home" component={Home} />
-            <Route exact path="/cart/:userId" component={Cart} />
+            <Route exact path="/cart/" component={Cart} />
             <Route exact path="/products/:id" component={SingleProduct} />
             <Route exact path="/products" component={AllProducts} />
-            <Route exact path="/cart/checkout/:userId" component={Checkout} />
-            <Route exact path="/cart" component={Cart} />
+            <Route exact path="/checkout/" component={Checkout} />
             <Route exact path="/createaccount" component={CreateAccount} />
             <Route exact path="/login" component={Login} />
-            <Route exact path="/confirm/:userId" component={Confirmation} />
+            <Route exact path="/confirm/" component={Confirmation} />
             <Route exact path="/viewusers" render={(props) => (
                 this.props.isAdmin ?
                 <ViewUsers {...props} />
