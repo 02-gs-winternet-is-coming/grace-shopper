@@ -78,6 +78,13 @@ class Checkout extends React.Component {
       paymentMethod: this.state.paymentMethod,
       tax: Number(this.state.taxString),
       shipping: this.state.shipping,
+      id: this.props.cart.id,
+      userId: this.props.cart.userId,
+      username: this.props.username,
+      total: Number((Number(this.state.subtotalString) +
+        Number(this.state.taxString) +
+        this.state.shipping).toFixed(2)
+      ),
       status: 'closed'
     };
 
@@ -164,6 +171,7 @@ class Checkout extends React.Component {
 
 const mapStateToProps = (state) => ({
   cart: state.storageReducer,
+  username: state.auth.username
 })
 
 const mapDispatchToProps = (dispatch, { history }) => ({

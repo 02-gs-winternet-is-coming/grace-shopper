@@ -27,6 +27,7 @@ class Cart extends React.Component {
             await this.props.getCart(this.props.userId);
         }
     }
+
     async incrementQuantity(event) {
         event.persist()
         if(this.props.isLoggedIn){
@@ -55,12 +56,14 @@ class Cart extends React.Component {
       }
         this.setState({cart: existingCart})
        localStorage.setItem('guestCart', JSON.stringify(existingCart))}
-}
+    }
+
     async decrementQuantity(event) {
         const quantityType = event.target.value
         const { data } = await axios.get(`/api/products/${event.target.id}`)
         await this.props.decrement([this.props.cart.userId, data, quantityType])
     }
+
     render() {
         let cartProducts = this.props.cart.products || []
         let userId = Number(this.props.match.params.userId)
@@ -93,7 +96,7 @@ class Cart extends React.Component {
                     )
                 })}
 
-                <p>total: $ {Number(stringTotal)}</p>
+                <p>total: ${Number(stringTotal)}</p>
                 <div>
                 <Link to={`/cart/checkout/${userId}`}>
                     <button>

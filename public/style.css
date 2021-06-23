@@ -260,3 +260,7 @@ button:hover {
   background-color: grey;
   color: white;
 }
+
+p button {
+  margin-left: 4px;
+}
