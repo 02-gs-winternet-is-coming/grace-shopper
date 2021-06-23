@@ -141,7 +141,6 @@ class Checkout extends React.Component {
             Submit Order
           </button>
         </Link>
-
       </>
     )
   }

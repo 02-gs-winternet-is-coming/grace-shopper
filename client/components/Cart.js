@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React from 'react'
 import { connect } from 'react-redux'
-import { fetchCart, deleteProductThunk, addToCartThunk, deleteQuantityThunk } from '../store/cart'
+import cart, { fetchCart, deleteProductThunk, addToCartThunk, deleteQuantityThunk } from '../store/cart'
 import { Link } from 'react-router-dom'
 
 class Cart extends React.Component {
@@ -10,16 +10,16 @@ class Cart extends React.Component {
         this.incrementQuantity = this.incrementQuantity.bind(this)
         this.decrementQuantity = this.decrementQuantity.bind(this)
         this.state = {
-            cart: []
+            cart: [],
         }
-    }
+    }   
     async componentDidMount() {
         // const TOKEN = 'token';
         // const token = window.localStorage.getItem(TOKEN)
         // localStorage.clear()
         const guestCart = JSON.parse(localStorage.getItem('guestCart'))
         this.setState({cart: guestCart})
-        let id = Number(this.props.match.params.userId)
+          let id = Number(this.props.match.params.userId)
         await this.props.getCart(id)
     }
     async componentDidUpdate(prevProps){
@@ -46,12 +46,15 @@ class Cart extends React.Component {
           if(mapproduct.id === id) {
             mapproduct.quantity++
             truthyValue = true
+            //here this is the item in the current state cart whose quantity we want to update to trigger a state change, what is state here??
+            const stateCart = this.state 
+
             return truthyValue
           }
       })
       }
+        this.setState({cart: existingCart})
        localStorage.setItem('guestCart', JSON.stringify(existingCart))}
-       window.location.reload()
 }
     async decrementQuantity(event) {
         const quantityType = event.target.value
@@ -71,6 +74,7 @@ class Cart extends React.Component {
 
         return (
             <div>
+                <p>items in cart: {this.state.itemsinCart}</p>
                 { this.props.isLoggedIn ?
                 <div>
                   {cartProducts.map(product => {
@@ -103,7 +107,7 @@ class Cart extends React.Component {
                        <p>quantity: {product.quantity} <button>-</button> <button id={product.id} onClick={this.incrementQuantity}>+</button></p>
                        <p>{product.price}</p>
 
-                       </div>)
+                       </div>) 
                 }) }
                 <p>total: ${guests.reduce((accum, product) => {let subTotal = product.quantity * product.price; return accum + subTotal},0).toFixed(2)}</p>
                 <div><button>Check Out</button></div>
