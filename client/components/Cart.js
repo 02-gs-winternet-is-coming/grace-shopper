@@ -41,7 +41,7 @@ class Cart extends React.Component {
         if (!existingCart) {
           existingCart = []
         localStorage.setItem('guestCart', JSON.stringify(existingCart))
-        } else { 
+        } else {
           //here it maps through the elements in the ucrrent cart, if it finds one it iterates the quantity
        existingCart.map(mapproduct => {
           if(mapproduct.id === id) {
@@ -85,11 +85,15 @@ class Cart extends React.Component {
                         </div>
                     )
                 })}
-
                 <p>total: $ {Number(stringTotal)}</p>
-                <div><button> Clear Cart </button> <button>Check Out</button></div>
+                <div><button> Clear Cart </button>
+                <Link to={`/cart/checkout/${userId}`}>
+                    <button>
+                        Check Out
+                    </button></Link>
                 </div>
-         :  
+                </div>
+         :
                <div> { guests.map(product => {
                        return(
                         <div key={product.id}>
@@ -98,7 +102,7 @@ class Cart extends React.Component {
                        <p>quantity: {product.quantity} <button>-</button> <button id={product.id} onClick={this.incrementQuantity}>+</button></p>
                        <p>{product.price}</p>
 
-                       </div>)  
+                       </div>)
                 }) }
                 <p>total: ${guests.reduce((accum, product) => {let subTotal = product.quantity * product.price; return accum + subTotal},0).toFixed(2)}</p>
                 <div><button> Clear Cart </button> <button>Check Out</button></div>
