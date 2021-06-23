@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { fetchCart, confirmedCart } from '../store/cart'
+import {Link} from 'react-router-dom'
 
 const initialState = {
   shippingMethod: 'UPS Ground',
@@ -81,8 +82,11 @@ class Checkout extends React.Component {
   }
 
   render() {
-    const { handleSubmit, handleChange } = this;
+    console.log('this is checkout state: ', this.state)
 
+    const { handleSubmit, handleChange } = this;
+    console.log('this is props', this.state)
+    console.log('STATE ', this.state)
     return(
       <>
         <div id="customerType">
@@ -126,22 +130,25 @@ class Checkout extends React.Component {
           <p>
             Order Total:
               <span className="bold">
-                &nbsp;${Number(this.state.subtotalString) +
+                &nbsp;${(Number(this.state.subtotalString) +
                 Number(this.state.taxString) +
-                this.state.shipping}
+                this.state.shipping).toFixed(2)}
               </span>
           </p>
         </div>
-        <button onClick={handleSubmit} >
-          Submit Order
-        </button>
+        <Link to={`/confirm/${this.props.match.params.userId}`}>
+          <button>
+            Submit Order
+          </button>
+        </Link>
+
       </>
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-  cart: state.storageReducer
+  cart: state.storageReducer,
 })
 
 const mapDispatchToProps = (dispatch, { history }) => ({
@@ -151,7 +158,7 @@ const mapDispatchToProps = (dispatch, { history }) => ({
     paymentMethod: this.state.paymentMethod,
     tax: Number(this.state.taxString),
     shipping: this.state.shipping,
-    status: closed
+    status: 'closed'
   }, history))
 })
 
