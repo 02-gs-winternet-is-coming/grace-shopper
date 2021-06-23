@@ -21,13 +21,37 @@ class AllProducts extends React.Component {
   }
 
 async addToCart(event) {
+  event.persist()
   const {data} = await axios.get(`/api/products/${event.target.id}`)
   if(this.props.isLoggedIn) {
-  await this.props.addToCarts([this.props.userId, data])
+    const type = "increment"
+
+  await this.props.addToCarts([this.props.userId, data, type])
 } else {
-  await this.props.guestCart(data)
+    let existingCart = await JSON.parse(localStorage.getItem('guestCart'))
+    let truthyValue;
+    if (!existingCart) {
+      existingCart = []
+      localStorage.setItem('guestCart', JSON.stringify(existingCart))
+    } else {
+      //here it maps through the elements in the ucrrent cart, if it finds one it iterates the quantity
+   existingCart.map(mapproduct => {
+      if(mapproduct.id === Number(event.target.id)) {
+        mapproduct.quantity++
+        truthyValue = true
+        return truthyValue
+      }
+  })}
+  if(!truthyValue) {
+    //if theres no truthy value (truthy is false,), the current item needs to be added onto the existing cart
+    const newItem = data
+    newItem.quantity = 1
+    existingCart.push(newItem)
+  }
+   localStorage.setItem('guestCart', JSON.stringify(existingCart))
+  }
 }
-}
+
 
 render() {
     const products = this.props.products || []
