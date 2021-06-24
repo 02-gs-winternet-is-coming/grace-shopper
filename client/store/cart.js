@@ -117,7 +117,6 @@ export default function (state = [], action) {
         return newNState
       } else {
         return action.product
-
       }
       case DELETE_QUANTITY:
         if(state.length !== 0) {
