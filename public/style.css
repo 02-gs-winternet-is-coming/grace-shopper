@@ -247,6 +247,10 @@ form {
   padding-right: 5px;
 }
 
+.checkoutform input {
+  width: 75%;
+}
+
 button {
   background-color: white;
   border: 2px solid grey;

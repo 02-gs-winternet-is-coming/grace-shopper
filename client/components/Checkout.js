@@ -11,7 +11,7 @@ const initialState = {
   orderStatus: 'open',
   subtotalString: '',
   taxString: '',
-  grandTotal: 0
+  email: ''
 }
 
 class Checkout extends React.Component {
@@ -95,7 +95,7 @@ class Checkout extends React.Component {
       shipping: this.state.shipping,
       id: this.props.cart.id || Math.floor(Math.random() * 100000) + 1,
       userId: this.props.cart.userId || localStorage.getItem('guestId'),
-      username: this.props.username || "guest",
+      username: this.props.username || this.state.email,
       total: Number((Number(this.state.subtotalString) +
         Number(this.state.taxString) +
         this.state.shipping).toFixed(2)
@@ -116,7 +116,11 @@ class Checkout extends React.Component {
 
   render() {
     const { handleSubmit, handleChange } = this;
-    console.log('THIS', this)
+
+    if (!(Number(this.state.subtotalString) > 0)) {
+      return(<p>Nothing in cart, add some products!</p>)
+    }
+
     return(
       <>
         <h2>Order Summary</h2>
@@ -150,6 +154,19 @@ class Checkout extends React.Component {
               </select>
             </label>
           </form>
+          {!this.props.isLoggedIn &&
+            <form onSubmit={handleSubmit} className="checkoutform">
+              <label htmlFor="username">
+                <span>Guest Email:</span>
+                <input
+                type="text"
+                name="email"
+                onChange={handleChange}
+                value={this.state.email}
+                />
+              </label>
+            </form>
+          }
         </div>
         <div>
           <p>Subtotal: ${this.state.subtotalString}</p>
