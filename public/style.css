@@ -3,33 +3,53 @@ body {
   background-color: whitesmoke;
   display: flex;
   flex-direction: column;
-  margin: 0
+  margin: 0;
+  min-width: 100%;
+  font-size: 12px;
 }
-
+#getInTouch {
+font-size: 3ch;
+}
 #app {
-  padding-bottom: 15vh;
+  padding-bottom: 25vh;
   margin-left: 1vw;
 }
 
+#gitHubParentDiv {
+  display: flex;
+  justify-content: space-evenly;
+  position: relative;
+  top: 12px
+}
+
+.authorNames {
+  position: relative;
+  bottom: 10px;
+}
+
 #foot {
-  border: solid;
-  border-width: 3.95px;
+  border: solid #92AD94;
+  border-width: .5vh;
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 10vh;
-  font-size: 1vh;
+  height: 15vh;
+  font-size: 1em;
   font-weight: bold;
-  padding: 20px;
+  min-width: 100%;
+  max-width: 500px;
+  padding-bottom: 5px;
 }
 
 #productParent {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin: 1vw;
+  margin-left: 3vw;
+  margin-right: 3vw;
   text-align: center;
   justify-content: center;
+  /* min-width: 100%; */
 }
 
 #confirmParent {
@@ -46,7 +66,9 @@ body {
 }
 
 #allProductsNav {
-  flex:1
+  flex: 1;
+
+
 }
 #navigate {
   display: flex;
@@ -66,15 +88,19 @@ body {
   align-items: center;
   justify-content: flex-end;
 }
-
+.welcomeHome {
+  color: #E3B9BC;
+  margin-left: 2vw;
+}
 #currentAvail {
   text-align: center;
-  font-size: 2rem;
+  font-size: 3ch;
   font-family: ff-avance-web-pro;
+  color: #87C38F
 }
 
 #shroomNames {
-  font-size: 1.5rem;
+  font-size: 2ch;
   text-decoration: none;
   color: black
 }
@@ -82,6 +108,7 @@ body {
 #singleMushroomHeader{
   text-align: center;
   min-width: 300px;
+  color: #92AD94
 }
 
 .singleProductView {
@@ -94,28 +121,35 @@ body {
 }
 
 #singleProductViewImage {
-  background-color: #A44A3F;
-  height: auto;
-  width: 35%;
-  min-width: 250px;
-  max-width: 350px;
+  background-color: #87C38F;
+height: 250px;
+width: 250px;
 }
 
 #singleMushroomText {
   display: flex;
   flex-direction: column;
   margin-left: 5vw;
+  margin-right: 5vw;
   margin: 0;
+  min-width: 40%;
+  max-width: 40%;
+  font-size: 2.2ch;
+}
+
+#singleProductPrice {
+  order: -1
 }
 
 .singleMushroomButton {
   /* height: 5vh; */
-  width: 10vw;
-  min-width: 80px;
-  min-height: 20px;
-  margin-left: 10vw;
   display: flex;
-  justify-content: space-evenly;
+
+}
+
+.singleMushroomButtons {
+  width: fit-content;
+
 }
 
 .singleProductEdit {
@@ -151,16 +185,25 @@ body {
   border-radius: 8px;
 }
 
+.allProductsAdd {
+  font-size: 1.5ch;
+  position: relative;
+  bottom: 7px;
+}
+
 .allProducts {
   margin: .5%;
-  font-size: 1em;
   background-color: #79AEA3;
-  width: 20vw
+  width: 20vw;
+  flex: 1;
+  min-width: 21%;
+  max-width: 25%;
+
 }
 
 .placeholderImage {
   height: auto;
-  width: 15vw;
+  width: 20vw;
 }
 
 a, a:visited, .dropdown .dropbtn {
@@ -267,8 +310,13 @@ button:hover {
   color: white;
 }
 
-#storeTitle {
-  font-family: Trattatello;
+.storeTitle {
+  /* font-family: Trattatello; */
+  text-align: center;
+  position: relative;
+  top: 5px;
+  font-size: 8ch;
+  color: #FFC170
 }
 
 p button {
