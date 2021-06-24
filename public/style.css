@@ -145,7 +145,8 @@ width: 100px
  right:8px;
   font-size: 3ch;
   font-family: ff-avance-web-pro;
-  color: #E3B9BC
+  color: #E3B9BC;
+  margin-left: 2vw
 }
 
 #shroomNames {
