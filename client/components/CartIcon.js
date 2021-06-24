@@ -13,7 +13,6 @@ export class CartIcon extends React.Component {
     async componentDidMount () {
         const guestCart = JSON.parse(localStorage.getItem('guestCart'))
         this.setState({tempCart: guestCart})
-        // await this.props.getCart(this.props.cart.userId)
     }
     async componentDidUpdate(prevProps) {
         if (this.props.user.id !== prevProps.user.id) {
@@ -21,7 +20,6 @@ export class CartIcon extends React.Component {
         }
     }
     render() {
-        // console.log('products in cart', this.props.cart.products)
         const cartAmount = this.props.cart.products || []
         const userQuantity = cartAmount.reduce((accum, item) => {
             return item.orderProduct.quantity + accum 
@@ -34,9 +32,6 @@ export class CartIcon extends React.Component {
                 return item.quantity + accum
             }, 0)
         }
-        console.log('guests', guests)
-        console.log('guestQuantity', guestQuantity)
-        console.log(this.props.user.id)
         return(
             this.props.isLoggedIn ?
             <div>
