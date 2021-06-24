@@ -31,8 +31,6 @@ class Confirmation extends React.Component {
   }
 
   render() {
-    console.log('confirmation props', this.props.cart)
-    console.log('confirmation state:', this.state)
 
     return (
       <div id="confirmParent" >
