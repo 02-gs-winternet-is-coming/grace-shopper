@@ -247,6 +247,10 @@ form {
   padding-right: 5px;
 }
 
+.checkoutform input {
+  width: 75%;
+}
+
 button {
   background-color: white;
   border: 2px solid grey;
@@ -259,4 +263,12 @@ button {
 button:hover {
   background-color: grey;
   color: white;
+}
+
+p button {
+  margin-left: 4px;
+}
+
+h1 button {
+  margin-left: 10px;
 }

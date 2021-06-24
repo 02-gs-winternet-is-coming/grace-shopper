@@ -25,8 +25,7 @@ const getCart = (cart) => ({
 })
 
 const confirmCart = (cart) => ({
-    type: CONFIRM_CART,
-    cart
+    type: CONFIRM_CART
 })
 
 export const addToCartThunk = (infoObj, history) => {
@@ -78,12 +77,11 @@ export const fetchCart = (userId) => {
     }
 }
 
-export const confirmedCart = (userId, options, history) => {
+export const confirmedCart = (userId, options) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.put(`/api/orders/${userId}`, options)
-      dispatch(confirmCart(data))
-      history.push(`/confirm/${userId}`)
+      await axios.put(`/api/orders/${userId}`, options);
+      dispatch(confirmCart());
     } catch (err) {
       console.error(err)
     }
@@ -133,7 +131,7 @@ export default function (state = [], action) {
           return action.product
         };
       case CONFIRM_CART:
-        return action.cart
+        return [];
       case DELETE_FROM_CART:
         const updatedCart = state.products.filter((product) => {
             return product.orderProduct.productId !== action.product.id

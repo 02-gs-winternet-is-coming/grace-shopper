@@ -5,28 +5,31 @@ import cart, { fetchCart, deleteProductThunk, addToCartThunk, deleteQuantityThun
 import { Link } from 'react-router-dom'
 
 class Cart extends React.Component {
-    constructor() {
-        super()
-        this.incrementQuantity = this.incrementQuantity.bind(this)
-        this.decrementQuantity = this.decrementQuantity.bind(this)
-        this.state = {
-            cart: [],
-        }
+    constructor(props) {
+        super(props);
+        this.incrementQuantity = this.incrementQuantity.bind(this);
+        this.decrementQuantity = this.decrementQuantity.bind(this);
+        this.decrementLocal = this.decrementLocal.bind(this);
+        this.deleteLocal = this.deleteLocal.bind(this);
+        this.state = { cart: [] }
     }
+
     async componentDidMount() {
         // const TOKEN = 'token';
         // const token = window.localStorage.getItem(TOKEN)
         // localStorage.clear()
         const guestCart = JSON.parse(localStorage.getItem('guestCart'))
         this.setState({cart: guestCart})
-          let id = Number(this.props.match.params.userId)
-        await this.props.getCart(id)
+        if (Number(this.props.match.params.userId) > 0) {
+            await this.props.getCart(this.props.match.params.userId)
+        }
     }
     async componentDidUpdate(prevProps){
         if (prevProps.userId !== this.props.userId) {
             await this.props.getCart(this.props.userId);
         }
     }
+
     async incrementQuantity(event) {
         event.persist()
         if(this.props.isLoggedIn){
@@ -34,7 +37,7 @@ class Cart extends React.Component {
         const { data } = await axios.get(`/api/products/${event.target.id}`)
         await this.props.increment([this.props.cart.userId, data, quantityType])
     } else {   // await this.props.addToGuestCart(this.props.product)
-        let existingCart = await JSON.parse(localStorage.getItem('guestCart'))
+        let existingCart = JSON.parse(localStorage.getItem('guestCart'))
         let truthyValue;
         let id = Number(event.target.id)
         if (!existingCart) {
@@ -55,12 +58,34 @@ class Cart extends React.Component {
       }
         this.setState({cart: existingCart})
        localStorage.setItem('guestCart', JSON.stringify(existingCart))}
-}
-    async decrementQuantity(event) {
-        const quantityType = event.target.value
-        const { data } = await axios.get(`/api/products/${event.target.id}`)
-        await this.props.decrement([this.props.cart.userId, data, quantityType])
     }
+
+    async decrementQuantity(event) {
+        const { data } = await axios.get(`/api/products/${event.target.id}`)
+        await this.props.decrement([this.props.cart.userId, data, 'decrement'])
+    }
+
+    decrementLocal(event) {
+        let existingCart = JSON.parse(localStorage.getItem('guestCart'))
+        let id = Number(event.target.id)
+        existingCart.map(mapproduct => {
+            mapproduct.id === id &&
+            mapproduct.quantity > 1 &&
+            mapproduct.quantity--
+        })
+        this.setState({ cart: existingCart })
+        localStorage.setItem('guestCart', JSON.stringify(existingCart))//existingCart?
+    }
+
+    deleteLocal(id) {
+        let existingCart = JSON.parse(localStorage.getItem('guestCart'));
+        let updated = existingCart.filter(p => p.id !== id);
+        this.setState({ cart: updated });
+        localStorage.setItem('guestCart', JSON.stringify(updated));
+    }
+
+
+
     render() {
         let cartProducts = this.props.cart.products || []
         let userId = Number(this.props.match.params.userId)
@@ -81,7 +106,18 @@ class Cart extends React.Component {
                     return (
                         <div key={product.orderProduct['productId']}>
                             <img src={product.imageUrl} />
-                            <h1>{product.name} <button onClick={() => this.props.deleteProduct(product.orderProduct['productId'], product.name, userId)}>Remove</button> </h1>
+                            <h1>
+                                {product.name}
+                                <button
+                                onClick={() =>
+                                    this.props.deleteProduct(
+                                        product.orderProduct['productId'],
+                                        product.name,
+                                        userId)
+                                }>
+                                    Remove
+                                </button>
+                            </h1>
                             <p>${product.price}</p>
                             <p>{product.description}</p>
                             <p>quantity: {product.orderProduct['quantity']}
@@ -93,28 +129,70 @@ class Cart extends React.Component {
                     )
                 })}
 
-                <p>total: $ {Number(stringTotal)}</p>
+                <p>total: ${Number(stringTotal)}</p>
                 <div>
-                <Link to={`/cart/checkout/${userId}`}>
-                    <button>
-                        Check Out
-                    </button></Link>
+                    <Link to={`/cart/checkout/${userId}`}>
+                        <button>
+                            Check Out
+                        </button>
+                    </Link>
                 </div>
 
                 </div>
          :
-               <div> { guests.map(product => {
-                       return(
+               <div>
+                {guests.map(product => {
+                    return (
                         <div key={product.id}>
-                       <img src={product.imageUrl} />
-                       <h1>{product.name}</h1>
-                       <p>quantity: {product.quantity} <button>-</button> <button id={product.id} onClick={this.incrementQuantity}>+</button></p>
-                       <p>{product.price}</p>
+                        <img src={product.imageUrl} />
+                        <h1>
+                            {product.name}
+                            <button
+                            onClick={() =>
+                            this.deleteLocal(product.id)}
+                            >
+                                Remove
+                            </button>
+                        </h1>
+                        <p>quantity: {product.quantity}
+                            <button
+                            id={product.id} type="decrement"
+                            onClick={this.decrementLocal}>-
+                            </button>
+                            <button
+                            id={product.id}
+                            onClick={this.incrementQuantity}>+
+                            </button>
+                       </p>
+                       <p>${product.price}</p>
 
-                       </div>)
-                }) }
-                <p>total: ${guests.reduce((accum, product) => {let subTotal = product.quantity * product.price; return accum + subTotal},0).toFixed(2)}</p>
-                <div><button>Check Out</button></div>
+                       </div>
+                    )}
+                )}
+                <p>total: ${
+                    guests.reduce(
+                        (accum, product) =>
+                            {let subTotal = product.quantity * product.price;
+                            return accum + subTotal},
+                        0).toFixed(2)
+                    }
+                </p>
+                <div>
+                    <button
+                    onClick={() => {
+                        if (localStorage.getItem('guestId') === null) {
+                            localStorage.setItem(
+                                'guestId',
+                                Math.floor(Math.random() * 100000) + 1
+                            )
+                        }
+                        this.props.history.push(
+                        `/cart/checkout/${localStorage.getItem('guestId')}`
+                        )
+                    }}>
+                        Check Out
+                    </button>
+                </div>
             </div> }
            </div>
         )

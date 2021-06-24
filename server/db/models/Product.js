@@ -16,7 +16,7 @@ const Product = db.define('product', {
             notEmpty: true,
         },
         set (value) {
-            this.setDataValue('price', value * 100);
+            this.setDataValue('price', parseInt(value * 100));
         },
         get () {
             return this.getDataValue('price') / 100;

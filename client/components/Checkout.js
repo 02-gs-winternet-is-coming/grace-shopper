@@ -11,7 +11,7 @@ const initialState = {
   orderStatus: 'open',
   subtotalString: '',
   taxString: '',
-  grandTotal: 0
+  email: ''
 }
 
 class Checkout extends React.Component {
@@ -29,6 +29,7 @@ class Checkout extends React.Component {
       && this.props.cart.products
       && this.props.cart.products.length > 0) {
       let cartProducts = this.props.cart.products;
+
       let newSubtotal = cartProducts.reduce((accum, product) => {
         return accum + product.orderProduct['quantity'] * product.price
       }, 0);
@@ -38,8 +39,22 @@ class Checkout extends React.Component {
         taxString: (newSubtotal * .065).toFixed(2)
       })
     }
+    else if (
+      localStorage.getItem('guestId') === this.props.match.params.userId
+    ) {
+      let cartProducts = JSON.parse(localStorage.getItem('guestCart'));
+      let newSubtotal = cartProducts.reduce((accum, product) => {
+        return accum + product.quantity * product.price
+      }, 0);
 
-    await this.props.getCart(this.props.match.params.userId);
+      this.setState({
+        subtotalString: newSubtotal.toFixed(2),
+        taxString: (newSubtotal * .065).toFixed(2)
+      })
+
+    } else {
+      await this.props.getCart(this.props.match.params.userId);
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -78,13 +93,15 @@ class Checkout extends React.Component {
       paymentMethod: this.state.paymentMethod,
       tax: Number(this.state.taxString),
       shipping: this.state.shipping,
+      id: this.props.cart.id || Math.floor(Math.random() * 100000) + 1,
+      userId: this.props.cart.userId || localStorage.getItem('guestId'),
+      username: this.props.username || this.state.email,
+      total: Number((Number(this.state.subtotalString) +
+        Number(this.state.taxString) +
+        this.state.shipping).toFixed(2)
+      ),
       status: 'closed'
     };
-
-    if(!this.props.isLoggedIn) {
-      let _guestId = Math.floor(Math.random() * 100000) + 1;
-      localStorage.setItem('guestId', JSON.stringify(_guestId))
-    }
 
     localStorage.setItem(
       'confirmation', JSON.stringify(confirmation)
@@ -99,13 +116,13 @@ class Checkout extends React.Component {
 
   render() {
     const { handleSubmit, handleChange } = this;
-    console.log('THIS', this)
+
+    if (!(Number(this.state.subtotalString) > 0)) {
+      return(<p>Nothing in cart, add some products!</p>)
+    }
+
     return(
       <>
-        <div id="customerType">
-          <button type="change">Guest Checkout</button>
-          <button type="change">Member Checkout</button>
-        </div>
         <h2>Order Summary</h2>
         <div>
           <h4>Shipping Method:</h4>
@@ -137,6 +154,19 @@ class Checkout extends React.Component {
               </select>
             </label>
           </form>
+          {!this.props.isLoggedIn &&
+            <form onSubmit={handleSubmit} className="checkoutform">
+              <label htmlFor="username">
+                <span>Guest Email:</span>
+                <input
+                type="text"
+                name="email"
+                onChange={handleChange}
+                value={this.state.email}
+                />
+              </label>
+            </form>
+          }
         </div>
         <div>
           <p>Subtotal: ${this.state.subtotalString}</p>
@@ -164,6 +194,8 @@ class Checkout extends React.Component {
 
 const mapStateToProps = (state) => ({
   cart: state.storageReducer,
+  username: state.auth.username,
+  isLoggedIn: !!state.auth.id
 })
 
 const mapDispatchToProps = (dispatch, { history }) => ({
