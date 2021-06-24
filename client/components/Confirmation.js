@@ -21,6 +21,8 @@ class Confirmation extends React.Component {
       shipping, id
     } = this.state.confirm;
 
+    localStorage.removeItem('guestCart');
+
     await this.props.confirm(
       this.state.confirm.userId,
       {shippingMethod, shipping, tax, paymentMethod, id, status: 'closed'}
@@ -31,9 +33,8 @@ class Confirmation extends React.Component {
   render() {
     console.log('confirmation props', this.props.cart)
     console.log('confirmation state:', this.state)
-    const cart = this.props.cart || [];
 
-    return(
+    return (
       <div id="confirmParent" >
       <div id="thankyou">
         <h1>Thank you for shopping with Good Morels!</h1>

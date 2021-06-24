@@ -66,15 +66,6 @@ router.post("/", async (req, res, next) => {
 
 router.post("/guest/:id", async (req, res, next) => {
   try {
-    /* suggest moving this logic to front end
-        if (!req.body.id) {
-            let guestUserId = []
-            while(guestUserId.length < 1){
-                let num = Math.floor(Math.random() * 100000) + 1;
-                guestUserId.push(num);
-                req.body.id = Number(guestUserId);
-            }
-        */
     const guestOrder = await Order.create(req.body);
     res.status(201).send(guestOrder);
   } catch (err) {
@@ -91,7 +82,11 @@ router.put("/:userId", async (req, res, next) => {
         status: "open",
       },
     });
-    res.send(await order.update(req.body)).status(204);
+    if (order) {
+      res.send(await order.update(req.body)).status(204);
+    } else {
+      res.send(await Order.create(req.body)).status(201);
+    }
   } catch (err) {
     next(err);
   }

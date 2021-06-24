@@ -21,7 +21,7 @@ class Cart extends React.Component {
         const guestCart = JSON.parse(localStorage.getItem('guestCart'))
         this.setState({cart: guestCart})
         if (Number(this.props.match.params.userId) > 0) {
-            await this.props.getCart(Number(this.props.match.params.userId))
+            await this.props.getCart(this.props.match.params.userId)
         }
     }
     async componentDidUpdate(prevProps){
@@ -106,7 +106,18 @@ class Cart extends React.Component {
                     return (
                         <div key={product.orderProduct['productId']}>
                             <img src={product.imageUrl} />
-                            <h1>{product.name} <button onClick={() => this.props.deleteProduct(product.orderProduct['productId'], product.name, userId)}>Remove</button> </h1>
+                            <h1>
+                                {product.name}
+                                <button
+                                onClick={() =>
+                                    this.props.deleteProduct(
+                                        product.orderProduct['productId'],
+                                        product.name,
+                                        userId)
+                                }>
+                                    Remove
+                                </button>
+                            </h1>
                             <p>${product.price}</p>
                             <p>{product.description}</p>
                             <p>quantity: {product.orderProduct['quantity']}
@@ -120,10 +131,11 @@ class Cart extends React.Component {
 
                 <p>total: ${Number(stringTotal)}</p>
                 <div>
-                <Link to={`/cart/checkout/${userId}`}>
-                    <button>
-                        Check Out
-                    </button></Link>
+                    <Link to={`/cart/checkout/${userId}`}>
+                        <button>
+                            Check Out
+                        </button>
+                    </Link>
                 </div>
 
                 </div>
@@ -157,8 +169,30 @@ class Cart extends React.Component {
                        </div>
                     )}
                 )}
-                <p>total: ${guests.reduce((accum, product) => {let subTotal = product.quantity * product.price; return accum + subTotal},0).toFixed(2)}</p>
-                <div><button>Check Out</button></div>
+                <p>total: ${
+                    guests.reduce(
+                        (accum, product) =>
+                            {let subTotal = product.quantity * product.price;
+                            return accum + subTotal},
+                        0).toFixed(2)
+                    }
+                </p>
+                <div>
+                    <button
+                    onClick={() => {
+                        if (localStorage.getItem('guestId') === null) {
+                            localStorage.setItem(
+                                'guestId',
+                                Math.floor(Math.random() * 100000) + 1
+                            )
+                        }
+                        this.props.history.push(
+                        `/cart/checkout/${localStorage.getItem('guestId')}`
+                        )
+                    }}>
+                        Check Out
+                    </button>
+                </div>
             </div> }
            </div>
         )
