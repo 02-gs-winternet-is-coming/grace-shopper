@@ -29,10 +29,13 @@ font-size: 3ch;
   bottom: 10px;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@500&display=swap');
+
 #foot {
   border: solid #92AD94;
   border-width: .5vh;
   position: fixed;
+  font-family: 'Lora', serif;
   bottom: 0;
   width: 100%;
   height: 15vh;
@@ -249,7 +252,7 @@ form {
 
 /* admin dropdown styles */
 .dropdown {
-  float: left;
+  /* float: left; */
   overflow: hidden;
 }
 
@@ -258,10 +261,10 @@ form {
   font-size: 16px;
   border: none;
   outline: none;
-  padding: 14px 16px;
   background-color: inherit;
-  font-family: inherit; /* Important for vertical align on mobile phones */
-  margin: 0; /* Important for vertical align on mobile phones */
+  font-family: ff-avance-web-pro;
+  font-size: 1.25rem;
+  margin: 0;
 }
 
 
@@ -278,6 +281,7 @@ form {
 /* Links inside the dropdown */
 .dropdown-content a {
   float: none;
+  font-size: 18px;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
