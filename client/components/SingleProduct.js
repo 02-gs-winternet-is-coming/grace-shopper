@@ -59,7 +59,9 @@ async addToCart() {
           <img src={product.imageUrl} id="singleProductViewImage" />
           <div id="singleMushroomText">
             <p id="singleMushroomName">{product.name}</p>
-            <p>{product.description}hi some placefiller, this mushroom is delicious. It is great to eat and will not poison you. I think, but I'm no expert</p>
+            <p>{product.description && product.description.length > 3
+              ? product.description
+              : "hi some placefiller, this mushroom is delicious. It is great to eat and will not poison you. I think, but I'm no expert"}</p>
             <p>{product.price}/lb</p>
           <div className="singleMushroomButton">
             <button className="singleMushroomButton" onClick={this.addToCart}>add to cart</button>

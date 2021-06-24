@@ -264,3 +264,7 @@ button:hover {
 p button {
   margin-left: 4px;
 }
+
+h1 button {
+  margin-left: 10px;
+}
