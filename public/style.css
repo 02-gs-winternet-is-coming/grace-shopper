@@ -12,15 +12,14 @@ body {
 }
 
 #foot {
-  margin-top: 5vh;
   border: solid;
   border-width: 3.95px;
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 11.11vh;
+  height: 10vh;
   font-size: 1vh;
-  /* font-weight: bold; */
+  font-weight: bold;
   padding: 20px;
 }
 
