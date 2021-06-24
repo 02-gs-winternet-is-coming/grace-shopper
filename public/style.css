@@ -1,7 +1,6 @@
 body {
   font-family: sans-serif;
   background-color: whitesmoke;
-
   display: flex;
   flex-direction: column;
   margin: 0
@@ -13,12 +12,15 @@ body {
 }
 
 #foot {
-  margin-top: 3vh;
+  border: solid;
+  border-width: 3.95px;
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 12vh;
+  height: 10vh;
   font-size: 1vh;
+  font-weight: bold;
+  padding: 20px;
 }
 
 #productParent {
@@ -68,7 +70,7 @@ body {
 #currentAvail {
   text-align: center;
   font-size: 2rem;
-
+  font-family: ff-avance-web-pro;
 }
 
 #shroomNames {
@@ -163,7 +165,7 @@ body {
 
 a, a:visited, .dropdown .dropbtn {
   text-decoration: none;
-  color: rgb(64, 22, 179);
+  color: black
 }
 
 label {
@@ -263,6 +265,10 @@ button {
 button:hover {
   background-color: grey;
   color: white;
+}
+
+#storeTitle {
+  font-family: Trattatello;
 }
 
 p button {

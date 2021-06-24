@@ -14,7 +14,7 @@ class Navbar extends React.Component {
     const handleClick = this.props.handleClick;
     return (
       <div>
-        <h1>Good Morels</h1>
+        <h1 className="storeTitle">Good Morels</h1>
         <nav id="navBar">
           {isLoggedIn ? (
             <div id="navigate">

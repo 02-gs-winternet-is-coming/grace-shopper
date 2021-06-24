@@ -59,7 +59,7 @@ router.post("/", async (req, res, next) => {
     let newProduct = await Product.findByPk(product.id);
     await currentOrder.addProducts(newProduct);
     res.status(201).send(newProduct);
-  } }catch (err) {
+  } } catch (err) {
     next(err);
   }
 });
