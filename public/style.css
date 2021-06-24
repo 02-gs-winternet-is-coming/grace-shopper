@@ -7,9 +7,11 @@ body {
   min-width: 100%;
   font-size: 12px;
 }
+
 #getInTouch {
 font-size: 3ch;
 }
+
 #app {
   padding-bottom: 25vh;
   margin-left: 1vw;
@@ -75,6 +77,7 @@ h1.storeTitle {
 /* #allProductsNav {
   flex:1
 } */
+}
 
 #navigate {
   display: flex;
@@ -104,7 +107,7 @@ h1.storeTitle {
   color: #E3B9BC;
   margin-left: 2vw;
 }
-  
+
 #currentAvail {
   text-align: center;
   font-size: 3ch;
