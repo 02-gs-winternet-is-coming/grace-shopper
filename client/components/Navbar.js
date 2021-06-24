@@ -2,6 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../store";
+import CartIcon from './CartIcon'
+import IconButton from '@material-ui/core/IconButton';
+
 
 class Navbar extends React.Component {
   constructor() {
@@ -20,12 +23,15 @@ class Navbar extends React.Component {
             <div id="navigate">
               <Link to="/home">home</Link>
               <Link to="/products">all products</Link>
-              <Link to={`/cart/${this.props.userId}`} id="yourCart">
+              {/* <Link to={`/cart/${this.props.userId}`} id="yourCart">
                 your cart
-              </Link>
+              </Link> */}
               <Link to="/login" onClick={handleClick} id="logout">
                 logout
               </Link>
+              <IconButton aria-label="show shopping cart" color="inherit" >
+                <CartIcon />
+              </IconButton>
             </div>
           ) : (
             <div id="navigate">
@@ -33,7 +39,10 @@ class Navbar extends React.Component {
               <Link to="/products">all products</Link>
               <Link to="/createaccount">create account</Link>
               <Link to="/login">login</Link>
-              <Link to="/cart">cart</Link>
+              {/* <Link to="/cart">cart</Link> */}
+              <IconButton aria-label="show shopping cart" color="inherit" >
+                <CartIcon />
+              </IconButton>
             </div>
           )}
           {isAdmin && (

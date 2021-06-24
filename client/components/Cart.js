@@ -96,7 +96,7 @@ class Cart extends React.Component {
         }, 0).toFixed(2)
 
         const guests = this.state.cart || []
-
+        
         return (
             <div>
                 <p>items in cart: {this.state.itemsinCart}</p>
