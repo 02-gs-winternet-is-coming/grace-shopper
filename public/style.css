@@ -45,27 +45,40 @@ body {
   padding: 4%;
 }
 
-#allProductsNav {
-  flex:1
+h1.storeTitle {
+  color: #79AEA3;
+  font-family: Trattatello;
+  text-align: center;
+  font-size: 6.5em;
+  margin: 0;
 }
+
+/* #allProductsNav {
+  flex:1
+} */
+
 #navigate {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   order: 1;
   margin-right: 2vw;
+  justify-content: space-evenly;
+  font-family: ff-avance-web-pro;
+  font-size: 1.25rem;
 }
-#containerNav {
+
+/* #containerNav {
   display: flex;
   width: 100%;
   flex: 1;
-}
+} */
 
-#navBar {
+/* #navBar {
   text-align: center;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-}
+  justify-content: space-between;
+} */
 
 #currentAvail {
   text-align: center;
