@@ -5,7 +5,7 @@ const Order = db.define('order', {
   tax: {
     type: Sequelize.INTEGER,
     set (value) {
-      this.setDataValue('tax', value * 100);
+      this.setDataValue('tax', parseInt(value * 100));
   },
   get () {
       return this.getDataValue('tax') / 100;
@@ -14,7 +14,7 @@ const Order = db.define('order', {
   shipping: {
     type: Sequelize.INTEGER,
     set (value) {
-      this.setDataValue('shipping', value * 100);
+      this.setDataValue('shipping', parseInt(value * 100));
     },
     get () {
       return this.getDataValue('shipping') / 100;

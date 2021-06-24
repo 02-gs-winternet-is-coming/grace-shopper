@@ -249,6 +249,10 @@ form {
   padding-right: 5px;
 }
 
+.checkoutform input {
+  width: 75%;
+}
+
 button {
   background-color: white;
   border: 2px solid grey;
@@ -265,4 +269,12 @@ button:hover {
 
 #storeTitle {
   font-family: Trattatello;
+}
+
+p button {
+  margin-left: 4px;
+}
+
+h1 button {
+  margin-left: 10px;
 }

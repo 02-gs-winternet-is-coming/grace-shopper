@@ -23,56 +23,49 @@ router.get("/:userId", async (req, res, next) => {
 });
 
 //add a product to cart
-router.post('/', async (req, res, next) => {
-    try {
+router.post("/", async (req, res, next) => {
+  try {
+    const userId = req.body[0].id;
+    const product = req.body[1];
+    const quantityType = req.body[2];
 
-        const userId = req.body[0].id
-        const product = req.body[1]
-        const quantityType = req.body[2]
-
-        let currentOrder = await Order.findOne({
-            where: {
-                userId: userId, status: 'open'
-            }
-        })
-        let user = await User.findByPk(userId)
-        if (!currentOrder) {
-            currentOrder = await Order.create()
-            user.addOrders(currentOrder)
-        }
-        let orderProduct = await Order_Product.findOne({
-            where: {
-                orderId: currentOrder.id,
-                productId: product.id
-            }
-        })
-        if (orderProduct && quantityType.type === 'increment') {
-           orderProduct.quantity++
-           orderProduct.save()
-        }
-            if (orderProduct && quantityType.type === 'decrement' && orderProduct.quantity >= 1) {
-            orderProduct.quantity--
-            orderProduct.save()
-         }
-        let newProduct = await Product.findByPk(product.id)
-        await currentOrder.addProducts(newProduct)
-        res.status(201).send(newProduct)
-    } catch (err) {
-        next(err)
+    let currentOrder = await Order.findOne({
+      where: {
+        userId: userId,
+        status: "open",
+      },
+    });
+    let user = await User.findByPk(userId);
+    if (!currentOrder) {
+      currentOrder = await Order.create();
+      user.addOrders(currentOrder);
+    } else {
+    let orderProduct = await Order_Product.findOne({
+      where: {
+        orderId: currentOrder.id,
+        productId: product.id,
+      },
+    });
+    if (orderProduct && quantityType.type === "increment") {
+      orderProduct.quantity++;
+      orderProduct.save();
+    } else if (
+      orderProduct &&
+      quantityType.type === "decrement" &&
+      orderProduct.quantity >= 1) {
+      orderProduct.quantity--;
+      orderProduct.save();
     }
+    let newProduct = await Product.findByPk(product.id);
+    await currentOrder.addProducts(newProduct);
+    res.status(201).send(newProduct);
+  } } catch (err) {
+    next(err);
+  }
 });
 
 router.post("/guest/:id", async (req, res, next) => {
   try {
-    /* suggest moving this logic to front end
-        if (!req.body.id) {
-            let guestUserId = []
-            while(guestUserId.length < 1){
-                let num = Math.floor(Math.random() * 100000) + 1;
-                guestUserId.push(num);
-                req.body.id = Number(guestUserId);
-            }
-        */
     const guestOrder = await Order.create(req.body);
     res.status(201).send(guestOrder);
   } catch (err) {
@@ -89,7 +82,11 @@ router.put("/:userId", async (req, res, next) => {
         status: "open",
       },
     });
-    res.send(await order.update(req.body)).status(204);
+    if (order) {
+      res.send(await order.update(req.body)).status(204);
+    } else {
+      res.send(await Order.create(req.body)).status(201);
+    }
   } catch (err) {
     next(err);
   }
