@@ -30,7 +30,7 @@ font-size: 3ch;
 }
 
 #foot {
-  border: solid #92AD94;
+  border: solid #E3B9BC;
   border-width: .5vh;
   position: fixed;
   bottom: 0;
@@ -103,16 +103,49 @@ h1.storeTitle {
   justify-content: space-between;
 } */
 
+
+.cartImages {
+  height: 250px;
+  width: 250px;
+  background-color: #E3B9BC;
+}
+
+#cartParent {
+  min-width: 100%;
+  max-width: 50%;
+  margin-left: 2vw;
+  margin-top: 5vh;
+}
+
+#cartItemsText {
+  font-size: 3ch;
+}
+
+#checkout {
+  display: flex;
+  flex-direction: column;
+  margin-left: 5vw;
+  min-width: 100%;
+}
+
+#submit-order {
+width: 100px
+}
+
 .welcomeHome {
   color: #E3B9BC;
   margin-left: 2vw;
 }
 
 #currentAvail {
-  text-align: center;
+  /* text-align: center;
+ */
+ position: relative;
+ z-index: 1;
+ right:8px;
   font-size: 3ch;
   font-family: ff-avance-web-pro;
-  color: #87C38F
+  color: #E3B9BC
 }
 
 #shroomNames {

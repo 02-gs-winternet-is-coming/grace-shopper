@@ -122,7 +122,7 @@ class Checkout extends React.Component {
     }
 
     return(
-      <>
+      <div id="checkout">
         <h2>Order Summary</h2>
         <div>
           <h4>Shipping Method:</h4>
@@ -157,13 +157,13 @@ class Checkout extends React.Component {
           {!this.props.isLoggedIn &&
             <form onSubmit={handleSubmit} className="checkoutform">
               <label htmlFor="username">
-                <span>Guest Email:</span>
+                <span>Guest Email:
                 <input
                 type="text"
                 name="email"
                 onChange={handleChange}
                 value={this.state.email}
-                />
+                /></span>
               </label>
             </form>
           }
@@ -182,12 +182,12 @@ class Checkout extends React.Component {
               </span>
           </p>
         </div>
-        <button>
-          <Link id="submit-order" to={`/confirm/${this.props.match.params.userId}`} onClick={handleSubmit}>
+        <button id="submit-order">
+          <Link  to={`/confirm/${this.props.match.params.userId}`} onClick={handleSubmit}>
               Submit Order
           </Link>
         </button>
-      </>
+      </div>
     )
   }
 }
