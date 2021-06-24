@@ -65,7 +65,7 @@ render() {
                     <p>{product.description}</p>
                     <p>{product.price}</p>
                     </Link>
-                    <button onClick={this.addToCart} id={product.id}>add to cart</button>
+                    <button className = "allProductsAdd" onClick={this.addToCart} id={product.id}>add to cart</button>
                     </div>)
             })}
             </div>

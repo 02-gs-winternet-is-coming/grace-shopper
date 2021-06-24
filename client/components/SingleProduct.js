@@ -4,7 +4,7 @@ import { fetchSingleProduct } from "../store/singleProduct";
 import { deleteProduct } from "../store/allproducts"
 import { EditProduct } from "./ProductForm"
 import { addToCartThunk } from "../store/cart";
-import {addToGuestCart } from "../store/guestcart"
+// import {addToGuestCart } from "../store/guestcart"
 
 
 class SingleProduct extends Component {
@@ -57,22 +57,22 @@ async addToCart() {
         <h3 id="singleMushroomHeader">{product.name} mushrooms</h3>
         <div className="singleProductView" key={product.id}>
           <img src={product.imageUrl} id="singleProductViewImage" />
-          <div id="singleMushroomText">
+          <div className="singleMushroomText">
             <p id="singleMushroomName">{product.name}</p>
             <p>{product.description && product.description.length > 3
               ? product.description
-              : "hi some placefiller, this mushroom is delicious. It is great to eat and will not poison you. I think, but I'm no expert"}</p>
-            <p>{product.price}/lb</p>
+              : ""}</p>
+            <p id="singleProductPrice">{product.price}/lb</p>
           <div className="singleMushroomButton">
-            <button className="singleMushroomButton" onClick={this.addToCart}>add to cart</button>
+            <button className = "singleMushroomButtons" onClick={this.addToCart}>add to cart</button>
             {isAdmin &&
               <button
-              className="singleMushroomButton"
+              className = "singleMushroomButtons"
               onClick={() => {this.setState({showEdit: !this.state.showEdit})}}
               >edit</button>}
             {isAdmin &&
               <button
-              className="singleMushroomButton"
+              className = "singleMushroomButtons"
               onClick={
                 () => {
                   if (window.confirm('Are you sure you wish to delete this item?')) {
