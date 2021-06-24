@@ -13,7 +13,7 @@ class Navbar extends React.Component {
     const isAdmin = this.props.isAdmin;
     const handleClick = this.props.handleClick;
     return (
-      <div >
+      <div>
         <h1 className="storeTitle">Good Morels</h1>
         <nav id="navBar">
           {isLoggedIn ? (
@@ -26,6 +26,18 @@ class Navbar extends React.Component {
               <Link to="/login" onClick={handleClick} id="logout">
                 logout
               </Link>
+              {isAdmin && (
+              <div className="dropdown">
+                <button className="dropbtn">
+                  Admin
+                  <i className="fa fa-caret-down"></i>
+                </button>
+                <div className="dropdown-content">
+                  <Link to="/addproduct">Add product</Link>
+                  <Link to="/viewusers">View users</Link>
+                </div>
+              </div>
+            )}
             </div>
           ) : (
             <div id="navigate">
@@ -34,18 +46,6 @@ class Navbar extends React.Component {
               <Link to="/createaccount">create account</Link>
               <Link to="/login">login</Link>
               <Link to="/cart">cart</Link>
-            </div>
-          )}
-          {isAdmin && (
-            <div className="dropdown">
-              <button className="dropbtn">
-                Admin
-                <i className="fa fa-caret-down"></i>
-              </button>
-              <div className="dropdown-content">
-                <Link to="/addproduct">Add product</Link>
-                <Link to="/viewusers">View users</Link>
-              </div>
             </div>
           )}
         </nav>
