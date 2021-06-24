@@ -98,16 +98,19 @@ class Cart extends React.Component {
         const guests = this.state.cart || []
         
         return (
-            <div>
-                <p>items in cart: {this.state.itemsinCart}</p>
+            <div id="cartParent">
+                <p id="cartItemsText">items in cart: {this.state.itemsinCart}</p>
                 { this.props.isLoggedIn ?
                 <div>
                   {cartProducts.map(product => {
                     return (
                         <div key={product.orderProduct['productId']}>
-                            <img src={product.imageUrl} />
+                            <Link to={`/products/${product.orderProduct['productId']}`}>
+                            <img className ="cartImages" src={product.imageUrl} />
+                            </Link>   
                             <h1>
-                                {product.name}
+                                {product.name}    </h1>
+                                        
                                 <button
                                 onClick={() =>
                                     this.props.deleteProduct(
@@ -117,7 +120,7 @@ class Cart extends React.Component {
                                 }>
                                     Remove
                                 </button>
-                            </h1>
+             
                             <p>${product.price}</p>
                             <p>{product.description}</p>
                             <p>quantity: {product.orderProduct['quantity']}
@@ -144,7 +147,9 @@ class Cart extends React.Component {
                 {guests.map(product => {
                     return (
                         <div key={product.id}>
-                        <img src={product.imageUrl} />
+                        <Link to={`products/${product.id}`}>
+                        <img className ="cartImages" src={product.imageUrl} />
+                        </Link>
                         <h1>
                             {product.name}
                             <button

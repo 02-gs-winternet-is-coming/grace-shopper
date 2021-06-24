@@ -229,11 +229,71 @@ const products = [
     quantity: 50,
   },
   {
+    name: "soapy trich",
+    price: 19.99,
+    description: "",
+    quantity: 15,
+  },
+  {
     name: "chanterelle",
     price: 10.99,
     description: "",
     quantity: 1,
-  }
+  },
+  {
+    name: "gyspy",
+    price: 11.99,
+    description: "",
+    quantity: 60,
+  },
+  {
+    name: "saffron webcap",
+    price: 19.49,
+    description: "",
+    quantity: 30,
+  },
+  {
+    name: "terracotta hedgehog",
+    price: 8.99,
+    description: "",
+    quantity: 15,
+  },
+  {
+    name: "velvet milkcap",
+    price: 5.25,
+    description: "",
+    quantity: 10,
+  },
+  {
+    name: "shaggy parasol lepiota",
+    price: 11.99,
+    description: "",
+    quantity: 10,
+  },
+  {
+    name: "golden scalycap",
+    price: 14.25,
+    description: "",
+    quantity: 10,
+  },
+  {
+    name: "panther amanita",
+    price: 11.59,
+    description: "",
+    quantity: 5,
+  },
+  {
+    name: "the prince",
+    price: 14.99,
+    description: "",
+    quantity: 10,
+  },
+  {
+    name: "peppery bolete",
+    price: 11.79,
+    description: "",
+    quantity: 5,
+  },
 ]
 const orderProducts = [{price: 2.99, quantity: 3, orderId: 1, productId: 1}, {price: 2.99, quantity: 2, orderId: 1, productId: 2}]
 const orders = [{tax: 2.54, shipping: 5.00, shippingMethod: 'USPS', paymentMethod: 'Stripe', status: 'open', userId: 1}, {status: 'open', userId: 3}, {status: 'open', userId: 2}]
