@@ -241,7 +241,7 @@ const products = [
     quantity: 1,
   },
   {
-    name: "gyspy mushroom",
+    name: "gyspy",
     price: 11.99,
     description: "",
     quantity: 60,
